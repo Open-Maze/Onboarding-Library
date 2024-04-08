@@ -1,9 +1,14 @@
-import { ReactNode } from "react";
-
 interface ButtonProps {
-  children: React.ReactNode;
+  text: string;
+  onClickFunc: () => void;
 }
 
-export const Button = ({ children }: ButtonProps): ReactNode => {
-  return <button>{children}</button>;
-};
+const Button = ({ text, onClickFunc }: ButtonProps) => (
+  <>
+    <button className="bg-red-500" onClick={onClickFunc}>
+      {text}
+    </button>
+  </>
+);
+
+export default Button;
