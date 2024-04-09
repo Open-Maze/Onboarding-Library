@@ -6,7 +6,7 @@ interface ButtonProps {
 const Button = ({ text, onClickFunc }: ButtonProps) => (
   <>
     <button className="bg-red-500" onClick={onClickFunc}>
-      {text} test
+      {text}
     </button>
   </>
 );
