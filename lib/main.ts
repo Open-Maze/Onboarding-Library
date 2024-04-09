@@ -1,3 +1,4 @@
-import './tailwind.css';
 import Button from './Button/Button';
-export { Button };
+import OnboardingProvider from './OnboardingProvider/OnboardingProvider';
+import './tailwind.css';
+export { Button, OnboardingProvider };
