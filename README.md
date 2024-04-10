@@ -1,30 +1,72 @@
-# React + TypeScript + Vite
+# Onboarding library OpenMaze TO-DO
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TO-DO
 
-Currently, two official plugins are available:
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
+[![Storybook](https://img.shields.io/badge/storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](https://storybook.js.org)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## API Reference TO-DO
 
-## Expanding the ESLint configuration
+#### Onboarding provider
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-};
+```http
+  <OnboardingProvider />
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+| Parameter | Type    | Description         |
+| :-------- | :------ | :------------------ |
+| `lorem`   | `ipsum` | **Required**. dolor |
+
+## Npm deployment TO-DO
+
+To deploy this project to the npm repository run
+
+```bash
+  npm run deploy
+```
+
+## Installation TO-DO
+
+Install this library with npm
+
+```bash
+  npm i
+```
+
+## Run Locally TO-DO
+
+Clone the project
+
+```bash
+  git clone https://link-to-project
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
+## Running Tests TO-DO
+
+To run tests, run the following command
+
+```bash
+  npm run test
+```
+
+## Authors
+
+- [@Raf Schapendonk](https://github.com/RafSchapendonk)
