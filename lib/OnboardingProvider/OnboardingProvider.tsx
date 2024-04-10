@@ -1,3 +1,4 @@
+import React from 'react';
 import Step from '../Components/OnboardingSteps/Step';
 
 interface StepType {
@@ -5,17 +6,16 @@ interface StepType {
 }
 
 export default function OnboardingProvider({ steps }: { steps: StepType[] }) {
-  // const [currentId, setCurrentId] = useState(steps[0].id);
-  // const currentStep = steps.find((step) => step.id === currentId);
-  let index = 0;
-  let currentStep = steps[index];
+  const [index, setIndex] = React.useState(0);
 
   const nextStepFunc = () => {
     console.log('-----------------------------');
-    console.log(currentStep);
     console.log(index);
-    index++;
-    currentStep = steps[index];
+    if (index < steps.length - 1) {
+      setIndex(index + 1);
+    } else {
+      console.log('This is the last step');
+    }
   };
 
   return (
@@ -25,7 +25,7 @@ export default function OnboardingProvider({ steps }: { steps: StepType[] }) {
           <Step
             stepProps={{
               nextStep: () => nextStepFunc(),
-              content: `${currentStep!.id}`,
+              content: `${steps[index].id}`,
             }}
           />
         </div>
