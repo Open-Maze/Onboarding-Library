@@ -15,12 +15,19 @@ export default function OnboardingProvider({ steps }: { steps: StepType[] }) {
       setIndex(index + 1);
     } else {
       console.log('This is the last step');
+      const onboardingProvider = document.getElementById('onboardingProvider');
+      if (onboardingProvider) {
+        onboardingProvider.remove();
+      }
     }
   };
 
   return (
     <>
-      <div className="absolute bg-black bg-opacity-50 h-screen w-screen">
+      <div
+        id="onboardingProvider"
+        className="absolute bg-black bg-opacity-50 h-screen w-screen"
+      >
         <div className="flex h-full items-center justify-center align-center">
           <Step
             stepProps={{
