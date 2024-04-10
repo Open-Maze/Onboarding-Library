@@ -7,15 +7,16 @@ interface StepType {
 
 export default function OnboardingProvider({ steps }: { steps: StepType[] }) {
   const [index, setIndex] = React.useState(0);
+  const [lastStep, setLastStep] = React.useState(false);
+  const onboardingProvider = document.getElementById('onboardingProvider');
 
   const nextStepFunc = () => {
-    console.log('-----------------------------');
-    console.log(index);
     if (index < steps.length - 1) {
       setIndex(index + 1);
+      if (index === steps.length - 2) {
+        setLastStep(true);
+      }
     } else {
-      console.log('This is the last step');
-      const onboardingProvider = document.getElementById('onboardingProvider');
       if (onboardingProvider) {
         onboardingProvider.remove();
       }
@@ -33,6 +34,7 @@ export default function OnboardingProvider({ steps }: { steps: StepType[] }) {
             stepProps={{
               nextStep: () => nextStepFunc(),
               content: `${steps[index].id}`,
+              lastStep: lastStep,
             }}
           />
         </div>
