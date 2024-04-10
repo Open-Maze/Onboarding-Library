@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback, useState } from 'react';
 import Step from '../Components/OnboardingSteps/Step';
 
 interface StepType {
@@ -6,22 +6,16 @@ interface StepType {
 }
 
 export default function OnboardingProvider({ steps }: { steps: StepType[] }) {
-  const [index, setIndex] = React.useState(0);
-  const [lastStep, setLastStep] = React.useState(false);
-  const onboardingProvider = document.getElementById('onboardingProvider');
+  const [index, setIndex] = useState(0);
+  const lastStep = index === steps.length - 1;
 
-  const nextStepFunc = () => {
+  const nextStepFunc = useCallback(() => {
     if (index < steps.length - 1) {
       setIndex(index + 1);
-      if (index === steps.length - 2) {
-        setLastStep(true);
-      }
     } else {
-      if (onboardingProvider) {
-        onboardingProvider.remove();
-      }
+      document.getElementById('onboardingProvider')?.remove();
     }
-  };
+  }, [index, steps.length]);
 
   return (
     <>
@@ -32,8 +26,8 @@ export default function OnboardingProvider({ steps }: { steps: StepType[] }) {
         <div className="flex h-full items-center justify-center align-center">
           <Step
             stepProps={{
-              nextStep: () => nextStepFunc(),
-              content: `${steps[index].id}`,
+              nextStep: nextStepFunc,
+              content: steps[index].id,
               lastStep: lastStep,
             }}
           />
