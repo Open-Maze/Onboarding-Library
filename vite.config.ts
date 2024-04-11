@@ -1,8 +1,8 @@
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
-import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,8 +15,8 @@ export default defineConfig({
     // Library entry and output settings
     lib: {
       entry: resolve(__dirname, 'lib/main.ts'),
-      name: 'react-npm-library-poc-2',
-      fileName: 'react-npm-library-poc-2',
+      name: 'onboarding-library',
+      fileName: 'onboarding-library',
     },
     // Bundler options
     // Externalize react-related imports

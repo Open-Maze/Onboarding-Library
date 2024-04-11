@@ -1,7 +1,7 @@
 {
   "name": "onboarding-library-openmaze",
   "private": false,
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Onboarding library for OpenMaze",
   "type": "module",
   "files": [
@@ -21,11 +21,6 @@
     "type": "git",
     "url": "https://github.com/Open-Maze/Onboarding-Library.git"
   },
-  "plugins": [
-    "@semantic-release/commit-analyzer",
-    "@semantic-release/release-notes-generator",
-    "@semantic-release/npm"
-  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
