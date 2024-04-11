@@ -1,3 +1,5 @@
+import Step from './Components/OnboardingSteps/Step';
+import Button from './Components/Practice/Button';
+import OnboardingProvider from './OnboardingProvider/OnboardingProvider';
 import './tailwind.css';
-import Button from './Button/Button';
-export { Button };
+export { Button, OnboardingProvider, Step };

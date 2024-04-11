@@ -1,3 +1,6 @@
+// TO-DO: Remove this component and its stories
+// This component should be used as a practice environment for experimenting with react and Storybook
+
 interface ButtonProps {
   text: string;
   onClickFunc: () => void;
