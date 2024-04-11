@@ -1,11 +1,8 @@
 {
   "name": "onboarding-library-openmaze",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Open-Maze/Onboarding-Library"
-  },
   "private": false,
   "version": "0.1.5",
+  "description": "Onboarding library for OpenMaze",
   "type": "module",
   "files": [
     "dist"
@@ -20,6 +17,10 @@
     "./dist/style.css": "./dist/style.css"
   },
   "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Open-Maze/Onboarding-Library.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
