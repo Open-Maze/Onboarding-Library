@@ -1,20 +1,22 @@
 {
-  "name": "onboarding-library",
+  "name": "onboarding-library-openmaze",
   "private": false,
-  "version": "0.0.0",
+  "version": "0.1.10",
   "type": "module",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/onboarding-library.umd.cjs",
-  "module": "./dist/onboarding-library.js",
   "exports": {
     ".": {
-      "import": "./dist/onboarding-library.js",
-      "require": "./dist/onboarding-library.umd.cjs"
+      "import": "./dist/onboarding-library-openmaze.js",
+      "types": "./dist/onboarding-library-openmaze.d.ts",
+      "require": "./dist/onboarding-library-openmaze.umd.cjs"
     },
     "./dist/style.css": "./dist/style.css"
   },
+  "main": "./dist/onboarding-library-openmaze.umd.js",
+  "module": "./dist/onboarding-library-openmaze.js",
+  "types": "./dist/onboarding-library-openmaze.d.ts",
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "publishConfig": {
     "@raf_schapendonk:registry": "https://npm.pkg.github.com"
