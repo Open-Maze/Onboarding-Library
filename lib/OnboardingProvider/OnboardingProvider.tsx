@@ -25,11 +25,9 @@ export default function OnboardingProvider({ steps }: { steps: StepType[] }) {
       >
         <div className="flex h-full items-center justify-center align-center">
           <Step
-            stepProps={{
-              nextStep: nextStepFunc,
-              content: steps[index].id,
-              lastStep: lastStep,
-            }}
+            nextStep={nextStepFunc}
+            content={steps[index].id}
+            lastStep={lastStep}
           />
         </div>
       </div>
