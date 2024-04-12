@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import Step from '../Components/OnboardingSteps/Step.tsx';
 
-interface StepType {
+export interface StepType {
   id: string;
 }
 

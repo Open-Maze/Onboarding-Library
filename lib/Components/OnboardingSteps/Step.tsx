@@ -1,4 +1,4 @@
-interface StepProps {
+export interface StepProps {
   nextStep: () => void;
   content: string;
   lastStep: boolean;
