@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import OnboardingProvider from './OnboardingProvider';
+import OnboardingProvider from './OnboardingProvider.tsx';
 
 const meta: Meta<typeof OnboardingProvider> = {
   component: OnboardingProvider,
