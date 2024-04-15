@@ -33,6 +33,26 @@ Install this library with npm
   npm i
 ```
 
+### Import styling
+
+Install postcss-import
+
+```bash
+npm i postcss-import
+```
+
+In your postccs.config.js file add the following plugin at the top of the list of plugins
+
+```bash
+'postcss-import': {},
+```
+
+Navigate to your globals.css file where you import your tailwind libraries and add the follwoing line at the top
+
+```bash
+@import 'onboarding-library-openmaze/dist/style.css';
+```
+
 ## Run Locally TO-DO
 
 Clone the project

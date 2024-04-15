@@ -15,12 +15,6 @@ const nextStepFunc: () => void = () => {
 
 export const Primary: Story = {
   render: () => (
-    <Step
-      stepProps={{
-        nextStep: nextStepFunc,
-        content: 'content',
-        lastStep: false,
-      }}
-    />
+    <Step nextStep={nextStepFunc} content={'content'} lastStep={false} />
   ),
 };

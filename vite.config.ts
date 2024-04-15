@@ -15,8 +15,8 @@ export default defineConfig({
     // Library entry and output settings
     lib: {
       entry: resolve(__dirname, 'lib/main.ts'),
-      name: 'onboarding-library',
-      fileName: 'onboarding-library',
+      name: 'onboarding-library-openmaze',
+      fileName: 'onboarding-library-openmaze',
     },
     // Bundler options
     // Externalize react-related imports
