@@ -9,7 +9,7 @@ TO-DO
 
 #### Onboarding provider
 
-```http
+```bash
   <OnboardingProvider />
 ```
 
