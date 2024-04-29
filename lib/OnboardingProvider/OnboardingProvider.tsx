@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import Step from '../Components/OnboardingSteps/Step';
+import Step from '../OnboardingSteps/Step';
 
 interface StepType {
   id: string;
