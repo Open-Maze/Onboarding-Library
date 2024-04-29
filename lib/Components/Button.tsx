@@ -1,6 +1,3 @@
-// TO-DO: Remove this component and its stories
-// This component should be used as a practice environment for experimenting with react and Storybook
-
 interface ButtonProps {
   text: string;
   onClickFunc: () => void;
@@ -8,7 +5,10 @@ interface ButtonProps {
 
 const Button = ({ text, onClickFunc }: ButtonProps) => (
   <>
-    <button className="bg-red-500" onClick={onClickFunc}>
+    <button
+      className="px-6 py-2.5 rounded-full bg-primary text-white"
+      onClick={onClickFunc}
+    >
       {text}
     </button>
   </>

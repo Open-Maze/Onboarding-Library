@@ -53,7 +53,10 @@ export default {
         lightgrey: '#F4F4F5',
         current: 'currentColor',
         dark: '#222222',
-        'dark-gray': '#505050',
+        gray: {
+          DEFAULT: '#E6E6E6',
+          dark: '#797979'
+        },
         primary: {
           DEFAULT: '#8c1cec',
           lighter: '#dcbaf9',
