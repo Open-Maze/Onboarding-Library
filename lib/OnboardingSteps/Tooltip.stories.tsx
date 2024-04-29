@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import 'material-symbols';
 import Tooltip from './Tooltip';
 
 const meta: Meta<typeof Tooltip> = {
@@ -11,7 +12,8 @@ type Story = StoryObj<typeof Tooltip>;
 export const Primary: Story = {
   render: () => (
     <Tooltip
-      icon={'X'}
+      iconStyle={'outlined'}
+      icon={'chat'}
       title={'Tooltip'}
       image={'https://picsum.photos/id/237/1920/1080'}
       text={'Lorem ipsum dolor sit amet'}

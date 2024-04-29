@@ -55,7 +55,7 @@ export default {
         dark: '#222222',
         gray: {
           DEFAULT: '#E6E6E6',
-          dark: '#797979'
+          dark: '#797979',
         },
         primary: {
           DEFAULT: '#8c1cec',

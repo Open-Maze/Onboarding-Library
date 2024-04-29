@@ -2,6 +2,7 @@ import Button from '../Components/Button';
 import TextButton from '../Components/TextButton';
 
 interface TooltipProps {
+  iconStyle: 'outlined' | 'rounded' | 'sharp';
   icon: string;
   title: string;
   image: string;
@@ -11,6 +12,7 @@ interface TooltipProps {
 }
 
 export default function Tooltip({
+  iconStyle,
   icon,
   title,
   image,
@@ -21,7 +23,7 @@ export default function Tooltip({
   return (
     <>
       <div className="flex flex-col max-w-[312px] bg-gray px-4 pt-3 pb-2 gap-y-1 shadow-md rounded-xl">
-        <div className="h-6 w-6">{icon}</div>
+        <span className={`material-symbols-${iconStyle}`}>{icon}</span>
         <h2>{title}</h2>
         <img src={image} className="bg-gray-dark"></img>
         <div>{text}</div>
