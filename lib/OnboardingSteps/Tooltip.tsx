@@ -9,6 +9,8 @@ interface TooltipProps {
   text: string;
   currentStep: number;
   totalSteps: number;
+  filledButtonFunc?: () => void;
+  textButtonFunc?: () => void;
 }
 
 export default function Tooltip({
@@ -19,6 +21,8 @@ export default function Tooltip({
   text,
   currentStep,
   totalSteps,
+  filledButtonFunc,
+  textButtonFunc,
 }: TooltipProps) {
   return (
     <>
@@ -34,15 +38,21 @@ export default function Tooltip({
           <div className="flex flex-row gap-x-2.5">
             <TextButton
               text={'Previous'}
-              onClickFunc={function (): void {
-                throw new Error('Function not implemented.');
-              }}
+              onClickFunc={
+                textButtonFunc ||
+                (() => {
+                  console.log('textButtonFunc is not defined');
+                })
+              }
             ></TextButton>
             <Button
               text={'Next'}
-              onClickFunc={function (): void {
-                throw new Error('Function not implemented.');
-              }}
+              onClickFunc={
+                filledButtonFunc ||
+                (() => {
+                  console.log('fillButtonFunc is not defined');
+                })
+              }
             ></Button>
           </div>
         </div>
