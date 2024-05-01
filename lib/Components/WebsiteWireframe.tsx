@@ -291,7 +291,10 @@ export default function WebsiteWireframe() {
                     </button>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 sm:mt-7 mt-4">
+                <div
+                  id="tabs"
+                  className="flex items-center space-x-3 sm:mt-7 mt-4"
+                >
                   <a
                     href="#"
                     className="px-3 border-b-2 border-blue-500 text-blue-500 dark:text-white dark:border-white pb-1.5"
@@ -670,7 +673,10 @@ export default function WebsiteWireframe() {
                           Income
                         </div>
                       </td>
-                      <td className="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
+                      <td
+                        id="account"
+                        className="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800"
+                      >
                         <div className="flex items-center">
                           <img
                             className="w-7 h-7 mr-2.5 border border-gray-200 dark:border-gray-800 rounded-full"

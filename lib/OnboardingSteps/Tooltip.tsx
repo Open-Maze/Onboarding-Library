@@ -1,5 +1,6 @@
 import {
   arrow,
+  autoUpdate,
   computePosition,
   flip,
   offset,
@@ -39,47 +40,55 @@ export default function Tooltip({
   filledButtonFunc,
   textButtonFunc,
 }: TooltipProps) {
+  console.log(targetId);
+
   if (targetId) {
     const targetElement = document.querySelector(targetId) as HTMLElement;
     const tooltip = document.querySelector('#tooltip') as HTMLElement;
     const arrowElement = document.querySelector('#arrow') as HTMLElement;
 
+    console.log(targetElement);
+
     if (targetElement && tooltip) {
-      computePosition(targetElement, tooltip, {
-        placement: tooltipPlacement,
-        middleware: [
-          offset(elementOffset),
-          flip(),
-          shift({ padding: pagePadding }),
-          arrow({ element: arrowElement }),
-        ],
-      }).then(({ x, y, placement, middlewareData }) => {
-        Object.assign(tooltip.style, {
-          left: `${x}px`,
-          top: `${y}px`,
-        });
-
-        if (arrowElement) {
-          const { x: arrowX, y: arrowY } = middlewareData.arrow || {
-            x: 0,
-            y: 0,
-          };
-          const staticSide = {
-            top: 'bottom',
-            right: 'left',
-            bottom: 'top',
-            left: 'right',
-          }[placement.split('-')[0]];
-
-          Object.assign(arrowElement.style, {
-            left: arrowX != null ? `${arrowX}px` : '',
-            top: arrowY != null ? `${arrowY}px` : '',
-            right: '',
-            bottom: '',
-            [staticSide as string]: '-4px',
+      const cleanup = autoUpdate(targetElement, tooltip, () => {
+        computePosition(targetElement, tooltip, {
+          placement: tooltipPlacement,
+          middleware: [
+            offset(elementOffset),
+            flip(),
+            shift({ padding: pagePadding }),
+            arrow({ element: arrowElement }),
+          ],
+        }).then(({ x, y, placement, middlewareData }) => {
+          Object.assign(tooltip.style, {
+            left: `${x}px`,
+            top: `${y}px`,
           });
-        }
+
+          if (arrowElement) {
+            const { x: arrowX, y: arrowY } = middlewareData.arrow || {
+              x: 0,
+              y: 0,
+            };
+            const staticSide = {
+              top: 'bottom',
+              right: 'left',
+              bottom: 'top',
+              left: 'right',
+            }[placement.split('-')[0]];
+
+            Object.assign(arrowElement.style, {
+              left: arrowX != null ? `${arrowX}px` : '',
+              top: arrowY != null ? `${arrowY}px` : '',
+              right: '',
+              bottom: '',
+              [staticSide as string]: '-4px',
+            });
+          }
+        });
       });
+
+      cleanup();
     }
   }
 
@@ -88,7 +97,7 @@ export default function Tooltip({
       <div
         id="tooltip"
         role="tooltip"
-        className="max-w-[312px] absolute top-0 left-0 bg-gray px-4  shadow-md rounded-xl"
+        className="max-w-[312px] absolute top-0 left-0 bg-gray px-4 z-100 shadow-md rounded-xl"
       >
         <div id="arrow" className="absolute bg-gray w-2 h-2 rotate-45"></div>
         <div className="pt-3 pb-2 gap-y-1 flex flex-col">
