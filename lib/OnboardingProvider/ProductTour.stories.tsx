@@ -23,6 +23,9 @@ export const Primary: Story = {
         text={'Step 1 Lorem ipsum dolor sit amet'}
         currentStep={1}
         totalSteps={1}
+        pagePadding={0}
+        elementOffset={0}
+        tooltipPlacement={'top'}
       />
 
       <Tooltip
@@ -33,6 +36,9 @@ export const Primary: Story = {
         text={'Step 2 Lorem ipsum dolor sit amet'}
         currentStep={1}
         totalSteps={1}
+        pagePadding={0}
+        elementOffset={0}
+        tooltipPlacement={'top'}
       />
 
       <Tooltip
@@ -43,6 +49,9 @@ export const Primary: Story = {
         text={'Step 3 Lorem ipsum dolor sit amet'}
         currentStep={1}
         totalSteps={1}
+        pagePadding={0}
+        elementOffset={0}
+        tooltipPlacement={'top'}
       />
     </ProductTour>
   ),

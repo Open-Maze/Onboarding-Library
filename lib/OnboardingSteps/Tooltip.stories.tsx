@@ -19,6 +19,32 @@ export const Primary: Story = {
       text={'Lorem ipsum dolor sit amet'}
       currentStep={1}
       totalSteps={1}
+      pagePadding={0}
+      elementOffset={0}
+      tooltipPlacement={'top'}
     />
+  ),
+};
+
+export const ElementFocused: Story = {
+  render: () => (
+    <>
+      <button id="button" className="bg-blue-500 p-8">
+        Button
+      </button>
+      <Tooltip
+        iconStyle={'outlined'}
+        icon={'chat'}
+        title={'Tooltip'}
+        image={'https://picsum.photos/id/237/1920/1080'}
+        text={'Lorem ipsum dolor sit amet'}
+        currentStep={1}
+        totalSteps={1}
+        targetId={'#button'}
+        pagePadding={0}
+        elementOffset={5}
+        tooltipPlacement={'right'}
+      />
+    </>
   ),
 };
