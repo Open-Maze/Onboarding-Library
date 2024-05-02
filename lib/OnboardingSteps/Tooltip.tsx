@@ -1,137 +1,302 @@
 import {
-  arrow,
+  FloatingFocusManager,
+  FloatingPortal,
+  Placement,
   autoUpdate,
-  computePosition,
   flip,
   offset,
   shift,
+  useClick,
+  useDismiss,
+  useFloating,
+  useInteractions,
+  useMergeRefs,
+  useRole,
 } from '@floating-ui/react';
+import * as React from 'react';
+import { useCallback, useState } from 'react';
 import Button from '../Components/Button';
 import TextButton from '../Components/TextButton';
 
-interface TooltipProps {
-  targetId?: string;
-  pagePadding: number;
-  elementOffset: number;
-  tooltipPlacement: 'top' | 'right' | 'bottom' | 'left';
-  iconStyle: 'outlined' | 'rounded' | 'sharp';
-  icon: string;
-  title: string;
-  image: string;
-  text: string;
-  currentStep: number;
-  totalSteps: number;
-  filledButtonFunc?: () => void;
-  textButtonFunc?: () => void;
+interface TooltipOptions {
+  initialOpen?: boolean;
+  placement?: Placement;
+  modal?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  onNext?: () => void;
+  onPrev?: () => void;
 }
 
-export default function Tooltip({
-  targetId,
-  pagePadding,
-  elementOffset,
-  tooltipPlacement,
-  iconStyle,
-  icon,
-  title,
-  image,
-  text,
-  currentStep,
-  totalSteps,
-  filledButtonFunc,
-  textButtonFunc,
-}: TooltipProps) {
-  console.log(targetId);
+/* 
+manage the state and behavior of a tooltip component. This hook encapsulates logic for opening and closing the tooltip, positioning it, and handling accessibility features. 
+It leverages the useFloating hook from the floating UI library to handle dynamic positioning and includes additional logic for managing controlled and uncontrolled states, 
+accessibility IDs, and interactions like clicking and dismissing the tooltip. 
+*/
+function useTooltip({
+  initialOpen = false,
+  placement = 'bottom',
+  modal,
+  open: controlledOpen,
+  onOpenChange: setControlledOpen,
+  onNext,
+  onPrev,
+}: TooltipOptions = {}) {
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
+  const [labelId, setLabelId] = React.useState<string | undefined>();
+  const [descriptionId, setDescriptionId] = React.useState<
+    string | undefined
+  >();
 
-  if (targetId) {
-    const targetElement = document.querySelector(targetId) as HTMLElement;
-    const tooltip = document.querySelector('#tooltip') as HTMLElement;
-    const arrowElement = document.querySelector('#arrow') as HTMLElement;
+  const open = controlledOpen ?? uncontrolledOpen;
+  const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
-    console.log(targetElement);
+  const data = useFloating({
+    placement,
+    open,
+    onOpenChange: setOpen,
+    whileElementsMounted: autoUpdate,
+    middleware: [
+      offset(5),
+      flip({
+        crossAxis: placement.includes('-'),
+        fallbackAxisSideDirection: 'end',
+        padding: 5,
+      }),
+      shift({ padding: 5 }),
+    ],
+  });
 
-    if (targetElement && tooltip) {
-      const cleanup = autoUpdate(targetElement, tooltip, () => {
-        computePosition(targetElement, tooltip, {
-          placement: tooltipPlacement,
-          middleware: [
-            offset(elementOffset),
-            flip(),
-            shift({ padding: pagePadding }),
-            arrow({ element: arrowElement }),
-          ],
-        }).then(({ x, y, placement, middlewareData }) => {
-          Object.assign(tooltip.style, {
-            left: `${x}px`,
-            top: `${y}px`,
-          });
+  const context = data.context;
 
-          if (arrowElement) {
-            const { x: arrowX, y: arrowY } = middlewareData.arrow || {
-              x: 0,
-              y: 0,
-            };
-            const staticSide = {
-              top: 'bottom',
-              right: 'left',
-              bottom: 'top',
-              left: 'right',
-            }[placement.split('-')[0]];
+  const click = useClick(context, {
+    enabled: controlledOpen == null,
+  });
+  const dismiss = useDismiss(context);
+  const role = useRole(context);
 
-            Object.assign(arrowElement.style, {
-              left: arrowX != null ? `${arrowX}px` : '',
-              top: arrowY != null ? `${arrowY}px` : '',
-              right: '',
-              bottom: '',
-              [staticSide as string]: '-4px',
-            });
-          }
-        });
-      });
+  const interactions = useInteractions([click, dismiss, role]);
 
-      cleanup();
-    }
+  return React.useMemo(
+    () => ({
+      open,
+      setOpen,
+      ...interactions,
+      ...data,
+      modal,
+      labelId,
+      descriptionId,
+      setLabelId,
+      setDescriptionId,
+      onNext,
+      onPrev,
+    }),
+    [
+      open,
+      setOpen,
+      interactions,
+      data,
+      modal,
+      labelId,
+      descriptionId,
+      onNext,
+      onPrev,
+    ]
+  );
+}
+
+type ContextType =
+  | (ReturnType<typeof useTooltip> & {
+      setLabelId: React.Dispatch<React.SetStateAction<string | undefined>>;
+      setDescriptionId: React.Dispatch<
+        React.SetStateAction<string | undefined>
+      >;
+    })
+  | null;
+
+const TooltipContext = React.createContext<ContextType>(null);
+
+const useTooltipContext = () => {
+  const context = React.useContext(TooltipContext);
+
+  if (context == null) {
+    throw new Error('Tooltip components must be wrapped in <Tooltip />');
   }
 
+  return context;
+};
+
+interface ProductTourProps {
+  children: React.ReactElement<TooltipOptions>[];
+}
+
+export function ProductTour({ children }: ProductTourProps) {
+  const [currentStep, setCurrentStep] = useState(0);
+  const totalSteps = React.Children.count(children);
+
+  const increaseStep = useCallback(() => {
+    setCurrentStep(currentStep + 1);
+    console.log('next step product tour func');
+  }, [currentStep]);
+  const decreaseStep = useCallback(() => {
+    setCurrentStep(currentStep - 1);
+    console.log('prev step product tour func');
+  }, [currentStep]);
+
+  const renderChildWithCallback = (
+    child: React.ReactElement<TooltipOptions>,
+    index: number
+  ) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, {
+        key: index,
+        onNext: increaseStep,
+        onPrev: decreaseStep,
+      });
+    }
+    return child;
+  };
   return (
     <>
-      <div
-        id="tooltip"
-        role="tooltip"
-        className="max-w-[312px] absolute top-0 left-0 bg-gray px-4 z-100 shadow-md rounded-xl"
-      >
-        <div id="arrow" className="absolute bg-gray w-2 h-2 rotate-45"></div>
-        <div className="pt-3 pb-2 gap-y-1 flex flex-col">
-          <span className={`material-symbols-${iconStyle}`}>{icon}</span>
-          <h2>{title}</h2>
-          <img src={image} className="bg-gray-dark"></img>
-          <div>{text}</div>
-          <div className="flex flex-row items-center justify-between">
-            <div className="text-gray-dark">
-              {currentStep} of {totalSteps}
-            </div>
-            <div className="flex flex-row gap-x-2.5">
-              <TextButton
-                text={'Previous'}
-                onClickFunc={
-                  textButtonFunc ||
-                  (() => {
-                    console.log('textButtonFunc is not defined');
-                  })
-                }
-              ></TextButton>
-              <Button
-                text={'Next'}
-                onClickFunc={
-                  filledButtonFunc ||
-                  (() => {
-                    console.log('fillButtonFunc is not defined');
-                  })
-                }
-              ></Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      {React.Children.map(children, (child, index) => {
+        // Render only the current step
+        if (index === currentStep) {
+          console.log(child);
+          return renderChildWithCallback(child, index);
+        }
+        return null; // Skip other steps
+      })}
+      <button onClick={increaseStep} disabled={currentStep === 0}>
+        Previous
+      </button>
+      <button onClick={decreaseStep} disabled={currentStep >= totalSteps}>
+        Next
+      </button>
     </>
   );
 }
+
+export function Tooltip({
+  children,
+  modal = false,
+  ...restOptions
+}: {
+  children: React.ReactNode;
+} & TooltipOptions) {
+  // This can accept any props as options, e.g. `placement`,
+  // or other positioning options.
+  const Tooltip = useTooltip({ modal, ...restOptions });
+  return (
+    <TooltipContext.Provider value={Tooltip}>
+      {children}
+    </TooltipContext.Provider>
+  );
+}
+
+interface TooltipTriggerProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+}
+
+export const TooltipTrigger = React.forwardRef<
+  HTMLElement,
+  React.HTMLProps<HTMLElement> & TooltipTriggerProps
+>(function TooltipTrigger({ children, asChild = false, ...props }, propRef) {
+  const context = useTooltipContext();
+  const childrenRef = React.useRef<HTMLElement>(null);
+  const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
+
+  // `asChild` allows the user to pass any element as the anchor
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(
+      children,
+      context.getReferenceProps({
+        ref,
+        ...props,
+        ...children.props,
+        'data-state': context.open ? 'open' : 'closed',
+      })
+    );
+  }
+
+  return (
+    <button
+      ref={ref}
+      type="button"
+      // The user can style the trigger based on the state
+      data-state={context.open ? 'open' : 'closed'}
+      {...context.getReferenceProps(props)}
+    >
+      {children}
+    </button>
+  );
+});
+
+export const TooltipContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLProps<HTMLDivElement>
+>(function TooltipContent({ style, ...props }, propRef) {
+  const { context: floatingContext, ...context } = useTooltipContext();
+  const ref = useMergeRefs([context.refs.setFloating, propRef]);
+
+  if (!floatingContext.open) return null;
+
+  const iconStyle = 'outline';
+  const icon = 'chat';
+  const title = 'Welcome to the product tour';
+  const image = 'https://picsum.photos/id/237/1920/1080';
+  const text =
+    'This is a product tour that will guide you through the features of the application.';
+  const currentStep = 1;
+  const totalSteps = 2;
+
+  return (
+    <FloatingPortal>
+      <FloatingFocusManager context={floatingContext} modal={context.modal}>
+        <>
+          <div
+            ref={ref}
+            style={{ ...context.floatingStyles, ...style }}
+            aria-labelledby={context.labelId}
+            aria-describedby={context.descriptionId}
+            {...context.getFloatingProps(props)}
+            className="max-w-[312px] absolute top-0 left-0 bg-gray px-4 z-100 shadow-md rounded-xl"
+          >
+            <div className="pt-3 pb-2 gap-y-1 flex flex-col">
+              {props.children}
+              <span className={`material-symbols-${iconStyle}`}>{icon}</span>
+              <h2>{title}</h2>
+              <img src={image} className="bg-gray-dark"></img>
+              <div>{text}</div>
+              <div className="flex flex-row items-center justify-between">
+                <div className="text-gray-dark">
+                  {currentStep} of {totalSteps}
+                </div>
+                <div className="flex flex-row gap-x-2.5">
+                  <TextButton
+                    text={'Previous'}
+                    onClickFunc={
+                      context.onPrev ||
+                      (() => {
+                        console.log('textButtonFunc is not defined');
+                      })
+                    }
+                  ></TextButton>
+                  <Button
+                    text={'Next'}
+                    onClickFunc={
+                      context.onNext ||
+                      (() => {
+                        console.log('fillButtonFunc is not defined');
+                      })
+                    }
+                  ></Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      </FloatingFocusManager>
+    </FloatingPortal>
+  );
+});
