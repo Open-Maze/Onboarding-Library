@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import 'material-symbols';
-import { ProductTour, Tooltip, TooltipContent } from './Tooltip';
+import ProductTour from '../OnboardingProvider/ProductTour';
+import { Tooltip, TooltipContent } from './Tooltip';
 
 const meta: Meta<typeof Tooltip> = {
   component: Tooltip,

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import WebsiteWireframe from '../Components/WebsiteWireframe';
+import { Tooltip, TooltipContent } from '../OnboardingSteps/Tooltip';
 import ProductTour from './ProductTour';
 
 const meta: Meta<typeof ProductTour> = {
@@ -13,7 +14,16 @@ export const Primary: Story = {
   parameters: {
     layout: 'fullscreen',
   },
-  render: () => <ProductTour></ProductTour>,
+  render: () => (
+    <ProductTour>
+      <Tooltip placement="top" open={true}>
+        <TooltipContent>tooltip 1</TooltipContent>
+      </Tooltip>
+      <Tooltip placement="right" open={true}>
+        <TooltipContent>tooltip 2</TooltipContent>
+      </Tooltip>
+    </ProductTour>
+  ),
 };
 
 export const ProductTourOnTemplate: Story = {
@@ -22,7 +32,14 @@ export const ProductTourOnTemplate: Story = {
   },
   render: () => (
     <>
-      <ProductTour></ProductTour>
+      <ProductTour>
+        <Tooltip placement="top" open={true}>
+          <TooltipContent>tooltip 1</TooltipContent>
+        </Tooltip>
+        <Tooltip placement="right" open={true}>
+          <TooltipContent>tooltip 2</TooltipContent>
+        </Tooltip>
+      </ProductTour>
       <WebsiteWireframe />
     </>
   ),
