@@ -27,11 +27,6 @@ export interface TooltipOptions {
   onPrev?: () => void;
 }
 
-/* 
-manage the state and behavior of a tooltip component. This hook encapsulates logic for opening and closing the tooltip, positioning it, and handling accessibility features. 
-It leverages the useFloating hook from the floating UI library to handle dynamic positioning and includes additional logic for managing controlled and uncontrolled states, 
-accessibility IDs, and interactions like clicking and dismissing the tooltip. 
-*/
 function useTooltip({
   initialOpen = false,
   placement = 'bottom',
@@ -224,21 +219,11 @@ export const TooltipContent = React.forwardRef<
                 <div className="flex flex-row gap-x-2.5">
                   <TextButton
                     text={'Previous'}
-                    onClickFunc={
-                      context.onPrev ||
-                      (() => {
-                        console.log('textButtonFunc is not defined');
-                      })
-                    }
+                    onClickFunc={context.onPrev || (() => {})}
                   ></TextButton>
                   <Button
                     text={'Next'}
-                    onClickFunc={
-                      context.onNext ||
-                      (() => {
-                        console.log('fillButtonFunc is not defined');
-                      })
-                    }
+                    onClickFunc={context.onNext || (() => {})}
                   ></Button>
                 </div>
               </div>
