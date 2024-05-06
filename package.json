@@ -37,7 +37,6 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.26.13",
     "autoprefixer": "^10.4.19",
     "material-symbols": "^0.17.3",
     "postcss": "^8.4.38",
