@@ -15,7 +15,9 @@ export const Primary: Story = {
   },
   render: () => (
     <>
-      <div id="tabs">tabs</div>
+      <div id="tabs" className="flex w-100 h-100 bg-red-500">
+        tabs
+      </div>
       <Popover title="Test" target={'tabs'}></Popover>
     </>
   ),

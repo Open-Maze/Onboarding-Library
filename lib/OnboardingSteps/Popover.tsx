@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 interface PopoverOptions {
   //   placement: 'top' | 'right' | 'bottom' | 'left';
   target: string;
@@ -31,16 +33,30 @@ function elementReady(selector: string) {
 }
 
 export default function Popover({ ...props }: PopoverOptions) {
+  const [styleTop, setStyleTop] = useState(0);
+  const [styleLeft, setStyleLeft] = useState(0);
   //   let popoverTarget = null as HTMLElement | null;
-  let targetRect = null as DOMRect | null;
-  let styleTop = 0;
-  let styleLeft = 0;
+  const popoverId = `popoverId-${new Date().getTime().toString()}`;
+
+  let targetRect: DOMRect;
+  let popoverRect: DOMRect;
+
+  elementReady(`#${popoverId}`).then((popoverId: unknown) => {
+    if (popoverId instanceof HTMLElement) {
+      popoverRect = popoverId.getBoundingClientRect();
+    } else {
+      console.error('Popover target not found');
+    }
+  });
 
   elementReady(`#${props.target}`).then((popoverTarget: unknown) => {
-    if (popoverTarget instanceof HTMLElement) {
+    if (popoverTarget instanceof HTMLElement && popoverRect) {
       targetRect = popoverTarget.getBoundingClientRect();
-      styleTop = targetRect.top + targetRect.height;
-      styleLeft = targetRect.left + targetRect.width / 2;
+      setStyleTop(targetRect.top + targetRect.height);
+      setStyleLeft(
+        targetRect.left + targetRect.width / 2 - popoverRect.width / 2
+      );
+      console.log('styleTop', styleTop, 'styleLeft', styleLeft);
     } else {
       console.error('Popover target not found');
     }
@@ -49,6 +65,7 @@ export default function Popover({ ...props }: PopoverOptions) {
   return (
     <>
       <div
+        id={popoverId}
         style={{ top: `${styleTop + 8}px`, left: `${styleLeft}px` }}
         className="max-w-[312px] absolute bg-gray px-4 z-100 shadow-md rounded-xl"
       >
