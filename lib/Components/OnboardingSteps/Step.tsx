@@ -4,13 +4,15 @@ export interface StepProps {
   lastStep: boolean;
 }
 
-export default function Step({ stepProps }: { stepProps: StepProps }) {
+export default function Step({ nextStep, content, lastStep }: StepProps) {
   return (
-    <div className="bg-white max-w-[300px] justify-between min-h-[400px] w-full flex flex-col p-[4px]">
-      <p>{stepProps.content}</p>
-      <button onClick={stepProps.nextStep} className="border border-black">
-        {stepProps.lastStep ? 'Close' : 'Next'}
-      </button>
-    </div>
+    <>
+      <div className="bg-white max-w-[300px] justify-between min-h-[400px] w-full flex flex-col p-[4px]">
+        <p>{content}</p>
+        <button onClick={nextStep} className="border border-black">
+          {lastStep ? 'Close' : 'Next'}
+        </button>
+      </div>
+    </>
   );
 }
