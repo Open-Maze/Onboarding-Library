@@ -18,7 +18,7 @@ export const Primary: Story = {
       <div id="tabs" className="flex w-100 h-100 bg-red-500">
         tabs
       </div>
-      <Popover title="Test" target={'tabs'}></Popover>
+      <Popover title="Test" target={'tabs'} targetSpacing={0}></Popover>
     </>
   ),
 };
@@ -31,7 +31,7 @@ export const PopoverOnTemplate: Story = {
     <>
       <WebsiteWireframe />
 
-      <Popover target={'tabs'}></Popover>
+      <Popover target={'tabs'} targetSpacing={8}></Popover>
     </>
   ),
 };

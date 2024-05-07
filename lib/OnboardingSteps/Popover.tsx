@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
 
 interface PopoverOptions {
-  //   placement: 'top' | 'right' | 'bottom' | 'left';
   target: string;
+  targetSpacing: number;
   iconStyle?: 'outlined' | 'rounded' | 'sharp';
   icon?: string;
   title?: string;
@@ -59,7 +59,10 @@ export default function Popover({ ...props }: PopoverOptions) {
       {styleTop && styleLeft ? (
         <div
           ref={popoverRef}
-          style={{ top: `${styleTop + 0}px`, left: `${styleLeft}px` }}
+          style={{
+            top: `${styleTop + props.targetSpacing}px`,
+            left: `${styleLeft}px`,
+          }}
           className="max-w-[312px] absolute bg-gray px-4 z-100 shadow-md rounded-xl"
         >
           <div className="pt-3 pb-2 gap-y-1 flex flex-col">
