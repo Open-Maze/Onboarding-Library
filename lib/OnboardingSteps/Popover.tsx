@@ -33,25 +33,16 @@ function elementReady(selector: string) {
 }
 
 export default function Popover({ ...props }: PopoverOptions) {
-  const [styleTop, setStyleTop] = useState(0);
-  const [styleLeft, setStyleLeft] = useState(0);
-
-  // const popoverId = `popoverId-${new Date().getTime().toString()}`;
+  const [styleTop, setStyleTop] = useState(Number);
+  const [styleLeft, setStyleLeft] = useState(Number);
 
   const popoverRef = useRef<HTMLDivElement>(null);
-  const popoverRect = popoverRef.current?.getBoundingClientRect();
+  const popoverRect =
+    popoverRef.current?.getBoundingClientRect() || new DOMRect();
   let targetRect: DOMRect;
 
-  // elementReady(`#${popoverId}`).then((popoverId: unknown) => {
-  //   if (popoverId instanceof HTMLElement) {
-  //     popoverRect = popoverId.getBoundingClientRect();
-  //   } else {
-  //     console.error('Popover target not found');
-  //   }
-  // });
-
   elementReady(`#${props.target}`).then((popoverTarget: unknown) => {
-    if (popoverTarget instanceof HTMLElement && popoverRect) {
+    if (popoverTarget instanceof HTMLElement) {
       targetRect = popoverTarget.getBoundingClientRect();
       setStyleTop(targetRect.top + targetRect.height);
       setStyleLeft(
@@ -65,24 +56,25 @@ export default function Popover({ ...props }: PopoverOptions) {
 
   return (
     <>
-      <div
-        ref={popoverRef}
-        style={{ top: `${styleTop + 8}px`, left: `${styleLeft}px` }}
-        className="max-w-[312px] absolute bg-gray px-4 z-100 shadow-md rounded-xl"
-      >
-        <div className="pt-3 pb-2 gap-y-1 flex flex-col">
-          {props.children}
-          {props.icon ? (
-            <span className={`material-symbols-${props.iconStyle}`}>
-              {props.icon}
-            </span>
-          ) : null}
-          {props.title ? <h2>{props.title}</h2> : null}
-          {props.image ? (
-            <img src={props.image} className="bg-gray-dark"></img>
-          ) : null}
-          {props.text ? <div>{props.text}</div> : null}
-          {/* <div className="flex flex-row items-center justify-between">
+      {styleTop && styleLeft ? (
+        <div
+          ref={popoverRef}
+          style={{ top: `${styleTop + 0}px`, left: `${styleLeft}px` }}
+          className="max-w-[312px] absolute bg-gray px-4 z-100 shadow-md rounded-xl"
+        >
+          <div className="pt-3 pb-2 gap-y-1 flex flex-col">
+            {props.children}
+            {props.icon ? (
+              <span className={`material-symbols-${props.iconStyle}`}>
+                {props.icon}
+              </span>
+            ) : null}
+            {props.title ? <h2>{props.title}</h2> : null}
+            {props.image ? (
+              <img src={props.image} className="bg-gray-dark"></img>
+            ) : null}
+            {props.text ? <div>{props.text}</div> : null}
+            {/* <div className="flex flex-row items-center justify-between">
             <div className="text-gray-dark">
               {props.currentStep} of {props.totalSteps}
             </div>
@@ -97,8 +89,9 @@ export default function Popover({ ...props }: PopoverOptions) {
               ></Button>
             </div> 
           </div>*/}
+          </div>
         </div>
-      </div>
+      ) : null}
     </>
   );
 }
