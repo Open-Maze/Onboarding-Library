@@ -9,16 +9,102 @@ const meta: Meta<typeof Popover> = {
 export default meta;
 type Story = StoryObj<typeof Popover>;
 
-export const Primary: Story = {
+export const AlignmentTop: Story = {
   parameters: {
     layout: 'fullscreen',
   },
+
   render: () => (
     <>
-      <div id="tabs" className="flex w-100 h-100 bg-red-500">
-        tabs
+      <div className="flex justify-center items-center h-screen w-auto">
+        <div id="tabs" className="flex w-80 h-80 bg-red-500">
+          tabs
+        </div>
       </div>
-      <Popover title="Test" target={'tabs'} targetSpacing={0}></Popover>
+      <Popover
+        target={'tabs'}
+        placement="top"
+        text="Lorem ipsum dolor sit amet"
+        targetSpacing={0}
+        iconStyle="outlined"
+        icon="chat"
+        title="title"
+      ></Popover>
+    </>
+  ),
+};
+
+export const AlignmentBottom: Story = {
+  parameters: {
+    layout: 'fullscreen',
+  },
+
+  render: () => (
+    <>
+      <div className="flex justify-center items-center h-screen w-auto">
+        <div id="tabs" className="flex w-80 h-80 bg-red-500">
+          tabs
+        </div>
+      </div>
+      <Popover
+        target={'tabs'}
+        placement="bottom"
+        text="Lorem ipsum dolor sit amet"
+        targetSpacing={0}
+        iconStyle="outlined"
+        icon="chat"
+        title="title"
+      ></Popover>
+    </>
+  ),
+};
+
+export const AlignmentLeft: Story = {
+  parameters: {
+    layout: 'fullscreen',
+  },
+
+  render: () => (
+    <>
+      <div className="flex justify-center items-center h-screen w-auto">
+        <div id="tabs" className="flex w-80 h-80 bg-red-500">
+          tabs
+        </div>
+      </div>
+      <Popover
+        target={'tabs'}
+        placement="left"
+        text="Lorem ipsum dolor sit amet"
+        targetSpacing={0}
+        iconStyle="outlined"
+        icon="chat"
+        title="title"
+      ></Popover>
+    </>
+  ),
+};
+
+export const AlignmentRight: Story = {
+  parameters: {
+    layout: 'fullscreen',
+  },
+
+  render: () => (
+    <>
+      <div className="flex justify-center items-center h-screen w-auto">
+        <div id="tabs" className="flex w-80 h-80 bg-red-500">
+          tabs
+        </div>
+      </div>
+      <Popover
+        target={'tabs'}
+        placement="right"
+        text="Lorem ipsum dolor sit amet"
+        targetSpacing={0}
+        iconStyle="outlined"
+        icon="chat"
+        title="title"
+      ></Popover>
     </>
   ),
 };
@@ -31,7 +117,7 @@ export const PopoverOnTemplate: Story = {
     <>
       <WebsiteWireframe />
 
-      <Popover target={'tabs'} targetSpacing={8}></Popover>
+      <Popover target={'tabs'} targetSpacing={8} placement={'top'}></Popover>
     </>
   ),
 };

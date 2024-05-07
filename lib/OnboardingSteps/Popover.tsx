@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 interface PopoverOptions {
   target: string;
   targetSpacing: number;
+  placement: 'top' | 'bottom' | 'left' | 'right';
   iconStyle?: 'outlined' | 'rounded' | 'sharp';
   icon?: string;
   title?: string;
@@ -44,11 +45,32 @@ export default function Popover({ ...props }: PopoverOptions) {
   elementReady(`#${props.target}`).then((popoverTarget: unknown) => {
     if (popoverTarget instanceof HTMLElement) {
       targetRect = popoverTarget.getBoundingClientRect();
-      setStyleTop(targetRect.top + targetRect.height);
-      setStyleLeft(
-        targetRect.left + targetRect.width / 2 - popoverRect.width / 2
-      );
-      console.log('styleTop', styleTop, 'styleLeft', styleLeft);
+      switch (props.placement) {
+        case 'bottom':
+          setStyleTop(targetRect.top + targetRect.height);
+          setStyleLeft(
+            targetRect.left + targetRect.width / 2 - popoverRect.width / 2
+          );
+          break;
+        case 'top':
+          setStyleTop(targetRect.top - popoverRect.height);
+          setStyleLeft(
+            targetRect.left + targetRect.width / 2 - popoverRect.width / 2
+          );
+          break;
+        case 'left':
+          setStyleTop(
+            targetRect.top + targetRect.height / 2 - popoverRect.height / 2
+          );
+          setStyleLeft(targetRect.left - popoverRect.width);
+          break;
+        case 'right':
+          setStyleTop(
+            targetRect.top + targetRect.height / 2 - popoverRect.height / 2
+          );
+          setStyleLeft(targetRect.left + targetRect.width);
+          break;
+      }
     } else {
       console.error(`Popover target "${props.target}" not found`);
     }
