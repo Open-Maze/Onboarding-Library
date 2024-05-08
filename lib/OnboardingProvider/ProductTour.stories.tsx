@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import WebsiteWireframe from '../Components/WebsiteWireframe';
-import ProductTour from './ProductTour';
+import WebsiteWireframe from '../Components/WebsiteWireframe.tsx';
+import ProductTour from './ProductTour.tsx';
 
 const meta: Meta<typeof ProductTour> = {
   component: ProductTour,

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import WebsiteWireframe from '../Components/WebsiteWireframe';
-import Popover from './Popover';
+import WebsiteWireframe from '../Components/WebsiteWireframe.tsx';
+import Popover from './Popover.tsx';
 
 const meta: Meta<typeof Popover> = {
   component: Popover,
