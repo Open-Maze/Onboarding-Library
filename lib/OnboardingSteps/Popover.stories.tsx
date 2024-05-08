@@ -17,7 +17,7 @@ export const AlignmentTop: Story = {
   render: () => (
     <>
       <div className="flex justify-center items-center h-screen w-auto">
-        <div id="tabs" className="flex w-80 h-80 bg-red-500">
+        <div id="tabs" className="flex w-10 h-10 bg-red-500">
           tabs
         </div>
       </div>
@@ -25,7 +25,7 @@ export const AlignmentTop: Story = {
         target={'tabs'}
         placement="top"
         text="Lorem ipsum dolor sit amet"
-        targetSpacing={0}
+        targetSpacing={8}
         iconStyle="outlined"
         icon="chat"
         title="title"
@@ -42,7 +42,7 @@ export const AlignmentBottom: Story = {
   render: () => (
     <>
       <div className="flex justify-center items-center h-screen w-auto">
-        <div id="tabs" className="flex w-80 h-80 bg-red-500">
+        <div id="tabs" className="flex w-10 h-10 bg-red-500">
           tabs
         </div>
       </div>
@@ -50,7 +50,7 @@ export const AlignmentBottom: Story = {
         target={'tabs'}
         placement="bottom"
         text="Lorem ipsum dolor sit amet"
-        targetSpacing={0}
+        targetSpacing={8}
         iconStyle="outlined"
         icon="chat"
         title="title"
@@ -67,7 +67,7 @@ export const AlignmentLeft: Story = {
   render: () => (
     <>
       <div className="flex justify-center items-center h-screen w-auto">
-        <div id="tabs" className="flex w-80 h-80 bg-red-500">
+        <div id="tabs" className="flex w-10 h-10 bg-red-500">
           tabs
         </div>
       </div>
@@ -75,7 +75,7 @@ export const AlignmentLeft: Story = {
         target={'tabs'}
         placement="left"
         text="Lorem ipsum dolor sit amet"
-        targetSpacing={0}
+        targetSpacing={8}
         iconStyle="outlined"
         icon="chat"
         title="title"
@@ -92,7 +92,7 @@ export const AlignmentRight: Story = {
   render: () => (
     <>
       <div className="flex justify-center items-center h-screen w-auto">
-        <div id="tabs" className="flex w-80 h-80 bg-red-500">
+        <div id="tabs" className="flex w-10 h-10 bg-red-500">
           tabs
         </div>
       </div>
@@ -100,7 +100,7 @@ export const AlignmentRight: Story = {
         target={'tabs'}
         placement="right"
         text="Lorem ipsum dolor sit amet"
-        targetSpacing={0}
+        targetSpacing={8}
         iconStyle="outlined"
         icon="chat"
         title="title"

@@ -47,13 +47,15 @@ export default function Popover({ ...props }: PopoverOptions) {
       targetRect = popoverTarget.getBoundingClientRect();
       switch (props.placement) {
         case 'bottom':
-          setStyleTop(targetRect.top + targetRect.height);
+          setStyleTop(targetRect.top + targetRect.height + props.targetSpacing);
           setStyleLeft(
             targetRect.left + targetRect.width / 2 - popoverRect.width / 2
           );
           break;
         case 'top':
-          setStyleTop(targetRect.top - popoverRect.height);
+          setStyleTop(
+            targetRect.top - popoverRect.height - props.targetSpacing
+          );
           setStyleLeft(
             targetRect.left + targetRect.width / 2 - popoverRect.width / 2
           );
@@ -62,13 +64,17 @@ export default function Popover({ ...props }: PopoverOptions) {
           setStyleTop(
             targetRect.top + targetRect.height / 2 - popoverRect.height / 2
           );
-          setStyleLeft(targetRect.left - popoverRect.width);
+          setStyleLeft(
+            targetRect.left - popoverRect.width - props.targetSpacing
+          );
           break;
         case 'right':
           setStyleTop(
             targetRect.top + targetRect.height / 2 - popoverRect.height / 2
           );
-          setStyleLeft(targetRect.left + targetRect.width);
+          setStyleLeft(
+            targetRect.left + targetRect.width + props.targetSpacing
+          );
           break;
       }
     } else {
@@ -82,7 +88,7 @@ export default function Popover({ ...props }: PopoverOptions) {
         <div
           ref={popoverRef}
           style={{
-            top: `${styleTop + props.targetSpacing}px`,
+            top: `${styleTop}px`,
             left: `${styleLeft}px`,
           }}
           className="max-w-[312px] absolute bg-gray px-4 z-100 shadow-md rounded-xl"
