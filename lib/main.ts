@@ -1,5 +1,8 @@
-import Step from './Components/OnboardingSteps/Step';
-import Button from './Components/Practice/Button';
+import 'material-symbols';
+import Button from './Components/Button';
 import OnboardingProvider from './OnboardingProvider/OnboardingProvider';
+import ProductTour from './OnboardingProvider/ProductTour';
+import Popover from './OnboardingSteps/Popover';
+import Step from './OnboardingSteps/Step';
 import './tailwind.css';
-export { Button, OnboardingProvider, Step };
+export { Button, OnboardingProvider, Popover, ProductTour, Step };

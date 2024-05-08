@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       zIndex: {
-        '100': '100',
+        100: '100',
       },
       boxShadow: {
         innercard: '0px 2px 4px 0px rgba(0,0,0,0.25)',
@@ -53,7 +53,10 @@ export default {
         lightgrey: '#F4F4F5',
         current: 'currentColor',
         dark: '#222222',
-        'dark-gray': '#505050',
+        gray: {
+          DEFAULT: '#E6E6E6',
+          dark: '#797979',
+        },
         primary: {
           DEFAULT: '#8c1cec',
           lighter: '#dcbaf9',
