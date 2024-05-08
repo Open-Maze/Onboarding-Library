@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import 'material-symbols';
-import WebsiteWireframe from './WebsiteWireframe';
+import WebsiteWireframe from './WebsiteWireframe.tsx';
 
 const meta: Meta<typeof WebsiteWireframe> = {
   component: WebsiteWireframe,

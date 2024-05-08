@@ -3,14 +3,14 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "NodeNext",
+    "module": "ESNext",
     "skipLibCheck": true,
     "paths": {
       "onboarding-library": ["./lib/main.ts"]
     },
 
     /* Bundler mode */
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
