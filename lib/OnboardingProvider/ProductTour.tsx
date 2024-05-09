@@ -12,12 +12,10 @@ export default function ProductTour({ ...props }: InterfaceProductTour) {
       return React.cloneElement(child as JSX.Element, {
         filledButtonFunc: () => {
           setIndex(index + 1);
-          console.log('filledButton clicked' + index);
         },
         textButtonFunc: () => {
           if (index !== 0) {
             setIndex(index - 1);
-            console.log('textButton clicked' + index);
           }
         },
         currentStep: index + 1,
