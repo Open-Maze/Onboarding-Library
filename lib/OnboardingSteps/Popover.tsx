@@ -3,7 +3,7 @@ import Button from '../Components/Button';
 import TextButton from '../Components/TextButton';
 
 interface PopoverOptions {
-  target: string;
+  targetRef: React.RefObject<HTMLElement | null>;
   targetSpacing: number;
   placement: 'top' | 'bottom' | 'left' | 'right';
   iconStyle?: 'outlined' | 'rounded' | 'sharp';
@@ -18,80 +18,65 @@ interface PopoverOptions {
   textButtonFunc?: () => void;
 }
 
-function elementReady(selector: string) {
-  return new Promise((resolve) => {
-    const el = document.querySelector(selector);
-    if (el) {
-      resolve(el);
-    }
-
-    new MutationObserver((_mutationRecords, observer) => {
-      Array.from(document.querySelectorAll(selector)).forEach((element) => {
-        resolve(element);
-        observer.disconnect();
-      });
-    }).observe(document.documentElement, {
-      childList: true,
-      subtree: true,
-    });
-  });
-}
-
 export default function Popover({ ...props }: PopoverOptions) {
   const [styleTop, setStyleTop] = useState(Number);
   const [styleLeft, setStyleLeft] = useState(Number);
+  const [isReady, setIsReady] = useState(false);
 
   const popoverRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    elementReady(`#${props.target}`).then((popoverTarget: unknown) => {
-      if (popoverTarget instanceof HTMLElement) {
-        const popoverRect =
-          popoverRef.current?.getBoundingClientRect() || new DOMRect();
-        const targetRect = popoverTarget.getBoundingClientRect();
-        switch (props.placement) {
-          case 'bottom':
-            setStyleTop(
-              targetRect.top + targetRect.height + props.targetSpacing
-            );
-            setStyleLeft(
-              targetRect.left + targetRect.width / 2 - popoverRect.width / 2
-            );
-            break;
-          case 'top':
-            setStyleTop(
-              targetRect.top - popoverRect.height - props.targetSpacing
-            );
-            setStyleLeft(
-              targetRect.left + targetRect.width / 2 - popoverRect.width / 2
-            );
-            break;
-          case 'left':
-            setStyleTop(
-              targetRect.top + targetRect.height / 2 - popoverRect.height / 2
-            );
-            setStyleLeft(
-              targetRect.left - popoverRect.width - props.targetSpacing
-            );
-            break;
-          case 'right':
-            setStyleTop(
-              targetRect.top + targetRect.height / 2 - popoverRect.height / 2
-            );
-            setStyleLeft(
-              targetRect.left + targetRect.width + props.targetSpacing
-            );
-            break;
-        }
-      } else {
-        console.error(`Popover target "${props.target}" not found`);
+    if (props.targetRef.current instanceof HTMLElement) {
+      const popoverRect =
+        popoverRef.current?.getBoundingClientRect() || new DOMRect();
+      const targetRect = props.targetRef.current.getBoundingClientRect();
+      switch (props.placement) {
+        case 'bottom':
+          setStyleTop(targetRect.top + targetRect.height + props.targetSpacing);
+          setStyleLeft(
+            targetRect.left + targetRect.width / 2 - popoverRect.width / 2
+          );
+          break;
+        case 'top':
+          setStyleTop(
+            targetRect.top - popoverRect.height - props.targetSpacing
+          );
+          setStyleLeft(
+            targetRect.left + targetRect.width / 2 - popoverRect.width / 2
+          );
+          break;
+        case 'left':
+          setStyleTop(
+            targetRect.top + targetRect.height / 2 - popoverRect.height / 2
+          );
+          setStyleLeft(
+            targetRect.left - popoverRect.width - props.targetSpacing
+          );
+          break;
+        case 'right':
+          setStyleTop(
+            targetRect.top + targetRect.height / 2 - popoverRect.height / 2
+          );
+          setStyleLeft(
+            targetRect.left + targetRect.width + props.targetSpacing
+          );
+          break;
       }
-    });
-  }, [props.placement, props.target, props.targetSpacing]);
+      setIsReady(true);
+    } else {
+      console.error(`Popover target ref not found`);
+    }
+  }, [
+    props.placement,
+    props.targetRef,
+    props.targetSpacing,
+    styleLeft,
+    styleTop,
+  ]);
 
   return (
     <>
-      {styleTop && styleLeft ? (
+      {styleTop && styleLeft && isReady ? (
         <div
           ref={popoverRef}
           style={{
