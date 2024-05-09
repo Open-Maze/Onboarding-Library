@@ -1,4 +1,6 @@
 import { useRef, useState } from 'react';
+import Button from '../Components/Button';
+import TextButton from '../Components/TextButton';
 
 interface PopoverOptions {
   target: string;
@@ -12,6 +14,8 @@ interface PopoverOptions {
   currentStep?: number;
   totalSteps?: number;
   children?: React.ReactNode;
+  filledButtonFunc?: () => void;
+  textButtonFunc?: () => void;
 }
 
 function elementReady(selector: string) {
@@ -105,21 +109,26 @@ export default function Popover({ ...props }: PopoverOptions) {
               <img src={props.image} className="bg-gray-dark"></img>
             ) : null}
             {props.text ? <div>{props.text}</div> : null}
-            {/* <div className="flex flex-row items-center justify-between">
-            <div className="text-gray-dark">
-              {props.currentStep} of {props.totalSteps}
-            </div>
-            <div className="flex flex-row gap-x-2.5">
-              <TextButton
-                text={'Previous'}
-                onClickFunc={context.onPrev || (() => {})}
-              ></TextButton>
-              <Button
-                text={'Next'}
-                onClickFunc={context.onNext || (() => {})}
-              ></Button>
-            </div> 
-          </div>*/}
+            {props.currentStep &&
+            props.totalSteps &&
+            props.textButtonFunc &&
+            props.filledButtonFunc ? (
+              <div className="flex flex-row items-center justify-between">
+                <div className="text-gray-dark">
+                  {props.currentStep} of {props.totalSteps}
+                </div>
+                <div className="flex flex-row gap-x-2.5">
+                  <TextButton
+                    text={'Previous'}
+                    onClickFunc={props.textButtonFunc || (() => {})}
+                  ></TextButton>
+                  <Button
+                    text={'Next'}
+                    onClickFunc={props.filledButtonFunc || (() => {})}
+                  ></Button>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       ) : null}
