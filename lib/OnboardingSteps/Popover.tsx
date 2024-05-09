@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from '../Components/Button';
 import TextButton from '../Components/TextButton';
 
@@ -42,49 +42,52 @@ export default function Popover({ ...props }: PopoverOptions) {
   const [styleLeft, setStyleLeft] = useState(Number);
 
   const popoverRef = useRef<HTMLDivElement>(null);
-  const popoverRect =
-    popoverRef.current?.getBoundingClientRect() || new DOMRect();
-  let targetRect: DOMRect;
 
-  elementReady(`#${props.target}`).then((popoverTarget: unknown) => {
-    if (popoverTarget instanceof HTMLElement) {
-      targetRect = popoverTarget.getBoundingClientRect();
-      switch (props.placement) {
-        case 'bottom':
-          setStyleTop(targetRect.top + targetRect.height + props.targetSpacing);
-          setStyleLeft(
-            targetRect.left + targetRect.width / 2 - popoverRect.width / 2
-          );
-          break;
-        case 'top':
-          setStyleTop(
-            targetRect.top - popoverRect.height - props.targetSpacing
-          );
-          setStyleLeft(
-            targetRect.left + targetRect.width / 2 - popoverRect.width / 2
-          );
-          break;
-        case 'left':
-          setStyleTop(
-            targetRect.top + targetRect.height / 2 - popoverRect.height / 2
-          );
-          setStyleLeft(
-            targetRect.left - popoverRect.width - props.targetSpacing
-          );
-          break;
-        case 'right':
-          setStyleTop(
-            targetRect.top + targetRect.height / 2 - popoverRect.height / 2
-          );
-          setStyleLeft(
-            targetRect.left + targetRect.width + props.targetSpacing
-          );
-          break;
+  useEffect(() => {
+    elementReady(`#${props.target}`).then((popoverTarget: unknown) => {
+      if (popoverTarget instanceof HTMLElement) {
+        const popoverRect =
+          popoverRef.current?.getBoundingClientRect() || new DOMRect();
+        const targetRect = popoverTarget.getBoundingClientRect();
+        switch (props.placement) {
+          case 'bottom':
+            setStyleTop(
+              targetRect.top + targetRect.height + props.targetSpacing
+            );
+            setStyleLeft(
+              targetRect.left + targetRect.width / 2 - popoverRect.width / 2
+            );
+            break;
+          case 'top':
+            setStyleTop(
+              targetRect.top - popoverRect.height - props.targetSpacing
+            );
+            setStyleLeft(
+              targetRect.left + targetRect.width / 2 - popoverRect.width / 2
+            );
+            break;
+          case 'left':
+            setStyleTop(
+              targetRect.top + targetRect.height / 2 - popoverRect.height / 2
+            );
+            setStyleLeft(
+              targetRect.left - popoverRect.width - props.targetSpacing
+            );
+            break;
+          case 'right':
+            setStyleTop(
+              targetRect.top + targetRect.height / 2 - popoverRect.height / 2
+            );
+            setStyleLeft(
+              targetRect.left + targetRect.width + props.targetSpacing
+            );
+            break;
+        }
+      } else {
+        console.error(`Popover target "${props.target}" not found`);
       }
-    } else {
-      console.error(`Popover target "${props.target}" not found`);
-    }
-  });
+    });
+  }, [props.placement, props.target, props.targetSpacing]);
 
   return (
     <>
