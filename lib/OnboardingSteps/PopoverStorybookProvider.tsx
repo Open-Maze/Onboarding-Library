@@ -1,0 +1,89 @@
+import { useRef } from 'react';
+import Popover from './Popover';
+
+export default function PopoverStoryBookProviderTop() {
+  const targetRef = useRef(null);
+  return (
+    <>
+      <div className="flex justify-center items-center h-screen w-auto">
+        <div ref={targetRef} id="tabs" className="flex w-10 h-10 bg-red-500">
+          tabs
+        </div>
+      </div>
+      <Popover
+        placement="top"
+        text="Lorem ipsum dolor sit amet"
+        targetSpacing={8}
+        iconStyle="outlined"
+        icon="chat"
+        title="title"
+        targetRef={targetRef}
+      ></Popover>
+    </>
+  );
+}
+
+export function PopoverStoryBookProviderBottom() {
+  const targetRef = useRef(null);
+  return (
+    <>
+      <div className="flex justify-center items-center h-screen w-auto">
+        <div ref={targetRef} id="tabs" className="flex w-10 h-10 bg-red-500">
+          tabs
+        </div>
+      </div>
+      <Popover
+        placement="bottom"
+        text="Lorem ipsum dolor sit amet"
+        targetSpacing={8}
+        iconStyle="outlined"
+        icon="chat"
+        title="title"
+        targetRef={targetRef}
+      ></Popover>
+    </>
+  );
+}
+
+export function PopoverStoryBookProviderLeft() {
+  const targetRef = useRef(null);
+  return (
+    <>
+      <div className="flex justify-center items-center h-screen w-auto">
+        <div ref={targetRef} id="tabs" className="flex w-10 h-10 bg-red-500">
+          tabs
+        </div>
+      </div>
+      <Popover
+        placement="left"
+        text="Lorem ipsum dolor sit amet"
+        targetSpacing={8}
+        iconStyle="outlined"
+        icon="chat"
+        title="title"
+        targetRef={targetRef}
+      ></Popover>
+    </>
+  );
+}
+export function PopoverStoryBookProviderRight() {
+  const targetRef = useRef(null);
+  return (
+    <>
+      <div className="flex justify-center items-center h-screen w-auto">
+        <div ref={targetRef} id="tabs" className="flex w-10 h-10 bg-red-500">
+          tabs
+        </div>
+      </div>
+      <Popover
+        placement="right"
+        text="Lorem ipsum dolor sit amet"
+        targetSpacing={8}
+        iconStyle="outlined"
+        icon="chat"
+        title="title"
+        targetRef={targetRef}
+      ></Popover>
+    </>
+  );
+}

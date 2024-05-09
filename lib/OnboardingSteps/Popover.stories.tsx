@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import WebsiteWireframe from '../Components/WebsiteWireframe.tsx';
 import Popover from './Popover.tsx';
+import PopoverStoryBookProviderTop, {
+  PopoverStoryBookProviderBottom,
+  PopoverStoryBookProviderLeft,
+  PopoverStoryBookProviderRight,
+} from './PopoverStorybookProvider.tsx';
 
 const meta: Meta<typeof Popover> = {
   component: Popover,
@@ -16,20 +20,7 @@ export const AlignmentTop: Story = {
 
   render: () => (
     <>
-      <div className="flex justify-center items-center h-screen w-auto">
-        <div id="tabs" className="flex w-10 h-10 bg-red-500">
-          tabs
-        </div>
-      </div>
-      <Popover
-        target={'tabs'}
-        placement="top"
-        text="Lorem ipsum dolor sit amet"
-        targetSpacing={8}
-        iconStyle="outlined"
-        icon="chat"
-        title="title"
-      ></Popover>
+      <PopoverStoryBookProviderTop />
     </>
   ),
 };
@@ -41,83 +32,119 @@ export const AlignmentBottom: Story = {
 
   render: () => (
     <>
-      <div className="flex justify-center items-center h-screen w-auto">
-        <div id="tabs" className="flex w-10 h-10 bg-red-500">
-          tabs
-        </div>
-      </div>
-      <Popover
-        target={'tabs'}
-        placement="bottom"
-        text="Lorem ipsum dolor sit amet"
-        targetSpacing={8}
-        iconStyle="outlined"
-        icon="chat"
-        title="title"
-      ></Popover>
+      <PopoverStoryBookProviderBottom />
     </>
   ),
 };
 
-export const AlignmentLeft: Story = {
+export const AllignmentLeft: Story = {
   parameters: {
     layout: 'fullscreen',
   },
 
   render: () => (
     <>
-      <div className="flex justify-center items-center h-screen w-auto">
-        <div id="tabs" className="flex w-10 h-10 bg-red-500">
-          tabs
-        </div>
-      </div>
-      <Popover
-        target={'tabs'}
-        placement="left"
-        text="Lorem ipsum dolor sit amet"
-        targetSpacing={8}
-        iconStyle="outlined"
-        icon="chat"
-        title="title"
-      ></Popover>
+      <PopoverStoryBookProviderLeft />
     </>
   ),
 };
 
-export const AlignmentRight: Story = {
+export const AllignmentRight: Story = {
   parameters: {
     layout: 'fullscreen',
   },
 
   render: () => (
     <>
-      <div className="flex justify-center items-center h-screen w-auto">
-        <div id="tabs" className="flex w-10 h-10 bg-red-500">
-          tabs
-        </div>
-      </div>
-      <Popover
-        target={'tabs'}
-        placement="right"
-        text="Lorem ipsum dolor sit amet"
-        targetSpacing={8}
-        iconStyle="outlined"
-        icon="chat"
-        title="title"
-      ></Popover>
+      <PopoverStoryBookProviderRight />
     </>
   ),
 };
 
-export const PopoverOnTemplate: Story = {
-  parameters: {
-    layout: 'fullscreen',
-  },
-  render: () => (
-    <>
-      <WebsiteWireframe />
+// export const AlignmentTop: Story = {
+//   parameters: {
+//     layout: 'fullscreen',
+//   },
 
-      <Popover target={'tabs'} targetSpacing={8} placement={'top'}></Popover>
-    </>
-  ),
-};
+//   render: () => (
+//     <>
+//       <div className="flex justify-center items-center h-screen w-auto">
+//         <div id="tabs" className="flex w-10 h-10 bg-red-500">
+//           tabs
+//         </div>
+//       </div>
+//       <Popover
+//         target={'tabs'}
+//         placement="top"
+//         text="Lorem ipsum dolor sit amet"
+//         targetSpacing={8}
+//         iconStyle="outlined"
+//         icon="chat"
+//         title="title"
+//       ></Popover>
+//     </>
+//   ),
+// };
+
+// export const AlignmentBottom: Story = {
+//   parameters: {
+//     layout: 'fullscreen',
+//   },
+
+//   render: () => (
+//     <>
+//       <div className="flex justify-center items-center h-screen w-auto">
+//         <div id="tabs" className="flex w-10 h-10 bg-red-500">
+//           tabs
+//         </div>
+//       </div>
+//       <Popover
+//         target={'tabs'}
+//         placement="bottom"
+//         text="Lorem ipsum dolor sit amet"
+//         targetSpacing={8}
+//         iconStyle="outlined"
+//         icon="chat"
+//         title="title"
+//       ></Popover>
+//     </>
+//   ),
+// };
+
+// export const AlignmentRight: Story = {
+//   parameters: {
+//     layout: 'fullscreen',
+//   },
+
+//   render: () => (
+//     <>
+//       <div className="flex justify-center items-center h-screen w-auto">
+//         <div id="tabs" className="flex w-10 h-10 bg-red-500">
+//           tabs
+//         </div>
+//       </div>
+//       <Popover
+//         target={'tabs'}
+//         placement="right"
+//         text="Lorem ipsum dolor sit amet"
+//         targetSpacing={8}
+//         iconStyle="outlined"
+//         icon="chat"
+//         title="title"
+//       ></Popover>
+//     </>
+//   ),
+// };
+
+// export const PopoverOnTemplate: Story = {
+//   parameters: {
+//     layout: 'fullscreen',
+//   },
+//   render: () => (
+//     <>
+//       <WebsiteWireframe />
+
+//       <Popover  targetSpacing={8} placement={'top'} targetRef={undefined}></Popover>
+//     </>
+//   ),
+// };

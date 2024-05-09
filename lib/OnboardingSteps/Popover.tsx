@@ -1,7 +1,9 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Button from '../Components/Button';
+import TextButton from '../Components/TextButton';
 
 interface PopoverOptions {
-  target: string;
+  targetRef: React.RefObject<HTMLElement | null>;
   targetSpacing: number;
   placement: 'top' | 'bottom' | 'left' | 'right';
   iconStyle?: 'outlined' | 'rounded' | 'sharp';
@@ -12,39 +14,22 @@ interface PopoverOptions {
   currentStep?: number;
   totalSteps?: number;
   children?: React.ReactNode;
-}
-
-function elementReady(selector: string) {
-  return new Promise((resolve) => {
-    const el = document.querySelector(selector);
-    if (el) {
-      resolve(el);
-    }
-
-    new MutationObserver((_mutationRecords, observer) => {
-      Array.from(document.querySelectorAll(selector)).forEach((element) => {
-        resolve(element);
-        observer.disconnect();
-      });
-    }).observe(document.documentElement, {
-      childList: true,
-      subtree: true,
-    });
-  });
+  filledButtonFunc?: () => void;
+  textButtonFunc?: () => void;
 }
 
 export default function Popover({ ...props }: PopoverOptions) {
   const [styleTop, setStyleTop] = useState(Number);
   const [styleLeft, setStyleLeft] = useState(Number);
+  const [isReady, setIsReady] = useState(false);
 
   const popoverRef = useRef<HTMLDivElement>(null);
-  const popoverRect =
-    popoverRef.current?.getBoundingClientRect() || new DOMRect();
-  let targetRect: DOMRect;
 
-  elementReady(`#${props.target}`).then((popoverTarget: unknown) => {
-    if (popoverTarget instanceof HTMLElement) {
-      targetRect = popoverTarget.getBoundingClientRect();
+  useEffect(() => {
+    if (props.targetRef.current instanceof HTMLElement) {
+      const popoverRect =
+        popoverRef.current?.getBoundingClientRect() || new DOMRect();
+      const targetRect = props.targetRef.current.getBoundingClientRect();
       switch (props.placement) {
         case 'bottom':
           setStyleTop(targetRect.top + targetRect.height + props.targetSpacing);
@@ -77,14 +62,21 @@ export default function Popover({ ...props }: PopoverOptions) {
           );
           break;
       }
+      setIsReady(true);
     } else {
-      console.error(`Popover target "${props.target}" not found`);
+      console.error(`Popover target ref not found`);
     }
-  });
+  }, [
+    props.placement,
+    props.targetRef,
+    props.targetSpacing,
+    styleLeft,
+    styleTop,
+  ]);
 
   return (
     <>
-      {styleTop && styleLeft ? (
+      {styleTop && styleLeft && isReady ? (
         <div
           ref={popoverRef}
           style={{
@@ -105,21 +97,26 @@ export default function Popover({ ...props }: PopoverOptions) {
               <img src={props.image} className="bg-gray-dark"></img>
             ) : null}
             {props.text ? <div>{props.text}</div> : null}
-            {/* <div className="flex flex-row items-center justify-between">
-            <div className="text-gray-dark">
-              {props.currentStep} of {props.totalSteps}
-            </div>
-            <div className="flex flex-row gap-x-2.5">
-              <TextButton
-                text={'Previous'}
-                onClickFunc={context.onPrev || (() => {})}
-              ></TextButton>
-              <Button
-                text={'Next'}
-                onClickFunc={context.onNext || (() => {})}
-              ></Button>
-            </div> 
-          </div>*/}
+            {props.currentStep &&
+            props.totalSteps &&
+            props.textButtonFunc &&
+            props.filledButtonFunc ? (
+              <div className="flex flex-row items-center justify-between">
+                <div className="text-gray-dark">
+                  {props.currentStep} of {props.totalSteps}
+                </div>
+                <div className="flex flex-row gap-x-2.5">
+                  <TextButton
+                    text={'Previous'}
+                    onClickFunc={props.textButtonFunc || (() => {})}
+                  ></TextButton>
+                  <Button
+                    text={'Next'}
+                    onClickFunc={props.filledButtonFunc || (() => {})}
+                  ></Button>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       ) : null}
