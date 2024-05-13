@@ -1,6 +1,6 @@
 # Onboarding library OpenMaze
 
-![NPM Version](https://img.shields.io/npm/v/:onboarding-library-openmaze)
+![NPM Version](https://img.shields.io/npm/v/onboarding-library-openmaze)
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
 [![Storybook](https://img.shields.io/badge/storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](https://storybook.js.org)
