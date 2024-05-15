@@ -23,15 +23,10 @@ function LocalStorageCheck(productTourId: string, dev?: boolean) {
 
 export default function ProductTour({ ...props }: InterfaceProductTour) {
   const [index, setIndex] = useState(0);
-  const [isDevMode, setIsDevMode] = useState(false);
 
   useEffect(() => {
     if (index === props.children.length && !props.dev) {
       localStorage.setItem(props.productTourId, 'false');
-    }
-
-    if (props.dev) {
-      setIsDevMode(true);
     }
   }, [index, props.children.length, props.dev, props.productTourId]);
 
@@ -57,19 +52,7 @@ export default function ProductTour({ ...props }: InterfaceProductTour) {
   };
 
   if (LocalStorageCheck(props.productTourId, props.dev)) {
-    return (
-      <div>
-        {isDevMode && (
-          <div
-            id="ProductTourWarnings"
-            className="absolute top-0 left-0 bg-orange-500 p-2 opacity-50"
-          >
-            product tour {props.productTourId} is in dev-mode
-          </div>
-        )}
-        {renderChildren()?.[index]}
-      </div>
-    );
+    return <div>{renderChildren()?.[index]}</div>;
   } else {
     return null;
   }
