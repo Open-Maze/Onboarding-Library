@@ -6,9 +6,8 @@ interface InterfaceProductTour {
   dev?: boolean;
 }
 
-function LocalStorageCheck(productTourId: string, dev?: boolean) {
+function LocalStorageCheck(productTourId: string, dev: boolean = false) {
   if (dev) {
-    console.warn(`Product Tour ${productTourId} is in dev mode`);
     localStorage.setItem(productTourId, 'true');
     return true;
   }
@@ -17,12 +16,17 @@ function LocalStorageCheck(productTourId: string, dev?: boolean) {
 
 export default function ProductTour({ ...props }: InterfaceProductTour) {
   const [index, setIndex] = useState(0);
+  const [warning, setWarning] = useState(false);
 
   useEffect(() => {
     if (index === props.children.length && !props.dev) {
       localStorage.setItem(props.productTourId, 'false');
     }
-  }, [index, props.children.length, props.dev, props.productTourId]);
+    if (!warning && props.dev) {
+      console.warn(`Product Tour ${props.productTourId} is in dev mode`);
+      setWarning(true);
+    }
+  }, [index, props.children.length, props.dev, props.productTourId, warning]);
 
   const filledButtonFunc = useCallback((index: number) => {
     setIndex(index + 1);
@@ -45,7 +49,14 @@ export default function ProductTour({ ...props }: InterfaceProductTour) {
     });
   };
 
-  if (LocalStorageCheck(props.productTourId, props.dev)) {
+  if (
+    LocalStorageCheck(
+      props.productTourId,
+      props.dev
+      // warning,
+      // () =>      setWarning(true)
+    )
+  ) {
     return <div>{renderChildren()?.[index]}</div>;
   } else {
     return null;
