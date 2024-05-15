@@ -40,6 +40,26 @@ export default function ProductTourStoryBookProviderPrimary() {
           text="Lorem ipsum 3"
         />
       </ProductTour>
+      <ProductTour dev={true} productTourId={'StoryBookProductTour2'}>
+        <Popover
+          targetRef={targetRefTabs}
+          targetSpacing={8}
+          placement={'top'}
+          text="Lorem ipsum 1"
+        />
+        <Popover
+          targetRef={targetRefNavigation}
+          targetSpacing={16}
+          placement={'left'}
+          text="Lorem ipsum 2"
+        />
+        <Popover
+          targetRef={targetRefPost}
+          targetSpacing={24}
+          placement={'bottom'}
+          text="Lorem ipsum 3"
+        />
+      </ProductTour>
     </>
   );
 }

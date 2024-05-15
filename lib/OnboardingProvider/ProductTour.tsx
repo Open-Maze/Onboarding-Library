@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 interface InterfaceProductTour {
   children: Array<ReactElement<unknown>>;
@@ -8,20 +8,14 @@ interface InterfaceProductTour {
 
 function LocalStorageCheck(productTourId: string, dev?: boolean) {
   if (dev) {
-    console.log('Product Tour is in dev mode');
+    console.warn(`Product Tour ${productTourId} is in dev mode`);
     localStorage.setItem(productTourId, 'true');
     return true;
   } else {
-    console.log(
-      'Product Tour is in production mode. Product Tour ID:',
-      productTourId
-    );
     const productTour = localStorage.getItem(productTourId);
     if (productTour === 'false') {
-      console.log('Product Tour is disabled');
       return false;
     } else {
-      console.log('Product Tour is enabled');
       return true;
     }
   }
@@ -29,36 +23,50 @@ function LocalStorageCheck(productTourId: string, dev?: boolean) {
 
 export default function ProductTour({ ...props }: InterfaceProductTour) {
   const [index, setIndex] = useState(0);
+  const [isDevMode, setIsDevMode] = useState(false);
 
-  if (LocalStorageCheck(props.productTourId, props.dev)) {
-    const renderChildren = () => {
-      return React.Children.map(props.children, (child, index) => {
-        return React.cloneElement(child as JSX.Element, {
-          filledButtonFunc: () => {
-            setIndex(index + 1);
-          },
-          textButtonFunc: () => {
-            if (index !== 0) {
-              setIndex(index - 1);
-            }
-          },
-          currentStep: index + 1,
-          totalSteps: props.children.length,
-        });
-      });
-    };
-
+  useEffect(() => {
     if (index === props.children.length && !props.dev) {
       localStorage.setItem(props.productTourId, 'false');
     }
 
+    if (props.dev) {
+      setIsDevMode(true);
+    }
+  }, [index, props.children.length, props.dev, props.productTourId]);
+
+  const filledButtonFunc = (index: number) => {
+    setIndex(index + 1);
+  };
+
+  const textButtonFunc = (index: number) => {
+    if (index !== 0) {
+      setIndex(index - 1);
+    }
+  };
+
+  const renderChildren = () => {
+    return React.Children.map(props.children, (child, index) => {
+      return React.cloneElement(child as JSX.Element, {
+        filledButtonFunc: () => filledButtonFunc(index),
+        textButtonFunc: () => textButtonFunc(index),
+        currentStep: index + 1,
+        totalSteps: props.children.length,
+      });
+    });
+  };
+
+  if (LocalStorageCheck(props.productTourId, props.dev)) {
     return (
       <div>
-        {props.dev ? (
-          <div className="absolute top-0 left-0 bg-red-500 p-2 opacity-50">
+        {isDevMode && (
+          <div
+            id="ProductTourWarnings"
+            className="absolute top-0 left-0 bg-orange-500 p-2 opacity-50"
+          >
             product tour {props.productTourId} is in dev-mode
           </div>
-        ) : null}
+        )}
         {renderChildren()?.[index]}
       </div>
     );
