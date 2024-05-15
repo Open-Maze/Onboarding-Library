@@ -20,7 +20,7 @@ export default function ProductTourStoryBookProviderPrimary() {
           tabs
         </div>
       </div>
-      <ProductTour>
+      <ProductTour dev={true} productTourId={'StoryBookProductTour1'}>
         <Popover
           targetRef={targetRefTabs}
           targetSpacing={8}
