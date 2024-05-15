@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 interface InterfaceProductTour {
   children: Array<ReactElement<unknown>>;
@@ -11,14 +11,8 @@ function LocalStorageCheck(productTourId: string, dev?: boolean) {
     console.warn(`Product Tour ${productTourId} is in dev mode`);
     localStorage.setItem(productTourId, 'true');
     return true;
-  } else {
-    const productTour = localStorage.getItem(productTourId);
-    if (productTour === 'false') {
-      return false;
-    } else {
-      return true;
-    }
   }
+  return localStorage.getItem(productTourId) !== 'false';
 }
 
 export default function ProductTour({ ...props }: InterfaceProductTour) {
@@ -30,15 +24,15 @@ export default function ProductTour({ ...props }: InterfaceProductTour) {
     }
   }, [index, props.children.length, props.dev, props.productTourId]);
 
-  const filledButtonFunc = (index: number) => {
+  const filledButtonFunc = useCallback((index: number) => {
     setIndex(index + 1);
-  };
+  }, []);
 
-  const textButtonFunc = (index: number) => {
+  const textButtonFunc = useCallback((index: number) => {
     if (index !== 0) {
       setIndex(index - 1);
     }
-  };
+  }, []);
 
   const renderChildren = () => {
     return React.Children.map(props.children, (child, index) => {
