@@ -20,7 +20,7 @@ export default function ProductTourStoryBookProviderPrimary() {
           tabs
         </div>
       </div>
-      <ProductTour dev={true} productTourId={'StoryBookProductTour1'}>
+      <ProductTour dev={false} productTourId={'StoryBookProductTour1'}>
         <Popover
           targetRef={targetRefTabs}
           targetSpacing={8}
@@ -44,19 +44,19 @@ export default function ProductTourStoryBookProviderPrimary() {
         <Popover
           targetRef={targetRefTabs}
           targetSpacing={8}
-          placement={'top'}
+          placement={'bottom'}
           text="Lorem ipsum 1"
         />
         <Popover
           targetRef={targetRefNavigation}
           targetSpacing={16}
-          placement={'left'}
+          placement={'right'}
           text="Lorem ipsum 2"
         />
         <Popover
           targetRef={targetRefPost}
           targetSpacing={24}
-          placement={'bottom'}
+          placement={'top'}
           text="Lorem ipsum 3"
         />
       </ProductTour>

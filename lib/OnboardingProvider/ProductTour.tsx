@@ -6,14 +6,6 @@ interface InterfaceProductTour {
   dev?: boolean;
 }
 
-function LocalStorageCheck(productTourId: string, dev: boolean = false) {
-  if (dev) {
-    localStorage.setItem(productTourId, 'true');
-    return true;
-  }
-  return localStorage.getItem(productTourId) !== 'false';
-}
-
 export default function ProductTour({ ...props }: InterfaceProductTour) {
   const [index, setIndex] = useState(0);
   const [warning, setWarning] = useState(false);
@@ -23,6 +15,7 @@ export default function ProductTour({ ...props }: InterfaceProductTour) {
       localStorage.setItem(props.productTourId, 'false');
     }
     if (!warning && props.dev) {
+      localStorage.setItem(props.productTourId, 'true');
       console.warn(`Product Tour ${props.productTourId} is in dev mode`);
       setWarning(true);
     }
@@ -50,15 +43,11 @@ export default function ProductTour({ ...props }: InterfaceProductTour) {
   };
 
   if (
-    LocalStorageCheck(
-      props.productTourId,
-      props.dev
-      // warning,
-      // () =>      setWarning(true)
-    )
+    localStorage.getItem(props.productTourId) === null ||
+    localStorage.getItem(props.productTourId) === 'true' // if the product tour has not yet been finished by the user then it should be set to true in localStorage
   ) {
     return <div>{renderChildren()?.[index]}</div>;
-  } else {
+  } else if (localStorage.getItem(props.productTourId) === 'false') {
     return null;
   }
 }
