@@ -2,7 +2,7 @@ import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 
 interface InterfaceProductTour {
   children: Array<ReactNode>;
-  productTourId: 'dev' | string;
+  productTourId: string;
   dev?: boolean;
 }
 
