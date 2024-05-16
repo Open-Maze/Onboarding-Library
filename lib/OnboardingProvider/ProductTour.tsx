@@ -21,11 +21,11 @@ export default function ProductTour({ ...props }: InterfaceProductTour) {
     }
   }, [index, props.children.length, props.dev, props.productTourId, warning]);
 
-  const filledButtonFunc = useCallback((index: number) => {
+  const filledButtonOnClick = useCallback((index: number) => {
     setIndex(index + 1);
   }, []);
 
-  const textButtonFunc = useCallback((index: number) => {
+  const textButtonOnClick = useCallback((index: number) => {
     if (index !== 0) {
       setIndex(index - 1);
     }
@@ -34,8 +34,8 @@ export default function ProductTour({ ...props }: InterfaceProductTour) {
   const renderChildren = () => {
     return React.Children.map(props.children, (child, index) => {
       return React.cloneElement(child as JSX.Element, {
-        filledButtonFunc: () => filledButtonFunc(index),
-        textButtonFunc: () => textButtonFunc(index),
+        filledButtonFunc: () => filledButtonOnClick(index),
+        textButtonFunc: () => textButtonOnClick(index),
         currentStep: index + 1,
         totalSteps: props.children.length,
       });
