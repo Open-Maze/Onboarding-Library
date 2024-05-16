@@ -18,6 +18,9 @@ export default function ProductTour({
     if (index === children.length && !dev) {
       localStorage.setItem(productTourId, 'false');
     }
+  }, [index, children.length, dev, productTourId]);
+
+  useEffect(() => {
     if (!warning && dev) {
       localStorage.setItem(productTourId, 'true');
       console.warn(`Product Tour ${productTourId} is in dev mode`);
