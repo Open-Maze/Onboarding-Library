@@ -1,7 +1,7 @@
-import React, { ReactElement, useCallback, useEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 
 interface InterfaceProductTour {
-  children: Array<ReactElement<unknown>>;
+  children: Array<ReactNode>;
   productTourId: 'dev' | string;
   dev?: boolean;
 }
