@@ -6,20 +6,24 @@ interface InterfaceProductTour {
   dev?: boolean;
 }
 
-export default function ProductTour({ ...props }: InterfaceProductTour) {
+export default function ProductTour({
+  children,
+  productTourId,
+  dev = false,
+}: InterfaceProductTour) {
   const [index, setIndex] = useState(0);
   const [warning, setWarning] = useState(false);
 
   useEffect(() => {
-    if (index === props.children.length && !props.dev) {
-      localStorage.setItem(props.productTourId, 'false');
+    if (index === children.length && !dev) {
+      localStorage.setItem(productTourId, 'false');
     }
-    if (!warning && props.dev) {
-      localStorage.setItem(props.productTourId, 'true');
-      console.warn(`Product Tour ${props.productTourId} is in dev mode`);
+    if (!warning && dev) {
+      localStorage.setItem(productTourId, 'true');
+      console.warn(`Product Tour ${productTourId} is in dev mode`);
       setWarning(true);
     }
-  }, [index, props.children.length, props.dev, props.productTourId, warning]);
+  }, [index, children.length, dev, productTourId, warning]);
 
   const filledButtonOnClick = useCallback((index: number) => {
     setIndex(index + 1);
@@ -32,22 +36,22 @@ export default function ProductTour({ ...props }: InterfaceProductTour) {
   }, []);
 
   const renderChildren = () => {
-    return React.Children.map(props.children, (child, index) => {
+    return React.Children.map(children, (child, index) => {
       return React.cloneElement(child as JSX.Element, {
         filledButtonFunc: () => filledButtonOnClick(index),
         textButtonFunc: () => textButtonOnClick(index),
         currentStep: index + 1,
-        totalSteps: props.children.length,
+        totalSteps: children.length,
       });
     });
   };
 
   if (
-    localStorage.getItem(props.productTourId) === null ||
-    localStorage.getItem(props.productTourId) === 'true' // if the product tour has not yet been finished by the user then it should be set to true in localStorage
+    localStorage.getItem(productTourId) === null ||
+    localStorage.getItem(productTourId) === 'true' // if the product tour has not yet been finished by the user then it should be set to true in localStorage
   ) {
     return <div>{renderChildren()?.[index]}</div>;
-  } else if (localStorage.getItem(props.productTourId) === 'false') {
+  } else if (localStorage.getItem(productTourId) === 'false') {
     return null;
   }
 }
