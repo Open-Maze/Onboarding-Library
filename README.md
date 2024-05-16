@@ -32,7 +32,7 @@ The Popover component is a component designed to display additional information 
 import { Popover } from 'onboarding-library-openmaze';
 import { useRef } from 'react';
 
-const targetRefOne = useRef < HTMLDivElement > null;
+const targetRefOne = useRef<HTMLDivElement>(null);
 
 <>
   <div ref={targetRefOne}>Target</div>
