@@ -35,7 +35,7 @@ export default function ProductTour({
     }
   }, []);
 
-  const renderChildren = () => {
+  const renderChildren = (): ReactNode[] => {
     return React.Children.map(children, (child, index) => {
       return React.cloneElement(child as JSX.Element, {
         filledButtonFunc: () => filledButtonOnClick(index),
@@ -43,14 +43,14 @@ export default function ProductTour({
         currentStep: index + 1,
         totalSteps: children.length,
       });
-    });
+    }) as ReactNode[];
   };
 
   if (
     localStorage.getItem(productTourId) === null ||
     localStorage.getItem(productTourId) === 'true' // if the product tour has not yet been finished by the user then it should be set to true in localStorage
   ) {
-    return <div>{renderChildren()?.[index]}</div>;
+    return <div>{renderChildren()[index]}</div>;
   } else if (localStorage.getItem(productTourId) === 'false') {
     return null;
   }
