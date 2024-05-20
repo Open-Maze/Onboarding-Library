@@ -1,9 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    // Reference the llibrary only
+    // Reference the library only
     './lib/**/*.{js,ts,jsx,tsx}',
   ],
+  prefix: 'ol-',
   theme: {
     extend: {
       zIndex: {

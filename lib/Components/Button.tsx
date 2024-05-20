@@ -6,7 +6,7 @@ interface ButtonProps {
 const Button = ({ text, onClickFunc }: ButtonProps) => (
   <>
     <button
-      className="px-6 py-2.5 rounded-full bg-primary text-white"
+      className="ol-px-6 ol-py-2.5 ol-rounded-full ol-bg-primary ol-text-white"
       onClick={onClickFunc}
     >
       {text}

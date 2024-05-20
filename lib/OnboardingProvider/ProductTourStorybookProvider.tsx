@@ -9,14 +9,23 @@ export default function ProductTourStoryBookProviderPrimary() {
 
   return (
     <>
-      <div className="flex justify-around items-center h-screen">
-        <div ref={targetRefTabs} className="flex w-10 h-10 bg-red-500">
+      <div className="ol-flex ol-justify-around ol-items-center ol-h-screen">
+        <div
+          ref={targetRefTabs}
+          className="ol-flex ol-w-10 ol-h-10 ol-bg-red-500"
+        >
           tabs
         </div>
-        <div ref={targetRefNavigation} className="flex w-10 h-10 bg-blue-500">
+        <div
+          ref={targetRefNavigation}
+          className="ol-flex ol-w-10 ol-h-10 ol-bg-blue-500"
+        >
           tabs
         </div>
-        <div ref={targetRefPost} className="flex w-10 h-10 bg-green-500">
+        <div
+          ref={targetRefPost}
+          className="ol-flex ol-w-10 ol-h-10 ol-bg-green-500"
+        >
           tabs
         </div>
       </div>
