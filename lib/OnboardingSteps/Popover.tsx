@@ -83,9 +83,9 @@ export default function Popover({ ...props }: PopoverOptions) {
             top: `${styleTop}px`,
             left: `${styleLeft}px`,
           }}
-          className="max-w-[312px] absolute bg-gray px-4 z-100 shadow-md rounded-xl"
+          className="ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl"
         >
-          <div className="pt-3 pb-2 gap-y-1 flex flex-col">
+          <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
             {props.children}
             {props.icon ? (
               <span className={`material-symbols-${props.iconStyle}`}>
@@ -94,18 +94,18 @@ export default function Popover({ ...props }: PopoverOptions) {
             ) : null}
             {props.title ? <h2>{props.title}</h2> : null}
             {props.image ? (
-              <img src={props.image} className="bg-gray-dark"></img>
+              <img src={props.image} className="ol-bg-gray-dark"></img>
             ) : null}
             {props.text ? <div>{props.text}</div> : null}
             {props.currentStep &&
             props.totalSteps &&
             props.textButtonFunc &&
             props.filledButtonFunc ? (
-              <div className="flex flex-row items-center justify-between">
-                <div className="text-gray-dark">
+              <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
+                <div className="ol-text-gray-dark">
                   {props.currentStep} of {props.totalSteps}
                 </div>
-                <div className="flex flex-row gap-x-2.5">
+                <div className="ol-flex ol-flex-row ol-gap-x-2.5">
                   <TextButton
                     text={'Previous'}
                     onClickFunc={props.textButtonFunc || (() => {})}
