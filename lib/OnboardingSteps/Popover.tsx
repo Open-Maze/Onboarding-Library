@@ -83,7 +83,7 @@ export default function Popover({ ...props }: PopoverOptions) {
             top: `${styleTop}px`,
             left: `${styleLeft}px`,
           }}
-          className="ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl"
+          className="ol-max-w-[312px] ol-fixed ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl"
         >
           <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
             {props.children}
