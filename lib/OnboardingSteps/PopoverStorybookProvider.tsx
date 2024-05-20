@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import Popover from './Popover';
+import Popover from './Popover.tsx';
 
 export default function PopoverStoryBookProviderTop() {
   const targetRef = useRef(null);
@@ -17,7 +17,7 @@ export default function PopoverStoryBookProviderTop() {
       <Popover
         placement="top"
         text="Lorem ipsum dolor sit amet"
-        targetSpacing={8}
+        targetSpacing={0}
         iconStyle="outlined"
         icon="chat"
         title="title"
@@ -43,7 +43,7 @@ export function PopoverStoryBookProviderBottom() {
       <Popover
         placement="bottom"
         text="Lorem ipsum dolor sit amet"
-        targetSpacing={8}
+        targetSpacing={0}
         iconStyle="outlined"
         icon="chat"
         title="title"
@@ -57,7 +57,7 @@ export function PopoverStoryBookProviderLeft() {
   const targetRef = useRef(null);
   return (
     <>
-      <div className="ol-flex ol-justify-center ol-items-center ol-h-screen ol-w-auto">
+      <div className="ol-flex ol-overflow-hidden ol-justify-center ol-items-center ol-h-screen ol-w-auto">
         <div
           ref={targetRef}
           id="tabs"
@@ -69,7 +69,7 @@ export function PopoverStoryBookProviderLeft() {
       <Popover
         placement="left"
         text="Lorem ipsum dolor sit amet"
-        targetSpacing={8}
+        targetSpacing={0}
         iconStyle="outlined"
         icon="chat"
         title="title"
@@ -90,7 +90,7 @@ export function PopoverStoryBookProviderRight() {
       <Popover
         placement="right"
         text="Lorem ipsum dolor sit amet"
-        targetSpacing={8}
+        targetSpacing={0}
         iconStyle="outlined"
         icon="chat"
         title="title"

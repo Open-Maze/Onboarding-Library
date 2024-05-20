@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Button from '../Components/Button';
 import TextButton from '../Components/TextButton';
 
@@ -25,11 +25,12 @@ export default function Popover({ ...props }: PopoverOptions) {
 
   const popoverRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const popoverPosition = useCallback(() => {
     if (props.targetRef.current instanceof HTMLElement) {
       const popoverRect =
         popoverRef.current?.getBoundingClientRect() || new DOMRect();
       const targetRect = props.targetRef.current.getBoundingClientRect();
+
       switch (props.placement) {
         case 'bottom':
           setStyleTop(targetRect.top + targetRect.height + props.targetSpacing);
@@ -39,7 +40,10 @@ export default function Popover({ ...props }: PopoverOptions) {
           break;
         case 'top':
           setStyleTop(
-            targetRect.top - popoverRect.height - props.targetSpacing
+            targetRect.top -
+              popoverRect.height +
+              globalThis.scrollY -
+              props.targetSpacing
           );
           setStyleLeft(
             targetRect.left + targetRect.width / 2 - popoverRect.width / 2
@@ -47,7 +51,11 @@ export default function Popover({ ...props }: PopoverOptions) {
           break;
         case 'left':
           setStyleTop(
-            targetRect.top + targetRect.height / 2 - popoverRect.height / 2
+            targetRect.top -
+              popoverRect.height +
+              targetRect.height / 2 +
+              popoverRect.height / 2 +
+              globalThis.scrollY
           );
           setStyleLeft(
             targetRect.left - popoverRect.width - props.targetSpacing
@@ -62,28 +70,27 @@ export default function Popover({ ...props }: PopoverOptions) {
           );
           break;
       }
-      setIsReady(true);
     } else {
       console.error(`Popover target ref not found`);
     }
-  }, [
-    props.placement,
-    props.targetRef,
-    props.targetSpacing,
-    styleLeft,
-    styleTop,
-  ]);
+  }, [props.placement, props.targetRef, props.targetSpacing]);
+
+  useEffect(() => {
+    popoverPosition();
+
+    setIsReady(true);
+  }, [popoverPosition, isReady]);
 
   return (
     <>
-      {styleTop && styleLeft && isReady ? (
+      {styleTop && styleLeft ? (
         <div
           ref={popoverRef}
           style={{
             top: `${styleTop}px`,
             left: `${styleLeft}px`,
           }}
-          className="ol-max-w-[312px] ol-fixed ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl"
+          className="ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl"
         >
           <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
             {props.children}
@@ -113,6 +120,10 @@ export default function Popover({ ...props }: PopoverOptions) {
                   <Button
                     text={'Next'}
                     onClickFunc={props.filledButtonFunc || (() => {})}
+                  ></Button>
+                  <Button
+                    text="Update"
+                    onClickFunc={() => popoverPosition()}
                   ></Button>
                 </div>
               </div>
