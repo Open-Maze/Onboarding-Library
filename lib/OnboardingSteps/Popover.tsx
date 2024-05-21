@@ -18,7 +18,21 @@ interface PopoverOptions {
   textButtonFunc?: () => void;
 }
 
-export default function Popover({ ...props }: PopoverOptions) {
+export default function Popover({
+  targetRef,
+  targetSpacing,
+  placement,
+  iconStyle,
+  icon,
+  title,
+  image,
+  text,
+  currentStep,
+  totalSteps,
+  children,
+  filledButtonFunc,
+  textButtonFunc,
+}: PopoverOptions) {
   const [styleTop, setStyleTop] = useState(Number);
   const [styleLeft, setStyleLeft] = useState(Number);
   const [isReady, setIsReady] = useState(false);
@@ -26,14 +40,14 @@ export default function Popover({ ...props }: PopoverOptions) {
   const popoverRef = useRef<HTMLDivElement>(null);
 
   const popoverPosition = useCallback(() => {
-    if (props.targetRef.current instanceof HTMLElement) {
+    if (targetRef.current instanceof HTMLElement) {
       const popoverRect =
         popoverRef.current?.getBoundingClientRect() || new DOMRect();
-      const targetRect = props.targetRef.current.getBoundingClientRect();
+      const targetRect = targetRef.current.getBoundingClientRect();
 
-      switch (props.placement) {
+      switch (placement) {
         case 'bottom':
-          setStyleTop(targetRect.top + targetRect.height + props.targetSpacing);
+          setStyleTop(targetRect.top + targetRect.height + targetSpacing);
           setStyleLeft(
             targetRect.left + targetRect.width / 2 - popoverRect.width / 2
           );
@@ -43,7 +57,7 @@ export default function Popover({ ...props }: PopoverOptions) {
             targetRect.top -
               popoverRect.height +
               globalThis.scrollY -
-              props.targetSpacing
+              targetSpacing
           );
           setStyleLeft(
             targetRect.left + targetRect.width / 2 - popoverRect.width / 2
@@ -57,23 +71,19 @@ export default function Popover({ ...props }: PopoverOptions) {
               popoverRect.height / 2 +
               globalThis.scrollY
           );
-          setStyleLeft(
-            targetRect.left - popoverRect.width - props.targetSpacing
-          );
+          setStyleLeft(targetRect.left - popoverRect.width - targetSpacing);
           break;
         case 'right':
           setStyleTop(
             targetRect.top + targetRect.height / 2 - popoverRect.height / 2
           );
-          setStyleLeft(
-            targetRect.left + targetRect.width + props.targetSpacing
-          );
+          setStyleLeft(targetRect.left + targetRect.width + targetSpacing);
           break;
       }
     } else {
       console.error(`Popover target ref not found`);
     }
-  }, [props.placement, props.targetRef, props.targetSpacing]);
+  }, [placement, targetRef, targetSpacing]);
 
   useEffect(() => {
     popoverPosition();
@@ -93,33 +103,26 @@ export default function Popover({ ...props }: PopoverOptions) {
           className="ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl"
         >
           <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
-            {props.children}
-            {props.icon ? (
-              <span className={`material-symbols-${props.iconStyle}`}>
-                {props.icon}
-              </span>
+            {children}
+            {icon ? (
+              <span className={`material-symbols-${iconStyle}`}>{icon}</span>
             ) : null}
-            {props.title ? <h2>{props.title}</h2> : null}
-            {props.image ? (
-              <img src={props.image} className="ol-bg-gray-dark"></img>
-            ) : null}
-            {props.text ? <div>{props.text}</div> : null}
-            {props.currentStep &&
-            props.totalSteps &&
-            props.textButtonFunc &&
-            props.filledButtonFunc ? (
+            {title ? <h2>{title}</h2> : null}
+            {image ? <img src={image} className="ol-bg-gray-dark"></img> : null}
+            {text ? <div>{text}</div> : null}
+            {currentStep && totalSteps && textButtonFunc && filledButtonFunc ? (
               <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
                 <div className="ol-text-gray-dark">
-                  {props.currentStep} of {props.totalSteps}
+                  {currentStep} of {totalSteps}
                 </div>
                 <div className="ol-flex ol-flex-row ol-gap-x-2.5">
                   <TextButton
                     text={'Previous'}
-                    onClickFunc={props.textButtonFunc || (() => {})}
+                    onClickFunc={textButtonFunc || (() => {})}
                   ></TextButton>
                   <Button
                     text={'Next'}
-                    onClickFunc={props.filledButtonFunc || (() => {})}
+                    onClickFunc={filledButtonFunc || (() => {})}
                   ></Button>
                 </div>
               </div>
