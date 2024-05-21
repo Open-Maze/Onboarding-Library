@@ -33,8 +33,7 @@ export default function Popover({
   filledButtonFunc,
   textButtonFunc,
 }: PopoverOptions) {
-  const [styleTop, setStyleTop] = useState(Number);
-  const [styleLeft, setStyleLeft] = useState(Number);
+  const [style, setStyle] = useState({ top: -1, left: -1 });
   const [isReady, setIsReady] = useState(false);
 
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -45,41 +44,51 @@ export default function Popover({
         popoverRef.current?.getBoundingClientRect() || new DOMRect();
       const targetRect = targetRef.current.getBoundingClientRect();
 
+      let top = 0;
+      let left = 0;
+
       switch (placement) {
         case 'bottom':
-          setStyleTop(targetRect.top + targetRect.height + targetSpacing);
-          setStyleLeft(
-            targetRect.left + targetRect.width / 2 - popoverRect.width / 2
-          );
+          top =
+            targetRect.top +
+            targetRect.height +
+            globalThis.scrollY +
+            targetSpacing;
+          left = targetRect.left + targetRect.width / 2 - popoverRect.width / 2;
+
           break;
         case 'top':
-          setStyleTop(
+          top =
             targetRect.top -
-              popoverRect.height +
-              globalThis.scrollY -
-              targetSpacing
-          );
-          setStyleLeft(
-            targetRect.left + targetRect.width / 2 - popoverRect.width / 2
-          );
+            popoverRect.height +
+            globalThis.scrollY -
+            targetSpacing;
+          left = targetRect.left + targetRect.width / 2 - popoverRect.width / 2;
+
           break;
         case 'left':
-          setStyleTop(
+          top =
             targetRect.top -
-              popoverRect.height +
-              targetRect.height / 2 +
-              popoverRect.height / 2 +
-              globalThis.scrollY
-          );
-          setStyleLeft(targetRect.left - popoverRect.width - targetSpacing);
+            popoverRect.height +
+            targetRect.height / 2 +
+            popoverRect.height / 2 +
+            globalThis.scrollY;
+          left = targetRect.left - popoverRect.width - targetSpacing;
+
           break;
         case 'right':
-          setStyleTop(
-            targetRect.top + targetRect.height / 2 - popoverRect.height / 2
-          );
-          setStyleLeft(targetRect.left + targetRect.width + targetSpacing);
+          top =
+            targetRect.top -
+            popoverRect.height +
+            targetRect.height / 2 +
+            popoverRect.height / 2 +
+            globalThis.scrollY;
+
+          left = targetRect.left + targetRect.width + targetSpacing;
+
           break;
       }
+      setStyle({ top, left });
     } else {
       console.error(`Popover target ref not found`);
     }
@@ -89,19 +98,20 @@ export default function Popover({
     popoverPosition();
 
     setIsReady(true);
-  }, [popoverPosition, isReady]);
+  }, [popoverPosition, isReady, targetRef]);
 
   return (
     <>
-      {styleTop && styleLeft ? (
+      {style.top != -1 && style.left != -1 ? (
         <div
           ref={popoverRef}
           style={{
-            top: `${styleTop}px`,
-            left: `${styleLeft}px`,
+            top: `${style.top}px`,
+            left: `${style.left}px`,
           }}
           className="ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl"
         >
+          {/* TO-DO: remove test version */}| test 4 |
           <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
             {children}
             {icon ? (
@@ -123,6 +133,10 @@ export default function Popover({
                   <Button
                     text={'Next'}
                     onClickFunc={filledButtonFunc || (() => {})}
+                  ></Button>
+                  <Button
+                    text={'update'}
+                    onClickFunc={popoverPosition || (() => {})}
                   ></Button>
                 </div>
               </div>
