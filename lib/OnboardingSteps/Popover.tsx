@@ -121,10 +121,6 @@ export default function Popover({ ...props }: PopoverOptions) {
                     text={'Next'}
                     onClickFunc={props.filledButtonFunc || (() => {})}
                   ></Button>
-                  <Button
-                    text="Update"
-                    onClickFunc={() => popoverPosition()}
-                  ></Button>
                 </div>
               </div>
             ) : null}
