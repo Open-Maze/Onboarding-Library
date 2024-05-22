@@ -107,37 +107,12 @@ export function ProductTourStoryBookProviderPageWithScroll() {
           tab4
         </div>
       </div>
-      <ProductTour dev={false} productTourId={'StoryBookProductTour1'}>
-        <Popover
-          targetRef={targetRefOne}
-          targetSpacing={8}
-          placement={'top'}
-          text="Lorem ipsum 1"
-        />
-        <Popover
-          targetRef={targetRefTwo}
-          targetSpacing={16}
-          placement={'left'}
-          text="Lorem ipsum 2"
-        />
-        <Popover
-          targetRef={targetRefThree}
-          targetSpacing={24}
-          placement={'bottom'}
-          text="Lorem ipsum 3"
-        />
-        <Popover
-          targetRef={targetRefFour}
-          targetSpacing={32}
-          placement={'right'}
-          text="Lorem ipsum 4"
-        />
-      </ProductTour>
+
       <ProductTour dev={true} productTourId={'StoryBookProductTour2'}>
         <Popover
           targetRef={targetRefOne}
           targetSpacing={0}
-          placement={'bottom'}
+          placement={'top'}
           text="Lorem ipsum 1 BOTTOM"
         />
         <Popover

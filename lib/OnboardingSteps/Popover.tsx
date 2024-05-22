@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useRef, useState } from 'react';
 import Button from '../Components/Button';
 import TextButton from '../Components/TextButton';
 
@@ -34,11 +35,39 @@ export default function Popover({
   textButtonFunc,
 }: PopoverOptions) {
   const [style, setStyle] = useState({ top: -1, left: -1 });
-  const [isReady, setIsReady] = useState(false);
+  const [rectangle, setRectangle] = useState({ top: 0, left: 0 });
+  const [popoverRectangle, setPopoverRectangle] = useState({
+    height: 0,
+    width: 0,
+  });
 
   const popoverRef = useRef<HTMLDivElement>(null);
 
-  const popoverPosition = useCallback(() => {
+  const setRectValues = () => {
+    const top = targetRef.current?.getBoundingClientRect().top || 0;
+    const left = targetRef.current?.getBoundingClientRect().left || 0;
+
+    if (top != rectangle.top || left != rectangle.left) {
+      setRectangle({ top, left });
+    }
+  };
+
+  const setPopoverRectValues = () => {
+    if (!popoverRef.current) {
+      return;
+    }
+    const height = popoverRef.current.getBoundingClientRect().height;
+    const width = popoverRef.current.getBoundingClientRect().width;
+
+    if (height != popoverRectangle.height || width != popoverRectangle.width) {
+      setPopoverRectangle({ height, width });
+    }
+  };
+
+  const popoverPosition = () => {
+    setRectValues();
+    setPopoverRectValues();
+
     if (targetRef.current instanceof HTMLElement) {
       const popoverRect =
         popoverRef.current?.getBoundingClientRect() || new DOMRect();
@@ -59,11 +88,11 @@ export default function Popover({
           break;
         case 'top':
           top =
-            targetRect.top -
-            popoverRect.height +
+            rectangle.top +
             globalThis.scrollY -
+            popoverRectangle.height +
             targetSpacing;
-          left = targetRect.left + targetRect.width / 2 - popoverRect.width / 2;
+          left = rectangle.left + targetRect.width / 2 - popoverRect.width / 2;
 
           break;
         case 'left':
@@ -88,17 +117,53 @@ export default function Popover({
 
           break;
       }
+
+      console.log(
+        `top: ${rectangle.top}, popoverRect: ${popoverRectangle.height}, scrollY: ${globalThis.scrollY}, targetSpacing: ${targetSpacing}`
+      );
       setStyle({ top, left });
     } else {
       console.error(`Popover target ref not found`);
     }
-  }, [placement, targetRef, targetSpacing]);
+  };
 
   useEffect(() => {
-    popoverPosition();
+    console.log('useeffect 1');
+    if (targetRef.current) {
+      const observer = new ResizeObserver(() => {
+        setRectValues();
+      });
 
-    setIsReady(true);
-  }, [popoverPosition, isReady, targetRef]);
+      observer.observe(targetRef.current);
+
+      return () => observer.disconnect();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!popoverRef.current) {
+      return;
+    }
+    const observer = new ResizeObserver(() => {
+      setPopoverRectValues();
+    });
+
+    observer.observe(popoverRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    console.log('useeffect 2');
+    console.log(rectangle);
+    popoverPosition();
+  }, [targetRef, rectangle, popoverRectangle]);
+
+  useEffect(() => {
+    console.log('useeffect 3');
+    console.log(rectangle);
+    popoverPosition();
+  }, []);
 
   return (
     <>
@@ -111,13 +176,14 @@ export default function Popover({
           }}
           className="ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl"
         >
-          {/* TO-DO: remove test version */}| test 4 |
+          {/* TO-DO: remove test version */}| test 13 |
           <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
             {children}
             {icon ? (
               <span className={`material-symbols-${iconStyle}`}>{icon}</span>
             ) : null}
-            {title ? <h2>{title}</h2> : null}
+            {/* TO-DO: Gebruik notatie hieronder */}
+            {title && <h2>{title}</h2>}
             {image ? <img src={image} className="ol-bg-gray-dark"></img> : null}
             {text ? <div>{text}</div> : null}
             {currentStep && totalSteps && textButtonFunc && filledButtonFunc ? (
