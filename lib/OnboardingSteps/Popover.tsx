@@ -107,7 +107,7 @@ export default function Popover({
   };
 
   useEffect(() => {
-    if (targetRef.current) {
+    if (document.body) {
       const observer = new ResizeObserver(() => {
         setRectValues();
       });
