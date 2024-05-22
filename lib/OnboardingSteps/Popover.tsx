@@ -167,7 +167,7 @@ export default function Popover({
 
   return (
     <>
-      {style.top != -1 && style.left != -1 ? (
+      {style.top != -1 && style.left != -1 && (
         <div
           ref={popoverRef}
           style={{
@@ -176,40 +176,41 @@ export default function Popover({
           }}
           className="ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl"
         >
-          {/* TO-DO: remove test version */}| test 13 |
           <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
             {children}
-            {icon ? (
+            {icon && (
               <span className={`material-symbols-${iconStyle}`}>{icon}</span>
-            ) : null}
-            {/* TO-DO: Gebruik notatie hieronder */}
+            )}
             {title && <h2>{title}</h2>}
-            {image ? <img src={image} className="ol-bg-gray-dark"></img> : null}
-            {text ? <div>{text}</div> : null}
-            {currentStep && totalSteps && textButtonFunc && filledButtonFunc ? (
-              <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
-                <div className="ol-text-gray-dark">
-                  {currentStep} of {totalSteps}
+            {image && <img src={image} className="ol-bg-gray-dark"></img>}
+            {text && <div>{text}</div>}
+            {currentStep &&
+              totalSteps &&
+              textButtonFunc &&
+              filledButtonFunc && (
+                <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
+                  <div className="ol-text-gray-dark">
+                    {currentStep} of {totalSteps}
+                  </div>
+                  <div className="ol-flex ol-flex-row ol-gap-x-2.5">
+                    <TextButton
+                      text={'Previous'}
+                      onClickFunc={textButtonFunc || (() => {})}
+                    ></TextButton>
+                    <Button
+                      text={'Next'}
+                      onClickFunc={filledButtonFunc || (() => {})}
+                    ></Button>
+                    <Button
+                      text={'update'}
+                      onClickFunc={popoverPosition || (() => {})}
+                    ></Button>
+                  </div>
                 </div>
-                <div className="ol-flex ol-flex-row ol-gap-x-2.5">
-                  <TextButton
-                    text={'Previous'}
-                    onClickFunc={textButtonFunc || (() => {})}
-                  ></TextButton>
-                  <Button
-                    text={'Next'}
-                    onClickFunc={filledButtonFunc || (() => {})}
-                  ></Button>
-                  <Button
-                    text={'update'}
-                    onClickFunc={popoverPosition || (() => {})}
-                  ></Button>
-                </div>
-              </div>
-            ) : null}
+              )}
           </div>
         </div>
-      ) : null}
+      )}
     </>
   );
 }
