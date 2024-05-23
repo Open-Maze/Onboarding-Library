@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Button from '../Components/Button';
 import TextButton from '../Components/TextButton';
@@ -34,6 +35,7 @@ export default function Popover({
   textButtonFunc,
 }: PopoverOptions) {
   const [style, setStyle] = useState({ top: -1, left: -1 });
+  const [popoverHidden, setPopoverHidden] = useState(true);
   const popoverRef = useRef<HTMLDivElement>(null);
   const popoverPosition = useCallback(() => {
     if (!popoverRef.current) {
@@ -55,10 +57,7 @@ export default function Popover({
     switch (placement) {
       case 'bottom':
         top =
-          targetRect.top +
-          targetRect.height +
-          globalThis.scrollY +
-          targetSpacing;
+          targetRect.top + targetRect.height + window.scrollY + targetSpacing;
         left = targetRect.left + targetRect.width / 2 - popoverRect.width / 2;
         break;
       case 'top':
@@ -72,7 +71,7 @@ export default function Popover({
           popoverRect.height +
           targetRect.height / 2 +
           popoverRect.height / 2 +
-          globalThis.scrollY;
+          window.scrollY;
         left = targetRect.left - popoverRect.width - targetSpacing;
         break;
       case 'right':
@@ -81,7 +80,7 @@ export default function Popover({
           popoverRect.height +
           targetRect.height / 2 +
           popoverRect.height / 2 +
-          globalThis.scrollY;
+          window.scrollY;
 
         left = targetRect.left + targetRect.width + targetSpacing;
         break;
@@ -90,19 +89,23 @@ export default function Popover({
   }, []);
 
   useEffect(() => {
+    console.log('useEffect');
+    popoverPosition();
+    setPopoverHidden(false);
+  }, []);
+
+  useEffect(() => {
     if (document.body && popoverRef.current) {
       const observer = new ResizeObserver(() => {
+        console.log('resizeObserver');
         popoverPosition();
+        setPopoverHidden(false);
       });
 
       observer.observe(document.body);
       observer.observe(popoverRef.current);
       return () => observer.disconnect();
     }
-  }, []);
-
-  useEffect(() => {
-    popoverPosition();
   }, []);
 
   return (
@@ -113,7 +116,7 @@ export default function Popover({
           top: `${style.top}px`,
           left: `${style.left}px`,
         }}
-        className="ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl"
+        className={`ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl ${popoverHidden && 'ol-hidden'}`}
       >
         <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
           {children}
