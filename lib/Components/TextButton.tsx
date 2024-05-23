@@ -5,7 +5,10 @@ interface ButtonProps {
 
 const TextButton = ({ text, onClickFunc }: ButtonProps) => (
   <>
-    <button className="px-3 py-2.5 bg-transparent" onClick={onClickFunc}>
+    <button
+      className="ol-px-3 ol-py-2.5 ol-bg-transparent"
+      onClick={onClickFunc}
+    >
       {text}
     </button>
   </>

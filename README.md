@@ -28,17 +28,18 @@ The Popover component is a component designed to display additional information 
 
 #### Usage
 
+<!-- prettier-ignore-start -->
 ```jsx
 import { Popover } from 'onboarding-library-openmaze';
 import { useRef } from 'react';
-
-const targetRefOne = useRef < HTMLDivElement > null;
+const targetRefOne = useRef<HTMLDivElement>(null);
 
 <>
   <div ref={targetRefOne}>Target</div>
   <Popover targetRef={targetRefOne} targetSpacing={8} placement={'top'} />
 </>;
 ```
+<!-- prettier-ignore-end -->
 
 | Parameter       | Type                                     | Description                                                                                                                                                                                           |
 | :-------------- | :--------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

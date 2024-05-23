@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+'use client';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Button from '../Components/Button';
 import TextButton from '../Components/TextButton';
 
@@ -18,112 +19,141 @@ interface PopoverOptions {
   textButtonFunc?: () => void;
 }
 
-export default function Popover({ ...props }: PopoverOptions) {
-  const [styleTop, setStyleTop] = useState(Number);
-  const [styleLeft, setStyleLeft] = useState(Number);
-  const [isReady, setIsReady] = useState(false);
-
+export default function Popover({
+  targetRef,
+  targetSpacing,
+  placement,
+  iconStyle,
+  icon,
+  title,
+  image,
+  text,
+  currentStep,
+  totalSteps,
+  children,
+  filledButtonFunc,
+  textButtonFunc,
+}: PopoverOptions) {
+  const [styleTop, setStyleTop] = useState<number>();
+  const [styleLeft, setStyleLeft] = useState<number>();
+  const [popoverHidden, setPopoverHidden] = useState(true);
   const popoverRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (props.targetRef.current instanceof HTMLElement) {
-      const popoverRect =
-        popoverRef.current?.getBoundingClientRect() || new DOMRect();
-      const targetRect = props.targetRef.current.getBoundingClientRect();
-      switch (props.placement) {
-        case 'bottom':
-          setStyleTop(targetRect.top + targetRect.height + props.targetSpacing);
-          setStyleLeft(
-            targetRect.left + targetRect.width / 2 - popoverRect.width / 2
-          );
-          break;
-        case 'top':
-          setStyleTop(
-            targetRect.top - popoverRect.height - props.targetSpacing
-          );
-          setStyleLeft(
-            targetRect.left + targetRect.width / 2 - popoverRect.width / 2
-          );
-          break;
-        case 'left':
-          setStyleTop(
-            targetRect.top + targetRect.height / 2 - popoverRect.height / 2
-          );
-          setStyleLeft(
-            targetRect.left - popoverRect.width - props.targetSpacing
-          );
-          break;
-        case 'right':
-          setStyleTop(
-            targetRect.top + targetRect.height / 2 - popoverRect.height / 2
-          );
-          setStyleLeft(
-            targetRect.left + targetRect.width + props.targetSpacing
-          );
-          break;
-      }
-      setIsReady(true);
-    } else {
-      console.error(`Popover target ref not found`);
+  const popoverPosition = useCallback(() => {
+    if (!popoverRef.current) {
+      console.error(`Popover ref not found`);
+      return;
     }
-  }, [
-    props.placement,
-    props.targetRef,
-    props.targetSpacing,
-    styleLeft,
-    styleTop,
-  ]);
+    if (!(targetRef.current instanceof HTMLElement)) {
+      console.error(`Target ref not found`);
+      return;
+    }
+
+    const popoverRect = popoverRef.current.getBoundingClientRect();
+    const targetRect = targetRef.current.getBoundingClientRect();
+
+    const rectValues = { top: targetRect.top, left: targetRect.left };
+    let top = 0;
+    let left = 0;
+
+    switch (placement) {
+      case 'bottom':
+        top =
+          targetRect.top + targetRect.height + window.scrollY + targetSpacing;
+        left = targetRect.left + targetRect.width / 2 - popoverRect.width / 2;
+        break;
+      case 'top':
+        top =
+          rectValues.top + window.scrollY - popoverRect.height + targetSpacing;
+        left = rectValues.left + targetRect.width / 2 - popoverRect.width / 2;
+        break;
+      case 'left':
+        top =
+          targetRect.top -
+          popoverRect.height +
+          targetRect.height / 2 +
+          popoverRect.height / 2 +
+          window.scrollY;
+        left = targetRect.left - popoverRect.width - targetSpacing;
+        break;
+      case 'right':
+        top =
+          targetRect.top -
+          popoverRect.height +
+          targetRect.height / 2 +
+          popoverRect.height / 2 +
+          window.scrollY;
+
+        left = targetRect.left + targetRect.width + targetSpacing;
+        break;
+    }
+    setStyleTop(top);
+    setStyleLeft(left);
+  }, []);
+
+  useEffect(() => {
+    popoverPosition();
+    setPopoverHidden(false);
+  }, []);
+
+  useEffect(() => {
+    if (document.body && popoverRef.current) {
+      const observer = new ResizeObserver(() => {
+        popoverPosition();
+        setPopoverHidden(false);
+      });
+
+      observer.observe(document.body);
+      observer.observe(popoverRef.current);
+      return () => observer.disconnect();
+    }
+  }, []);
 
   return (
     <>
-      {styleTop && styleLeft && isReady ? (
-        <div
-          ref={popoverRef}
-          style={{
-            top: `${styleTop}px`,
-            left: `${styleLeft}px`,
-          }}
-          className="max-w-[312px] absolute bg-gray px-4 z-100 shadow-md rounded-xl"
-        >
-          <div className="pt-3 pb-2 gap-y-1 flex flex-col">
-            {props.children}
-            {props.icon ? (
-              <span className={`material-symbols-${props.iconStyle}`}>
-                {props.icon}
-              </span>
-            ) : null}
-            {props.title ? <h2>{props.title}</h2> : null}
-            {props.image ? (
-              <img src={props.image} className="bg-gray-dark"></img>
-            ) : null}
-            {props.text ? <div>{props.text}</div> : null}
-            {props.currentStep &&
-            props.totalSteps &&
-            props.textButtonFunc &&
-            props.filledButtonFunc ? (
-              <div className="flex flex-row items-center justify-between">
-                <div className="text-gray-dark pr-4">
-                  {props.currentStep} of {props.totalSteps}
-                </div>
-                <div className="flex flex-row gap-x-2.5">
-                  {props.currentStep > 1 && (
-                    <TextButton
-                      text={'Previous'}
-                      onClickFunc={props.textButtonFunc || (() => {})}
-                    ></TextButton>
-                  )}
-                  <Button
-                    text={
-                      props.currentStep >= props.totalSteps ? 'Finish' : 'Next'
-                    }
-                    onClickFunc={props.filledButtonFunc || (() => {})}
-                  ></Button>
-                </div>
+      <div
+        ref={popoverRef}
+        style={{
+          top: `${styleTop}px`,
+          left: `${styleLeft}px`,
+        }}
+        className={`ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl ${popoverHidden && 'ol-hidden'}`}
+      >
+        <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
+          {children}
+          {icon && (
+            <span className={`material-symbols-${iconStyle}`}>{icon}</span>
+          )}
+          {title && <h2>{title}</h2>}
+          {image && (
+            <img
+              src={image}
+              alt="onboarding image"
+              className="ol-bg-gray-dark"
+            ></img>
+          )}
+          {text && <div>{text}</div>}
+          {currentStep && totalSteps && textButtonFunc && filledButtonFunc && (
+            <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
+              <div className="ol-text-gray-dark ol-flex ol-flex-row ol-flex-nowrap">
+                {currentStep} of {totalSteps}
               </div>
-            ) : null}
-          </div>
+              <div className="flex flex-row gap-x-2.5">
+                {currentStep > 1 && (
+                  <TextButton
+                    text={'Previous'}
+                    onClickFunc={textButtonFunc || (() => {})}
+                  ></TextButton>
+                )}
+                <Button
+                  text={currentStep >= totalSteps ? 'Finish' : 'Next'}
+                  onClickFunc={filledButtonFunc || (() => {})}
+                ></Button>
+              </div>
+            </div>
+          )}
         </div>
-      ) : null}
+      </div>
     </>
   );
 }

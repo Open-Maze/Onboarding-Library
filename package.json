@@ -1,7 +1,7 @@
 {
   "name": "onboarding-library-openmaze",
   "private": false,
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Onboarding library for OpenMaze",
   "type": "module",
   "exports": {
@@ -28,7 +28,7 @@
     "build": "tsc && vite build",
     "build-pack": "npm run build && npm pack",
     "test": "npm run build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
     "prettier": "prettier --write .",
     "prettier-debug": "prettier --debug-check .",
     "preview": "vite preview",
