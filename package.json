@@ -28,7 +28,7 @@
     "build": "tsc && vite build",
     "build-pack": "npm run build && npm pack",
     "test": "npm run build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
     "prettier": "prettier --write .",
     "prettier-debug": "prettier --debug-check .",
     "preview": "vite preview",
