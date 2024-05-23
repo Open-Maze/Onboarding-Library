@@ -38,6 +38,7 @@ export default function Popover({
   const [styleLeft, setStyleLeft] = useState<number>();
   const [popoverHidden, setPopoverHidden] = useState(true);
   const popoverRef = useRef<HTMLDivElement>(null);
+
   const popoverPosition = useCallback(() => {
     if (!popoverRef.current) {
       console.error(`Popover ref not found`);
@@ -91,7 +92,6 @@ export default function Popover({
   }, []);
 
   useEffect(() => {
-    console.log('useEffect');
     popoverPosition();
     setPopoverHidden(false);
   }, []);
@@ -99,7 +99,6 @@ export default function Popover({
   useEffect(() => {
     if (document.body && popoverRef.current) {
       const observer = new ResizeObserver(() => {
-        console.log('resizeObserver');
         popoverPosition();
         setPopoverHidden(false);
       });
