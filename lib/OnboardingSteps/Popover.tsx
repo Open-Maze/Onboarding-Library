@@ -35,6 +35,8 @@ export default function Popover({
 }: PopoverOptions) {
   const [style, setStyle] = useState({ top: -1, left: -1 });
   const [rectangle, setRectangle] = useState({ top: 0, left: 0 });
+  const [popoverClasses, setPopoverClasses] = useState('');
+  const [arrowClasses, setArrowClasses] = useState('');
 
   const popoverRef = useRef<HTMLDivElement>(null);
 
@@ -45,6 +47,32 @@ export default function Popover({
     if (top != rectangle.top || left != rectangle.left) {
       setRectangle({ top, left });
     }
+  };
+
+  const arrowPlacement = () => {
+    let popoverClasses = '';
+    let arrowClasses = '';
+
+    switch (placement) {
+      case 'bottom':
+        popoverClasses = 'ol-flex-col ol-items-center';
+        arrowClasses = 'ol-rotate-90 ol-self-center -ol-mb-[17px]';
+        break;
+      case 'top':
+        popoverClasses = 'ol-flex-col ol-flex-col-reverse ol-items-center';
+        arrowClasses = '-ol-rotate-90 -ol-mt-[17px]';
+        break;
+      case 'left':
+        popoverClasses = 'ol-flex-row-reverse';
+        arrowClasses = 'ol-rotate-180 ol-self-center -ol-ml-[17px]';
+        break;
+      case 'right':
+        arrowClasses = 'ol-self-center -ol-mr-[17px]';
+        break;
+    }
+
+    setPopoverClasses(popoverClasses);
+    setArrowClasses(arrowClasses);
   };
 
   const popoverPosition = () => {
@@ -120,6 +148,7 @@ export default function Popover({
   useEffect(() => {
     if (popoverRef.current) {
       const observer = new ResizeObserver(() => {
+        arrowPlacement();
         popoverPosition();
       });
 
@@ -130,10 +159,12 @@ export default function Popover({
   }, []);
 
   useEffect(() => {
+    arrowPlacement();
     popoverPosition();
   }, [targetRef, rectangle]);
 
   useEffect(() => {
+    arrowPlacement();
     popoverPosition();
   }, []);
 
@@ -145,33 +176,50 @@ export default function Popover({
           top: `${style.top}px`,
           left: `${style.left}px`,
         }}
-        className="ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl"
+        className={`ol-max-w-[340px] ol-absolute ol-z-100 ol-drop-shadow-md ol-flex ${popoverClasses}`}
       >
-        <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
-          {children}
-          {icon && (
-            <span className={`material-symbols-${iconStyle}`}>{icon}</span>
-          )}
-          {title && <h2>{title}</h2>}
-          {image && <img src={image} className="ol-bg-gray-dark"></img>}
-          {text && <div>{text}</div>}
-          {currentStep && totalSteps && textButtonFunc && filledButtonFunc && (
-            <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
-              <div className="ol-text-gray-dark ol-flex ol-flex-row ol-flex-nowrap">
-                {currentStep} of {totalSteps}
-              </div>
-              <div className="ol-flex ol-flex-row ol-gap-x-2.5">
-                <TextButton
-                  text={'Previous'}
-                  onClickFunc={textButtonFunc || (() => {})}
-                ></TextButton>
-                <Button
-                  text={'Next'}
-                  onClickFunc={filledButtonFunc || (() => {})}
-                ></Button>
-              </div>
-            </div>
-          )}
+        <div className={`${arrowClasses}`}>
+          <svg
+            className="ol-fill-gray"
+            width="34"
+            height="34"
+            viewBox="0 0 33 34"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M15.9707 0L32.9413 16.9706L15.9707 33.9411L1.82857 19.799C0.266471 18.2369 0.266471 15.7042 1.82857 14.1421L15.9707 0Z" />
+          </svg>
+        </div>
+        <div className="ol-bg-gray ol-relative ol-px-4 ol-rounded-xl ol-z-100">
+          <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
+            {children}
+            {icon && (
+              <span className={`material-symbols-${iconStyle}`}>{icon}</span>
+            )}
+            {title && <h2>{title}</h2>}
+            {image && <img src={image} className="ol-bg-gray-dark"></img>}
+            {text && <div>{text}</div>}
+            {currentStep &&
+              totalSteps &&
+              textButtonFunc &&
+              filledButtonFunc && (
+                <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
+                  <div className="ol-text-gray-dark ol-flex ol-flex-row ol-flex-nowrap">
+                    {currentStep} of {totalSteps}
+                  </div>
+                  <div className="ol-flex ol-flex-row ol-gap-x-2.5">
+                    <TextButton
+                      text={'Previous'}
+                      onClickFunc={textButtonFunc || (() => {})}
+                    ></TextButton>
+                    <Button
+                      text={'Next'}
+                      onClickFunc={filledButtonFunc || (() => {})}
+                    ></Button>
+                  </div>
+                </div>
+              )}
+          </div>
         </div>
       </div>
     </>
