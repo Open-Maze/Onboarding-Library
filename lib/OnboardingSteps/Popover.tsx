@@ -34,7 +34,8 @@ export default function Popover({
   filledButtonFunc,
   textButtonFunc,
 }: PopoverOptions) {
-  const [style, setStyle] = useState({ top: -1, left: -1 });
+  const [styleTop, setStyleTop] = useState<number>();
+  const [styleLeft, setStyleLeft] = useState<number>();
   const [popoverHidden, setPopoverHidden] = useState(true);
   const popoverRef = useRef<HTMLDivElement>(null);
   const popoverPosition = useCallback(() => {
@@ -85,7 +86,8 @@ export default function Popover({
         left = targetRect.left + targetRect.width + targetSpacing;
         break;
     }
-    setStyle({ top, left });
+    setStyleTop(top);
+    setStyleLeft(left);
   }, []);
 
   useEffect(() => {
@@ -113,8 +115,8 @@ export default function Popover({
       <div
         ref={popoverRef}
         style={{
-          top: `${style.top}px`,
-          left: `${style.left}px`,
+          top: `${styleTop}px`,
+          left: `${styleLeft}px`,
         }}
         className={`ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl ${popoverHidden && 'ol-hidden'}`}
       >
