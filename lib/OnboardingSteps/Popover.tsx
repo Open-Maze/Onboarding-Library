@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Button from '../Components/Button';
 import TextButton from '../Components/TextButton';
 
@@ -34,104 +34,72 @@ export default function Popover({
   textButtonFunc,
 }: PopoverOptions) {
   const [style, setStyle] = useState({ top: -1, left: -1 });
-  const [rectangle, setRectangle] = useState({ top: 0, left: 0 });
-
   const popoverRef = useRef<HTMLDivElement>(null);
-
-  const setRectValues = () => {
-    const top = targetRef.current?.getBoundingClientRect().top || 0;
-    const left = targetRef.current?.getBoundingClientRect().left || 0;
-
-    if (top != rectangle.top || left != rectangle.left) {
-      setRectangle({ top, left });
-    }
-  };
-
-  const popoverPosition = () => {
-    if (targetRef.current instanceof HTMLElement && popoverRef.current) {
-      const popoverRect =
-        popoverRef.current.getBoundingClientRect() || new DOMRect();
-      const targetRect = targetRef.current.getBoundingClientRect();
-
-      setRectValues();
-
-      let top = 0;
-      let left = 0;
-
-      switch (placement) {
-        case 'bottom':
-          top =
-            targetRect.top +
-            targetRect.height +
-            globalThis.scrollY +
-            targetSpacing;
-          left = targetRect.left + targetRect.width / 2 - popoverRect.width / 2;
-
-          break;
-        case 'top':
-          top =
-            rectangle.top + window.scrollY - popoverRect.height + targetSpacing;
-          left = rectangle.left + targetRect.width / 2 - popoverRect.width / 2;
-
-          break;
-        case 'left':
-          top =
-            targetRect.top -
-            popoverRect.height +
-            targetRect.height / 2 +
-            popoverRect.height / 2 +
-            globalThis.scrollY;
-          left = targetRect.left - popoverRect.width - targetSpacing;
-
-          break;
-        case 'right':
-          top =
-            targetRect.top -
-            popoverRect.height +
-            targetRect.height / 2 +
-            popoverRect.height / 2 +
-            globalThis.scrollY;
-
-          left = targetRect.left + targetRect.width + targetSpacing;
-
-          break;
-      }
-
-      setStyle({ top, left });
-    } else if (!popoverRef.current) {
+  const popoverPosition = useCallback(() => {
+    if (!popoverRef.current) {
       console.error(`Popover ref not found`);
-    } else if (!targetRef.current) {
+      return;
+    }
+    if (!(targetRef.current instanceof HTMLElement)) {
       console.error(`Target ref not found`);
+      return;
     }
-  };
 
-  useEffect(() => {
-    if (document.body) {
-      const observer = new ResizeObserver(() => {
-        setRectValues();
-      });
+    const popoverRect = popoverRef.current.getBoundingClientRect();
+    const targetRect = targetRef.current.getBoundingClientRect();
 
-      observer.observe(document.body);
+    const rectValues = { top: targetRect.top, left: targetRect.left };
+    let top = 0;
+    let left = 0;
 
-      return () => observer.disconnect();
+    switch (placement) {
+      case 'bottom':
+        top =
+          targetRect.top +
+          targetRect.height +
+          globalThis.scrollY +
+          targetSpacing;
+        left = targetRect.left + targetRect.width / 2 - popoverRect.width / 2;
+        break;
+      case 'top':
+        top =
+          rectValues.top + window.scrollY - popoverRect.height + targetSpacing;
+        left = rectValues.left + targetRect.width / 2 - popoverRect.width / 2;
+        break;
+      case 'left':
+        top =
+          targetRect.top -
+          popoverRect.height +
+          targetRect.height / 2 +
+          popoverRect.height / 2 +
+          globalThis.scrollY;
+        left = targetRect.left - popoverRect.width - targetSpacing;
+        break;
+      case 'right':
+        top =
+          targetRect.top -
+          popoverRect.height +
+          targetRect.height / 2 +
+          popoverRect.height / 2 +
+          globalThis.scrollY;
+
+        left = targetRect.left + targetRect.width + targetSpacing;
+        break;
     }
+    setStyle({ top, left });
   }, []);
 
   useEffect(() => {
-    if (popoverRef.current) {
+    if (document.body && popoverRef.current) {
       const observer = new ResizeObserver(() => {
         popoverPosition();
       });
 
+      observer.observe(document.body);
       observer.observe(popoverRef.current);
-
       return () => observer.disconnect();
     }
   }, []);
-
-  useEffect(() => {
-    popoverPosition();
-  }, [targetRef, rectangle]);
 
   useEffect(() => {
     popoverPosition();
@@ -153,7 +121,13 @@ export default function Popover({
             <span className={`material-symbols-${iconStyle}`}>{icon}</span>
           )}
           {title && <h2>{title}</h2>}
-          {image && <img src={image} className="ol-bg-gray-dark"></img>}
+          {image && (
+            <img
+              src={image}
+              alt="onboarding image"
+              className="ol-bg-gray-dark"
+            ></img>
+          )}
           {text && <div>{text}</div>}
           {currentStep && totalSteps && textButtonFunc && filledButtonFunc && (
             <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
