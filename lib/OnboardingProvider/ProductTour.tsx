@@ -13,6 +13,15 @@ export default function ProductTour({
 }: InterfaceProductTour) {
   const [index, setIndex] = useState(0);
   const [warning, setWarning] = useState(false);
+  const [localStorageState, setLocalStorageState] = useState('true');
+
+  useEffect(() => {
+    const getLocalStorage = localStorage.getItem(productTourId);
+    if (getLocalStorage === null) {
+      return;
+    }
+    setLocalStorageState(getLocalStorage);
+  }, []);
 
   useEffect(() => {
     if (index === children.length && !dev) {
@@ -26,7 +35,7 @@ export default function ProductTour({
       console.warn(`Product Tour ${productTourId} is in dev mode`);
       setWarning(true);
     }
-  }, [index, children.length, dev, productTourId, warning]);
+  }, [warning, dev]);
 
   const filledButtonOnClick = useCallback((index: number) => {
     setIndex(index + 1);
@@ -49,12 +58,9 @@ export default function ProductTour({
     }) as ReactNode[];
   };
 
-  if (
-    localStorage.getItem(productTourId) === null ||
-    localStorage.getItem(productTourId) === 'true' // if the product tour has not yet been finished by the user then it should be set to true in localStorage
-  ) {
+  if (localStorageState === 'true') {
     return <div>{renderChildren()[index]}</div>;
-  } else if (localStorage.getItem(productTourId) === 'false') {
+  } else if (localStorageState === 'false') {
     return null;
   }
 }
