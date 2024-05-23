@@ -102,16 +102,20 @@ export default function Popover({ ...props }: PopoverOptions) {
             props.textButtonFunc &&
             props.filledButtonFunc ? (
               <div className="flex flex-row items-center justify-between">
-                <div className="text-gray-dark">
+                <div className="text-gray-dark pr-4">
                   {props.currentStep} of {props.totalSteps}
                 </div>
                 <div className="flex flex-row gap-x-2.5">
-                  <TextButton
-                    text={'Previous'}
-                    onClickFunc={props.textButtonFunc || (() => {})}
-                  ></TextButton>
+                  {props.currentStep > 1 && (
+                    <TextButton
+                      text={'Previous'}
+                      onClickFunc={props.textButtonFunc || (() => {})}
+                    ></TextButton>
+                  )}
                   <Button
-                    text={'Next'}
+                    text={
+                      props.currentStep >= props.totalSteps ? 'Finish' : 'Next'
+                    }
                     onClickFunc={props.filledButtonFunc || (() => {})}
                   ></Button>
                 </div>
