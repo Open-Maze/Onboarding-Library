@@ -64,7 +64,7 @@ export default function Popover({
         break;
       case 'top':
         top =
-          rectValues.top + window.scrollY - popoverRect.height + targetSpacing;
+          rectValues.top + window.scrollY - popoverRect.height - targetSpacing;
         left = rectValues.left + targetRect.width / 2 - popoverRect.width / 2;
         break;
       case 'left':
@@ -135,7 +135,7 @@ export default function Popover({
           {text && <div>{text}</div>}
           {currentStep && totalSteps && textButtonFunc && filledButtonFunc && (
             <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
-              <div className="ol-text-gray-dark ol-flex ol-flex-row ol-flex-nowrap">
+              <div className="ol-text-gray-dark ol-flex ol-flex-row ol-flex-nowrap ol-pr-4">
                 {currentStep} of {totalSteps}
               </div>
               <div className="flex flex-row gap-x-2.5">
