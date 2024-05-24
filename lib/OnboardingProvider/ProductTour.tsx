@@ -13,25 +13,27 @@ export default function ProductTour({
 }: InterfaceProductTour) {
   const [index, setIndex] = useState(0);
   const [warning, setWarning] = useState(false);
-  const [localStorageState, setLocalStorageState] = useState('true');
+  const [isOnboardingFinished, setIsOnboardingFinished] = useState(false);
 
   useEffect(() => {
     const getLocalStorage = localStorage.getItem(productTourId);
     if (getLocalStorage === null) {
       return;
     }
-    setLocalStorageState(getLocalStorage);
+    setIsOnboardingFinished(JSON.parse(getLocalStorage));
   }, []);
 
   useEffect(() => {
-    if (index === children.length && !dev) {
-      localStorage.setItem(productTourId, 'false');
+    if (index === children.length - 1 && !dev) {
+      localStorage.setItem(productTourId, 'true');
+      setIsOnboardingFinished(true);
     }
   }, [index, children.length, dev, productTourId]);
 
   useEffect(() => {
     if (!warning && dev) {
-      localStorage.setItem(productTourId, 'true');
+      localStorage.setItem(productTourId, 'false');
+      setIsOnboardingFinished(false);
       console.warn(`Product Tour ${productTourId} is in dev mode`);
       setWarning(true);
     }
@@ -58,9 +60,5 @@ export default function ProductTour({
     }) as ReactNode[];
   };
 
-  if (localStorageState === 'true') {
-    return <div>{renderChildren()[index]}</div>;
-  } else if (localStorageState === 'false') {
-    return null;
-  }
+  return !isOnboardingFinished && <div>{renderChildren()[index]}</div>;
 }
