@@ -39,21 +39,19 @@ export default function ProductTour({
     }
   }, [warning, dev]);
 
-  const filledButtonOnClick = useCallback((index: number) => {
-    setIndex(index + 1);
+  const filledButtonOnClick = useCallback(() => {
+    setIndex((prevState) => prevState + 1);
   }, []);
 
-  const textButtonOnClick = useCallback((index: number) => {
-    if (index !== 0) {
-      setIndex(index - 1);
-    }
+  const textButtonOnClick = useCallback(() => {
+    setIndex((prevState) => prevState - 1);
   }, []);
 
   const renderChildren = (): ReactNode[] => {
     return React.Children.map(children, (child, index) => {
       return React.cloneElement(child as JSX.Element, {
-        filledButtonFunc: () => filledButtonOnClick(index),
-        textButtonFunc: () => textButtonOnClick(index),
+        filledButtonFunc: () => filledButtonOnClick(),
+        textButtonFunc: () => textButtonOnClick(),
         currentStep: index + 1,
         totalSteps: children.length,
       });
