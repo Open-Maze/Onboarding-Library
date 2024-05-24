@@ -120,6 +120,7 @@ export default function Popover({
   }, []);
 
   useEffect(() => {
+    arrowPlacement();
     popoverPosition();
     setPopoverHidden(false);
   }, []);
@@ -136,11 +137,6 @@ export default function Popover({
       observer.observe(popoverRef.current);
       return () => observer.disconnect();
     }
-  }, []);
-
-  useEffect(() => {
-    arrowPlacement();
-    popoverPosition();
   }, []);
 
   return (
@@ -166,32 +162,37 @@ export default function Popover({
           </svg>
         </div>
         <div className="ol-bg-gray ol-relative ol-px-4 ol-rounded-xl ol-z-100">
-          {children}
-          {icon && (
-            <span className={`material-symbols-${iconStyle}`}>{icon}</span>
-          )}
-          {title && <h2>{title}</h2>}
-          {image && <img src={image} className="ol-bg-gray-dark"></img>}
-          {text && <div>{text}</div>}
-          {currentStep && totalSteps && textButtonFunc && filledButtonFunc && (
-            <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
-              <div className="ol-text-gray-dark ol-flex ol-flex-row ol-flex-nowrap ol-pr-4">
-                {currentStep} of {totalSteps}
-              </div>
-              <div className="flex flex-row gap-x-2.5">
-                {currentStep > 1 && (
-                  <TextButton
-                    text={'Previous'}
-                    onClickFunc={textButtonFunc || (() => {})}
-                  ></TextButton>
-                )}
-                <Button
-                  text={currentStep >= totalSteps ? 'Finish' : 'Next'}
-                  onClickFunc={filledButtonFunc || (() => {})}
-                ></Button>
-              </div>
-            </div>
-          )}
+          <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
+            {children}
+            {icon && (
+              <span className={`material-symbols-${iconStyle}`}>{icon}</span>
+            )}
+            {title && <h2>{title}</h2>}
+            {image && <img src={image} className="ol-bg-gray-dark"></img>}
+            {text && <div>{text}</div>}
+            {currentStep &&
+              totalSteps &&
+              textButtonFunc &&
+              filledButtonFunc && (
+                <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
+                  <div className="ol-text-gray-dark ol-pr-4 ol-text-nowrap">
+                    {currentStep + ' of ' + totalSteps}
+                  </div>
+                  <div className="ol-flex ol-flex-row ol-gap-x-2.5">
+                    {currentStep > 1 && (
+                      <TextButton
+                        text={'Previous'}
+                        onClickFunc={textButtonFunc || (() => {})}
+                      ></TextButton>
+                    )}
+                    <Button
+                      text={currentStep >= totalSteps ? 'Finish' : 'Next'}
+                      onClickFunc={filledButtonFunc || (() => {})}
+                    ></Button>
+                  </div>
+                </div>
+              )}
+          </div>
         </div>
       </div>
     </>
