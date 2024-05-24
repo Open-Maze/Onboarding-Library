@@ -13,48 +13,50 @@ export default function ProductTour({
 }: InterfaceProductTour) {
   const [index, setIndex] = useState(0);
   const [warning, setWarning] = useState(false);
+  const [isOnboardingFinished, setIsOnboardingFinished] = useState(false);
 
   useEffect(() => {
-    if (index === children.length && !dev) {
-      localStorage.setItem(productTourId, 'false');
+    const getLocalStorage = localStorage.getItem(productTourId);
+    if (getLocalStorage === null) {
+      return;
+    }
+    setIsOnboardingFinished(JSON.parse(getLocalStorage));
+  }, []);
+
+  useEffect(() => {
+    if (index === children.length - 1 && !dev) {
+      localStorage.setItem(productTourId, 'true');
+      setIsOnboardingFinished(true);
     }
   }, [index, children.length, dev, productTourId]);
 
   useEffect(() => {
     if (!warning && dev) {
-      localStorage.setItem(productTourId, 'true');
+      localStorage.setItem(productTourId, 'false');
+      setIsOnboardingFinished(false);
       console.warn(`Product Tour ${productTourId} is in dev mode`);
       setWarning(true);
     }
-  }, [index, children.length, dev, productTourId, warning]);
+  }, [warning, dev]);
 
-  const filledButtonOnClick = useCallback((index: number) => {
-    setIndex(index + 1);
+  const filledButtonOnClick = useCallback(() => {
+    setIndex((prevState) => prevState + 1);
   }, []);
 
-  const textButtonOnClick = useCallback((index: number) => {
-    if (index !== 0) {
-      setIndex(index - 1);
-    }
+  const textButtonOnClick = useCallback(() => {
+    setIndex((prevState) => prevState - 1);
   }, []);
 
   const renderChildren = (): ReactNode[] => {
     return React.Children.map(children, (child, index) => {
       return React.cloneElement(child as JSX.Element, {
-        filledButtonFunc: () => filledButtonOnClick(index),
-        textButtonFunc: () => textButtonOnClick(index),
+        filledButtonFunc: () => filledButtonOnClick(),
+        textButtonFunc: () => textButtonOnClick(),
         currentStep: index + 1,
         totalSteps: children.length,
       });
     }) as ReactNode[];
   };
 
-  if (
-    localStorage.getItem(productTourId) === null ||
-    localStorage.getItem(productTourId) === 'true' // if the product tour has not yet been finished by the user then it should be set to true in localStorage
-  ) {
-    return <div>{renderChildren()[index]}</div>;
-  } else if (localStorage.getItem(productTourId) === 'false') {
-    return null;
-  }
+  return !isOnboardingFinished && <div>{renderChildren()[index]}</div>;
 }
