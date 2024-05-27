@@ -4,15 +4,15 @@ import TextButton from './TextButton';
 interface ProductTourNavigationProps {
   currentStep: number;
   totalSteps: number;
-  filledButtonFunc: () => void;
-  textButtonFunc: () => void;
+  previouButtonFunc: () => void;
+  nextButtonFunc: () => void;
 }
 
 const ProductTourNavigation = ({
   currentStep,
   totalSteps,
-  filledButtonFunc,
-  textButtonFunc,
+  previouButtonFunc,
+  nextButtonFunc,
 }: ProductTourNavigationProps) => (
   <>
     <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
@@ -23,12 +23,12 @@ const ProductTourNavigation = ({
         {currentStep > 1 && (
           <TextButton
             text={'Previous'}
-            onClickFunc={textButtonFunc || (() => {})}
+            onClickFunc={previouButtonFunc}
           ></TextButton>
         )}
         <Button
           text={currentStep >= totalSteps ? 'Finish' : 'Next'}
-          onClickFunc={filledButtonFunc || (() => {})}
+          onClickFunc={nextButtonFunc}
         ></Button>
       </div>
     </div>
