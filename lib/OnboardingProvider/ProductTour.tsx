@@ -59,7 +59,7 @@ export default function ProductTour({
 
   const renderChildren = useMemo(() => {
     return Children.map(children, (child, index) => {
-      return cloneElement(child as JSX.Element, {
+      return cloneElement(child, {
         navigation: (
           <ProductTourNavigation
             currentStep={index + 1}
@@ -69,7 +69,7 @@ export default function ProductTour({
           />
         ),
       });
-    }) as ReactElement[];
+    });
   }, []);
 
   return !isOnboardingFinished && <div>{renderChildren[index]}</div>;
