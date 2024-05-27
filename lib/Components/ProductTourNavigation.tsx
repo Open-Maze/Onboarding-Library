@@ -17,7 +17,7 @@ const ProductTourNavigation = ({
   <>
     <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
       <div className="ol-text-gray-dark ol-pr-4 ol-text-nowrap">
-        {currentStep + ' of ' + totalSteps}
+        {`${currentStep} of ${totalSteps}`}
       </div>
       <div className="ol-flex ol-flex-row ol-gap-x-2.5">
         {currentStep > 1 && (
