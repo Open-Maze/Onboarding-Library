@@ -109,19 +109,18 @@ export default function Popover({
     }
     setStyleTop(top);
     setStyleLeft(left);
+    setPopoverHidden(false);
   }, []);
 
   useEffect(() => {
     arrowPlacement();
     popoverPosition();
-    setPopoverHidden(false);
   }, []);
 
   useEffect(() => {
     if (document.body && popoverRef.current) {
       const observer = new ResizeObserver(() => {
         popoverPosition();
-        setPopoverHidden(false);
       });
 
       observer.observe(document.body);
