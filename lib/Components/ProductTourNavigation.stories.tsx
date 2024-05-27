@@ -17,10 +17,10 @@ export const Primary: Story = {
       <ProductTourNavigation
         currentStep={99}
         totalSteps={99}
-        filledButtonFunc={function (): void {
+        previouButtonFunc={function (): void {
           throw new Error('Function not implemented.');
         }}
-        textButtonFunc={function (): void {
+        nextButtonFunc={function (): void {
           throw new Error('Function not implemented.');
         }}
       />
