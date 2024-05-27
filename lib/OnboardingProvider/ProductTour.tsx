@@ -1,4 +1,5 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import ProductTourNavigation from '../Components/ProductTourNavigation';
 
 interface InterfaceProductTour {
   children: Array<ReactNode>;
@@ -50,10 +51,14 @@ export default function ProductTour({
   const renderChildren = (): ReactNode[] => {
     return React.Children.map(children, (child, index) => {
       return React.cloneElement(child as JSX.Element, {
-        filledButtonFunc: () => filledButtonOnClick(),
-        textButtonFunc: () => textButtonOnClick(),
-        currentStep: index + 1,
-        totalSteps: children.length,
+        navigation: (
+          <ProductTourNavigation
+            currentStep={index + 1}
+            totalSteps={children.length}
+            filledButtonFunc={() => filledButtonOnClick()}
+            textButtonFunc={() => textButtonOnClick()}
+          />
+        ),
       });
     }) as ReactNode[];
   };
