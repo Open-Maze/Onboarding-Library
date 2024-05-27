@@ -82,8 +82,12 @@ export function PopoverStoryBookProviderRight() {
   const targetRef = useRef(null);
   return (
     <>
-      <div className="flex justify-center items-center h-screen w-auto">
-        <div ref={targetRef} id="tabs" className="flex w-10 h-10 bg-red-500">
+      <div className="ol-flex ol-overflow-hidden ol-justify-center ol-items-center ol-h-screen ol-w-auto">
+        <div
+          ref={targetRef}
+          id="tabs"
+          className="ol-flex ol-w-10 ol-h-10 ol-bg-red-500"
+        >
           tabs
         </div>
       </div>

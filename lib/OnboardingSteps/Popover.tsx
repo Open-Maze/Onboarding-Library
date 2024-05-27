@@ -1,7 +1,5 @@
 'use client';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import Button from '../Components/Button';
-import TextButton from '../Components/TextButton';
+import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 
 interface PopoverOptions {
   targetRef: React.RefObject<HTMLElement | null>;
@@ -12,11 +10,8 @@ interface PopoverOptions {
   title?: string;
   image?: string;
   text?: string;
-  currentStep?: number;
-  totalSteps?: number;
-  children?: React.ReactNode;
-  filledButtonFunc?: () => void;
-  textButtonFunc?: () => void;
+  children?: ReactElement;
+  navigation?: ReactElement;
 }
 
 export default function Popover({
@@ -28,16 +23,41 @@ export default function Popover({
   title,
   image,
   text,
-  currentStep,
-  totalSteps,
   children,
-  filledButtonFunc,
-  textButtonFunc,
+  navigation,
 }: PopoverOptions) {
   const [styleTop, setStyleTop] = useState<number>();
   const [styleLeft, setStyleLeft] = useState<number>();
   const [popoverHidden, setPopoverHidden] = useState(true);
+  const [popoverClasses, setPopoverClasses] = useState('');
+  const [arrowClasses, setArrowClasses] = useState('');
   const popoverRef = useRef<HTMLDivElement>(null);
+
+  const arrowPlacement = () => {
+    let popoverClasses = '';
+    let arrowClasses = '';
+
+    switch (placement) {
+      case 'bottom':
+        popoverClasses = 'ol-flex-col ol-items-center';
+        arrowClasses = 'ol-rotate-90 ol-self-center -ol-mb-[17px]';
+        break;
+      case 'top':
+        popoverClasses = 'ol-flex-col ol-flex-col-reverse ol-items-center';
+        arrowClasses = '-ol-rotate-90 -ol-mt-[17px]';
+        break;
+      case 'left':
+        popoverClasses = 'ol-flex-row-reverse';
+        arrowClasses = 'ol-rotate-180 ol-self-center -ol-ml-[17px]';
+        break;
+      case 'right':
+        arrowClasses = 'ol-self-center -ol-mr-[17px]';
+        break;
+    }
+
+    setPopoverClasses(popoverClasses);
+    setArrowClasses(arrowClasses);
+  };
 
   const popoverPosition = useCallback(() => {
     if (!popoverRef.current) {
@@ -89,18 +109,18 @@ export default function Popover({
     }
     setStyleTop(top);
     setStyleLeft(left);
+    setPopoverHidden(false);
   }, []);
 
   useEffect(() => {
+    arrowPlacement();
     popoverPosition();
-    setPopoverHidden(false);
   }, []);
 
   useEffect(() => {
     if (document.body && popoverRef.current) {
       const observer = new ResizeObserver(() => {
         popoverPosition();
-        setPopoverHidden(false);
       });
 
       observer.observe(document.body);
@@ -117,41 +137,31 @@ export default function Popover({
           top: `${styleTop}px`,
           left: `${styleLeft}px`,
         }}
-        className={`ol-max-w-[312px] ol-absolute ol-bg-gray ol-px-4 ol-z-100 ol-shadow-md ol-rounded-xl ${popoverHidden && 'ol-hidden'}`}
+        className={`ol-max-w-[340px] ol-absolute ol-z-100 ol-drop-shadow-md ol-flex ${popoverHidden && 'ol-hidden'} ${popoverClasses}`}
       >
-        <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
-          {children}
-          {icon && (
-            <span className={`material-symbols-${iconStyle}`}>{icon}</span>
-          )}
-          {title && <h2>{title}</h2>}
-          {image && (
-            <img
-              src={image}
-              alt="onboarding image"
-              className="ol-bg-gray-dark"
-            ></img>
-          )}
-          {text && <div>{text}</div>}
-          {currentStep && totalSteps && textButtonFunc && filledButtonFunc && (
-            <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
-              <div className="ol-text-gray-dark ol-flex ol-flex-row ol-flex-nowrap ol-pr-4">
-                {currentStep} of {totalSteps}
-              </div>
-              <div className="flex flex-row gap-x-2.5">
-                {currentStep > 1 && (
-                  <TextButton
-                    text={'Previous'}
-                    onClickFunc={textButtonFunc || (() => {})}
-                  ></TextButton>
-                )}
-                <Button
-                  text={currentStep >= totalSteps ? 'Finish' : 'Next'}
-                  onClickFunc={filledButtonFunc || (() => {})}
-                ></Button>
-              </div>
-            </div>
-          )}
+        <div className={`${arrowClasses}`}>
+          <svg
+            className="ol-fill-gray"
+            width="34"
+            height="34"
+            viewBox="0 0 33 34"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M15.9707 0L32.9413 16.9706L15.9707 33.9411L1.82857 19.799C0.266471 18.2369 0.266471 15.7042 1.82857 14.1421L15.9707 0Z" />
+          </svg>
+        </div>
+        <div className="ol-bg-gray ol-relative ol-px-4 ol-rounded-xl ol-z-100">
+          <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
+            {children}
+            {icon && (
+              <span className={`material-symbols-${iconStyle}`}>{icon}</span>
+            )}
+            {title && <h2>{title}</h2>}
+            {image && <img src={image} className="ol-bg-gray-dark"></img>}
+            {text && <div>{text}</div>}
+            {navigation}
+          </div>
         </div>
       </div>
     </>

@@ -9,6 +9,7 @@ export default {
     extend: {
       zIndex: {
         100: '100',
+        99: '99',
       },
       boxShadow: {
         innercard: '0px 2px 4px 0px rgba(0,0,0,0.25)',

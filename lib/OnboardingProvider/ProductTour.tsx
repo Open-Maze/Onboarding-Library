@@ -1,7 +1,17 @@
-import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+'use client';
+import {
+  Children,
+  ReactElement,
+  cloneElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import ProductTourNavigation from '../Components/ProductTourNavigation';
 
 interface InterfaceProductTour {
-  children: Array<ReactNode>;
+  children: Array<ReactElement>;
   productTourId: string;
   dev?: boolean;
 }
@@ -39,24 +49,28 @@ export default function ProductTour({
     }
   }, [warning, dev]);
 
-  const filledButtonOnClick = useCallback(() => {
+  const nextButtonOnClick = useCallback(() => {
     setIndex((prevState) => prevState + 1);
   }, []);
 
-  const textButtonOnClick = useCallback(() => {
+  const previousButtonOnClick = useCallback(() => {
     setIndex((prevState) => prevState - 1);
   }, []);
 
-  const renderChildren = (): ReactNode[] => {
-    return React.Children.map(children, (child, index) => {
-      return React.cloneElement(child as JSX.Element, {
-        filledButtonFunc: () => filledButtonOnClick(),
-        textButtonFunc: () => textButtonOnClick(),
-        currentStep: index + 1,
-        totalSteps: children.length,
+  const renderChildren = useMemo(() => {
+    return Children.map(children, (child, index) => {
+      return cloneElement(child, {
+        navigation: (
+          <ProductTourNavigation
+            currentStep={index + 1}
+            totalSteps={children.length}
+            nextButtonFunc={() => nextButtonOnClick()}
+            previouButtonFunc={() => previousButtonOnClick()}
+          />
+        ),
       });
-    }) as ReactNode[];
-  };
+    });
+  }, []);
 
-  return !isOnboardingFinished && <div>{renderChildren()[index]}</div>;
+  return !isOnboardingFinished && <div>{renderChildren[index]}</div>;
 }
