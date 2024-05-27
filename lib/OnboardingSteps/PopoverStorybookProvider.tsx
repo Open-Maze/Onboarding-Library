@@ -34,6 +34,9 @@ export default function PopoverStoryBookProviderTop() {
             nextButtonFunc={function (): void {
               throw new Error('Function not implemented.');
             }}
+            closeOnboardingFunc={function (): void {
+              throw new Error('Function not implemented.');
+            }}
           />
         }
       ></Popover>
