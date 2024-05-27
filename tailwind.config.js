@@ -12,9 +12,6 @@ export default {
         99: '99',
       },
       colors: {
-        lightgrey: '#F4F4F5',
-        current: 'currentColor',
-        dark: '#222222',
         gray: {
           DEFAULT: '#E6E6E6',
           dark: '#797979',
@@ -25,13 +22,11 @@ export default {
           darker: '#841be0',
         },
         secondary: '#39cfe8',
-        'slate-gray': '#A1A1AA',
-        bleach: '#f6f6f6',
-        'light-gray': '#c9c9c9',
+        background: '#F4F4F4',
       },
       fontFamily: {
-        sans: ['var(--font-poppins)'],
-        heading: ['var(--font-manrope)'],
+        sans: ['Poppins'],
+        heading: ['Manrope'],
       },
     },
   },

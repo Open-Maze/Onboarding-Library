@@ -6,7 +6,7 @@ interface ButtonProps {
 const Button = ({ text, onClickFunc }: ButtonProps) => (
   <>
     <button
-      className="ol-px-6 ol-py-2.5 ol-rounded-full ol-bg-primary ol-text-white"
+      className="ol-duration-100 hover:ol-scale-95 ol-border-2 ol-transform ol-border-primary ol-px-4 ol-py-2 ol-rounded-xl ol-bg-primary ol-text-white"
       onClick={onClickFunc}
     >
       {text}

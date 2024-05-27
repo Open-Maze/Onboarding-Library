@@ -25,6 +25,11 @@ export default function ProductTour({
   const [warning, setWarning] = useState(false);
   const [isOnboardingFinished, setIsOnboardingFinished] = useState(false);
 
+  function finishOnboarding() {
+    localStorage.setItem(productTourId, 'true');
+    setIsOnboardingFinished(true);
+  }
+
   useEffect(() => {
     const getLocalStorage = localStorage.getItem(productTourId);
     if (getLocalStorage === null) {
@@ -35,8 +40,7 @@ export default function ProductTour({
 
   useEffect(() => {
     if (index === children.length - 1 && !dev) {
-      localStorage.setItem(productTourId, 'true');
-      setIsOnboardingFinished(true);
+      finishOnboarding();
     }
   }, [index, children.length, dev, productTourId]);
 
@@ -57,6 +61,11 @@ export default function ProductTour({
     setIndex((prevState) => prevState - 1);
   }, []);
 
+  const closeOnboarding = useCallback((totalStepAmount: number) => {
+    finishOnboarding();
+    setIndex(totalStepAmount);
+  }, []);
+
   const renderChildren = useMemo(() => {
     return Children.map(children, (child, index) => {
       return cloneElement(child, {
@@ -66,6 +75,7 @@ export default function ProductTour({
             totalSteps={children.length}
             nextButtonFunc={() => nextButtonOnClick()}
             previouButtonFunc={() => previousButtonOnClick()}
+            closeOnboardingFunc={() => closeOnboarding(children.length)}
           />
         ),
       });

@@ -6,6 +6,7 @@ interface ProductTourNavigationProps {
   totalSteps: number;
   previouButtonFunc: () => void;
   nextButtonFunc: () => void;
+  closeOnboardingFunc: () => void;
 }
 
 const ProductTourNavigation = ({
@@ -13,21 +14,28 @@ const ProductTourNavigation = ({
   totalSteps,
   previouButtonFunc,
   nextButtonFunc,
+  closeOnboardingFunc,
 }: ProductTourNavigationProps) => (
   <>
     <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
-      <div className="ol-text-gray-dark ol-pr-4 ol-text-nowrap">
+      <span
+        onClick={closeOnboardingFunc}
+        className="material-symbols-outlined hover:ol-cursor-pointer ol-h-5 ol-w-5 ol-text-gray-dark hover:ol-text-secondary ol-text-center ol-content-center ol-absolute ol-top-[10px] ol-right-[10px]"
+      >
+        close_small
+      </span>
+      <div className="ol-pr-4 ol-text-nowrap ol-text-gray-dark">
         {`${currentStep} of ${totalSteps}`}
       </div>
-      <div className="ol-flex ol-flex-row ol-gap-x-2.5">
+      <div className="ol-flex ol-flex-row  ol-gap-x-2.5">
         {currentStep > 1 && (
           <TextButton
-            text={'Previous'}
+            text={'previous'}
             onClickFunc={previouButtonFunc}
           ></TextButton>
         )}
         <Button
-          text={currentStep >= totalSteps ? 'Finish' : 'Next'}
+          text={currentStep >= totalSteps ? 'finish' : 'next'}
           onClickFunc={nextButtonFunc}
         ></Button>
       </div>
