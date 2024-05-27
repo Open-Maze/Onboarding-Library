@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 
 interface PopoverOptions {
   targetRef: React.RefObject<HTMLElement | null>;
@@ -10,8 +10,8 @@ interface PopoverOptions {
   title?: string;
   image?: string;
   text?: string;
-  children?: React.ReactNode;
-  navigation?: React.ReactNode;
+  children?: ReactElement;
+  navigation?: ReactElement;
 }
 
 export default function Popover({
