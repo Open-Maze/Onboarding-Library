@@ -32,7 +32,7 @@ function createColorUtilities(
   return newColorUtilities;
 }
 
-const colorConfigPlugin = plugin.withOptions<ColorConfig>(
+const OnboardingLibrary = plugin.withOptions<ColorConfig>(
   (options) => {
     return ({ addUtilities, theme }) => {
       const newColorUtilities = createColorUtilities(theme, options);
@@ -56,4 +56,4 @@ const colorConfigPlugin = plugin.withOptions<ColorConfig>(
   }
 );
 
-export default colorConfigPlugin;
+export default OnboardingLibrary;

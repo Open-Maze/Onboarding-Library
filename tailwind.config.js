@@ -1,4 +1,4 @@
-import colorConfigPlugin from './lib/TailwindPlugin.ts';
+import OnboardingLibrary from './lib/TailwindPlugin.ts';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -20,13 +20,12 @@ export default {
     },
   },
   plugins: [
-    colorConfigPlugin({
+    OnboardingLibrary({
       colors: {
         primary: '#fcba03',
         secondary: '#00ff00',
         background: '#3a5da0',
-        "gray-dark": '#333333',
-
+        'gray-dark': '#333333',
       },
     }),
   ],
