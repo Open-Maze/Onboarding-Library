@@ -73,9 +73,9 @@ export default function ProductTour({
           <ProductTourNavigation
             currentStep={index + 1}
             totalSteps={children.length}
-            nextButtonFunc={() => nextButtonOnClick()}
-            previouButtonFunc={() => previousButtonOnClick()}
-            closeOnboardingFunc={() => closeOnboarding(children.length)}
+            nextButtonHandler={() => nextButtonOnClick()}
+            previouButtonHandler={() => previousButtonOnClick()}
+            closeOnboardingHandler={() => closeOnboarding(children.length)}
           />
         ),
       });

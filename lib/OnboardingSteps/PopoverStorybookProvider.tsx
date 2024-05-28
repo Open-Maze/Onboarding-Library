@@ -28,13 +28,13 @@ export default function PopoverStoryBookProviderTop() {
           <ProductTourNavigation
             currentStep={2}
             totalSteps={3}
-            previouButtonFunc={function (): void {
+            previouButtonHandler={function (): void {
               throw new Error('Function not implemented.');
             }}
-            nextButtonFunc={function (): void {
+            nextButtonHandler={function (): void {
               throw new Error('Function not implemented.');
             }}
-            closeOnboardingFunc={function (): void {
+            closeOnboardingHandler={function (): void {
               throw new Error('Function not implemented.');
             }}
           />

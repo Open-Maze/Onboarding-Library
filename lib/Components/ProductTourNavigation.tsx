@@ -4,22 +4,22 @@ import TextButton from './TextButton';
 interface ProductTourNavigationProps {
   currentStep: number;
   totalSteps: number;
-  previouButtonFunc: () => void;
-  nextButtonFunc: () => void;
-  closeOnboardingFunc: () => void;
+  previouButtonHandler: () => void;
+  nextButtonHandler: () => void;
+  closeOnboardingHandler: () => void;
 }
 
 const ProductTourNavigation = ({
   currentStep,
   totalSteps,
-  previouButtonFunc,
-  nextButtonFunc,
-  closeOnboardingFunc,
+  previouButtonHandler,
+  nextButtonHandler,
+  closeOnboardingHandler,
 }: ProductTourNavigationProps) => (
   <>
     <div className="ol-flex ol-flex-row ol-items-center ol-justify-between relative">
       <span
-        onClick={closeOnboardingFunc}
+        onClick={closeOnboardingHandler}
         className="material-symbols-outlined hover:ol-cursor-pointer ol-h-5 ol-w-5 ol-text-gray-dark hover:ol-text-secondary ol-text-center ol-content-center ol-absolute ol-top-[10px] ol-right-[10px]"
       >
         close_small
@@ -31,12 +31,12 @@ const ProductTourNavigation = ({
         {currentStep > 1 && (
           <TextButton
             text={'previous'}
-            onClickFunc={previouButtonFunc}
+            onClickHandler={previouButtonHandler}
           ></TextButton>
         )}
         <Button
           text={currentStep >= totalSteps ? 'finish' : 'next'}
-          onClickFunc={nextButtonFunc}
+          onClickHandler={nextButtonHandler}
         ></Button>
       </div>
     </div>

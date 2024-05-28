@@ -1,13 +1,13 @@
 interface ButtonProps {
   text: string;
-  onClickFunc: () => void;
+  onClickHandler: () => void;
 }
 
-const Button = ({ text, onClickFunc }: ButtonProps) => (
+const Button = ({ text, onClickHandler }: ButtonProps) => (
   <>
     <button
       className="ol-duration-100 hover:ol-scale-95 ol-border-2 ol-transform ol-border-primary ol-px-4 ol-py-2 ol-rounded-xl ol-bg-primary ol-text-white"
-      onClick={onClickFunc}
+      onClick={onClickHandler}
     >
       {text}
     </button>
