@@ -156,7 +156,7 @@ export default function Popover({
             {children}
             {icon && (
               <span
-                className={`material-symbols-${iconStyle} ol-h-[24px] ol-w-[24px] ol-pb-2`}
+                className={`material-symbols-${iconStyle} ol-h-6 ol-w-6 ol-pb-2`}
               >
                 {icon}
               </span>

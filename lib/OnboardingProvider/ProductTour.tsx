@@ -26,7 +26,7 @@ export default function ProductTour({
   const [isOnboardingFinished, setIsOnboardingFinished] = useState(false);
 
   function finishOnboarding() {
-    if (!dev) {
+    if (!dev && localStorage) {
       localStorage.setItem(productTourId, 'true');
     }
     setIsOnboardingFinished(true);
