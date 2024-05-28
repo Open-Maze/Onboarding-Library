@@ -1,3 +1,5 @@
+const colorConfigPlugin = require('./lib/TailwindPlugin.ts').default;
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -16,11 +18,7 @@ export default {
           DEFAULT: '#E6E6E6',
           dark: '#797979',
         },
-        primary: {
-          DEFAULT: '#8c1cec',
-          lighter: '#dcbaf9',
-          darker: '#841be0',
-        },
+        primary: '#8c1cec',
         secondary: '#39cfe8',
         background: '#F4F4F4',
       },
@@ -30,5 +28,14 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    colorConfigPlugin({
+      colors: {
+        primary: '#fcba03',
+        secondary: '#00ff00',
+        danger: '#0000ff',
+        customColor: '#f0f0f0',
+      },
+    }),
+  ],
 };
