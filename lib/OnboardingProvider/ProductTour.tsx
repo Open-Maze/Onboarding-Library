@@ -26,7 +26,9 @@ export default function ProductTour({
   const [isOnboardingFinished, setIsOnboardingFinished] = useState(false);
 
   function finishOnboarding() {
-    localStorage.setItem(productTourId, 'true');
+    if (!dev) {
+      localStorage.setItem(productTourId, 'true');
+    }
     setIsOnboardingFinished(true);
   }
 
@@ -37,12 +39,6 @@ export default function ProductTour({
     }
     setIsOnboardingFinished(JSON.parse(getLocalStorage));
   }, []);
-
-  useEffect(() => {
-    if (index === children.length - 1 && !dev) {
-      finishOnboarding();
-    }
-  }, [index, children.length, dev, productTourId]);
 
   useEffect(() => {
     if (!warning && dev) {
@@ -57,7 +53,10 @@ export default function ProductTour({
     setIndex((prevState) => prevState + 1);
   }, []);
 
-  const previousButtonOnClick = useCallback(() => {
+  const previousButtonOnClick = useCallback((totalSteps: number) => {
+    if (index >= totalSteps) {
+      finishOnboarding();
+    }
     setIndex((prevState) => prevState - 1);
   }, []);
 
@@ -74,7 +73,7 @@ export default function ProductTour({
             currentStep={index + 1}
             totalSteps={children.length}
             nextButtonHandler={() => nextButtonOnClick()}
-            previouButtonHandler={() => previousButtonOnClick()}
+            previouButtonHandler={() => previousButtonOnClick(children.length)}
             closeOnboardingHandler={() => closeOnboarding(children.length)}
           />
         ),
