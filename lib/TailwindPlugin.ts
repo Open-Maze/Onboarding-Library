@@ -1,4 +1,5 @@
 import plugin from 'tailwindcss/plugin';
+import { CSSRuleObject } from 'tailwindcss/types/config';
 
 interface ColorConfig {
   colors?: Record<string, string>;
@@ -20,7 +21,7 @@ const colorConfigPlugin = plugin.withOptions<ColorConfig>(
           acc[`.border-${key}`] = { borderColor: colors[key] };
           return acc;
         },
-        {} as Record<string, any>
+        {} as Record<string, CSSRuleObject>
       );
 
       addUtilities(newUtilities);
