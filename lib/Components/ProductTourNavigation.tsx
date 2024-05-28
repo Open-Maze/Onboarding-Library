@@ -17,7 +17,7 @@ const ProductTourNavigation = ({
   closeOnboardingFunc,
 }: ProductTourNavigationProps) => (
   <>
-    <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
+    <div className="ol-flex ol-flex-row ol-items-center ol-justify-between relative">
       <span
         onClick={closeOnboardingFunc}
         className="material-symbols-outlined hover:ol-cursor-pointer ol-h-5 ol-w-5 ol-text-gray-dark hover:ol-text-secondary ol-text-center ol-content-center ol-absolute ol-top-[10px] ol-right-[10px]"
