@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import TextButton from './TextButton.tsx';
-const meta: Meta<typeof TextButton> = {
-  component: TextButton,
+import OutlinedButton from './OutlinedButton.tsx';
+const meta: Meta<typeof OutlinedButton> = {
+  component: OutlinedButton,
 };
 
 export default meta;
 
-type Story = StoryObj<typeof TextButton>;
+type Story = StoryObj<typeof OutlinedButton>;
 
 export const Default: Story = {
   args: {
