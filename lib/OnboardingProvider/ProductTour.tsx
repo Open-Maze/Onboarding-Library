@@ -49,14 +49,17 @@ export default function ProductTour({
     }
   }, [warning, dev]);
 
-  const nextButtonOnClick = useCallback(() => {
-    setIndex((prevState) => prevState + 1);
+  const nextButtonOnClick = useCallback((totalSteps: number) => {
+    setIndex((prevState) => {
+      const newIndex = prevState + 1;
+      if (newIndex >= totalSteps) {
+        finishOnboarding();
+      }
+      return newIndex;
+    });
   }, []);
 
-  const previousButtonOnClick = useCallback((totalSteps: number) => {
-    if (index >= totalSteps) {
-      finishOnboarding();
-    }
+  const previousButtonOnClick = useCallback(() => {
     setIndex((prevState) => prevState - 1);
   }, []);
 
@@ -67,14 +70,15 @@ export default function ProductTour({
 
   const renderChildren = useMemo(() => {
     return Children.map(children, (child, index) => {
+      const childrenLength = children.length;
       return cloneElement(child, {
         navigation: (
           <ProductTourNavigation
             currentStep={index + 1}
-            totalSteps={children.length}
-            nextButtonHandler={() => nextButtonOnClick()}
-            previouButtonHandler={() => previousButtonOnClick(children.length)}
-            closeOnboardingHandler={() => closeOnboarding(children.length)}
+            totalSteps={childrenLength}
+            nextButtonHandler={() => nextButtonOnClick(childrenLength)}
+            previouButtonHandler={() => previousButtonOnClick()}
+            closeOnboardingHandler={() => closeOnboarding(childrenLength)}
           />
         ),
       });
