@@ -28,7 +28,7 @@ export default function Popover({
   text,
   children,
   productTour,
-  visible,
+  visible = true,
   navigation,
 }: PopoverOptions) {
   const [styleTop, setStyleTop] = useState<number>();
@@ -44,6 +44,7 @@ export default function Popover({
     } else if (targetRef.current && !visible) {
       targetRef.current.classList.remove('ol-z-100');
     }
+    console.log(targetRef.current?.classList + ' ' + visible);
   };
 
   const arrowPlacement = () => {
