@@ -3,7 +3,7 @@ import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import DarkOverlay from '../Components/DarkOverlay';
 
 interface PopoverOptions {
-  targetRef: React.RefObject<HTMLElement | null>;
+  targetRef: React.RefObject<HTMLElement>;
   targetSpacing: number;
   placement: 'top' | 'bottom' | 'left' | 'right';
   iconStyle?: 'outlined' | 'rounded' | 'sharp';
@@ -12,7 +12,8 @@ interface PopoverOptions {
   image?: string;
   text?: string;
   children?: ReactElement;
-  visible?: React.CSSProperties;
+  productTour: false;
+  visible?: boolean;
   navigation?: ReactElement;
 }
 
@@ -26,6 +27,7 @@ export default function Popover({
   image,
   text,
   children,
+  productTour,
   visible,
   navigation,
 }: PopoverOptions) {
@@ -35,14 +37,13 @@ export default function Popover({
   const [popoverClasses, setPopoverClasses] = useState('');
   const [arrowClasses, setArrowClasses] = useState('');
   const popoverRef = useRef<HTMLDivElement>(null);
-  let targetRefClassname = '';
 
   const zIndexTargetRef = () => {
-    if (targetRef.current) {
-      targetRefClassname = targetRef.current.className;
-      targetRef.current.className = targetRefClassname + ' ol-z-100';
+    if (targetRef.current && visible) {
+      targetRef.current.classList.add('ol-z-100');
+    } else if (targetRef.current && !visible) {
+      targetRef.current.classList.remove('ol-z-100');
     }
-    return 0;
   };
 
   const arrowPlacement = () => {
@@ -142,14 +143,18 @@ export default function Popover({
     }
   }, []);
 
+  useEffect(() => {
+    zIndexTargetRef();
+  }, [visible]);
+
   return (
     <>
-      <DarkOverlay />
+      {!productTour && <DarkOverlay />}
       <div
-        aria-hidden={visible ? 'false' : 'true'}
+        aria-hidden={visible || !productTour ? 'false' : 'true'}
         ref={popoverRef}
         style={{
-          visibility: visible ? 'visible' : 'hidden',
+          visibility: visible || !productTour ? 'visible' : 'hidden',
           top: `${styleTop}px`,
           left: `${styleLeft}px`,
         }}
