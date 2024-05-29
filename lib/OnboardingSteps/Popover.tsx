@@ -11,6 +11,7 @@ interface PopoverOptions {
   image?: string;
   text?: string;
   children?: ReactElement;
+  style?: React.CSSProperties;
   navigation?: ReactElement;
 }
 
@@ -24,6 +25,7 @@ export default function Popover({
   image,
   text,
   children,
+  style,
   navigation,
 }: PopoverOptions) {
   const [styleTop, setStyleTop] = useState<number>();
@@ -134,6 +136,7 @@ export default function Popover({
       <div
         ref={popoverRef}
         style={{
+          ...style,
           top: `${styleTop}px`,
           left: `${styleLeft}px`,
         }}
