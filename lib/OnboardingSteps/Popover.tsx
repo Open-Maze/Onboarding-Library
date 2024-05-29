@@ -12,7 +12,7 @@ interface PopoverOptions {
   image?: string;
   text?: string;
   children?: ReactElement;
-  productTour: false;
+  productTour?: false;
   visible?: boolean;
   navigation?: ReactElement;
 }
