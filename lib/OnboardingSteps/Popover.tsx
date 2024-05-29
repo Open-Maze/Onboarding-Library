@@ -33,10 +33,12 @@ export default function Popover({
   const [popoverClasses, setPopoverClasses] = useState('');
   const [arrowClasses, setArrowClasses] = useState('');
   const popoverRef = useRef<HTMLDivElement>(null);
+  let targetRefClassname = '';
 
-  const zIndexTarget = () => {
+  const zIndexTargetRef = () => {
     if (targetRef.current) {
-      targetRef.current.className = targetRef.current.className + ' ol-z-100';
+      targetRefClassname = targetRef.current.className;
+      targetRef.current.className = targetRefClassname + ' ol-z-100';
     }
     return 0;
   };
@@ -121,7 +123,7 @@ export default function Popover({
   }, []);
 
   useEffect(() => {
-    zIndexTarget();
+    zIndexTargetRef();
     arrowPlacement();
     popoverPosition();
   }, []);
