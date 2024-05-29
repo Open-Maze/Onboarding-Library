@@ -11,7 +11,7 @@ interface PopoverOptions {
   image?: string;
   text?: string;
   children?: ReactElement;
-  style?: React.CSSProperties;
+  visible?: React.CSSProperties;
   navigation?: ReactElement;
 }
 
@@ -25,7 +25,7 @@ export default function Popover({
   image,
   text,
   children,
-  style,
+  visible,
   navigation,
 }: PopoverOptions) {
   const [styleTop, setStyleTop] = useState<number>();
@@ -134,9 +134,10 @@ export default function Popover({
   return (
     <>
       <div
+        aria-hidden={visible ? 'false' : 'true'}
         ref={popoverRef}
         style={{
-          ...style,
+          visibility: visible ? 'visible' : 'hidden',
           top: `${styleTop}px`,
           left: `${styleLeft}px`,
         }}

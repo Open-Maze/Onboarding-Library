@@ -74,7 +74,7 @@ export default function ProductTour({
       const isVisible = childIndex === index;
 
       return cloneElement(child, {
-        style: { visibility: isVisible ? 'visible' : 'hidden' },
+        visible: isVisible,
         navigation: (
           <ProductTourNavigation
             currentStep={childIndex + 1}
