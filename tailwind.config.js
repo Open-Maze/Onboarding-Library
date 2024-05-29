@@ -10,6 +10,7 @@ export default {
       zIndex: {
         100: '100',
         99: '99',
+        98: '98',
       },
       colors: {
         gray: {

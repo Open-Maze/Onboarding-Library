@@ -1,5 +1,6 @@
 'use client';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import DarkOverlay from '../Components/DarkOverlay';
 
 interface PopoverOptions {
   targetRef: React.RefObject<HTMLElement | null>;
@@ -32,6 +33,13 @@ export default function Popover({
   const [popoverClasses, setPopoverClasses] = useState('');
   const [arrowClasses, setArrowClasses] = useState('');
   const popoverRef = useRef<HTMLDivElement>(null);
+
+  const zIndexTarget = () => {
+    if (targetRef.current) {
+      targetRef.current.className = targetRef.current.className + ' ol-z-100';
+    }
+    return 0;
+  };
 
   const arrowPlacement = () => {
     let popoverClasses = '';
@@ -113,6 +121,7 @@ export default function Popover({
   }, []);
 
   useEffect(() => {
+    zIndexTarget();
     arrowPlacement();
     popoverPosition();
   }, []);
@@ -131,6 +140,7 @@ export default function Popover({
 
   return (
     <>
+      <DarkOverlay />
       <div
         ref={popoverRef}
         style={{
