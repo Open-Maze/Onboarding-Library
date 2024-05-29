@@ -98,25 +98,29 @@ export function ProductTourStoryBookProviderPageWithScroll() {
         <Popover
           targetRef={targetRefOne}
           targetSpacing={0}
-          placement={'top'}
+          placement={'bottom'}
+          title="Test Title a b c"
           text="Lorem ipsum 1 BOTTOM"
         />
         <Popover
           targetRef={targetRefTwo}
           targetSpacing={0}
           placement={'right'}
+          title="Test Title a b c"
           text="Lorem ipsum 2 RIGHT"
         />
         <Popover
           targetRef={targetRefThree}
           targetSpacing={0}
           placement={'top'}
+          title="Test Title a b c"
           text="Lorem ipsum 3 TOP"
         />
         <Popover
           targetRef={targetRefFour}
           targetSpacing={0}
           placement={'left'}
+          title="Test Title a b c"
           text="Lorem ipsum 4 LEFT"
         />
       </ProductTour>

@@ -141,7 +141,7 @@ export default function Popover({
       >
         <div className={`${arrowClasses}`}>
           <svg
-            className="ol-fill-gray"
+            className="ol-fill-background"
             width="34"
             height="34"
             viewBox="0 0 33 34"
@@ -151,15 +151,26 @@ export default function Popover({
             <path d="M15.9707 0L32.9413 16.9706L15.9707 33.9411L1.82857 19.799C0.266471 18.2369 0.266471 15.7042 1.82857 14.1421L15.9707 0Z" />
           </svg>
         </div>
-        <div className="ol-bg-gray ol-relative ol-px-4 ol-rounded-xl ol-z-100">
-          <div className="ol-pt-3 ol-pb-2 ol-gap-y-1 ol-flex ol-flex-col">
+        <div className="ol-bg-background ol-relative ol-p-5 ol-rounded-3xl ol-z-100">
+          <div className="ol-flex ol-gap-y-2.5 ol-flex-col">
             {children}
             {icon && (
-              <span className={`material-symbols-${iconStyle}`}>{icon}</span>
+              <span
+                className={`material-symbols-${iconStyle} ol-h-6 ol-w-6 ol-pb-2`}
+              >
+                {icon}
+              </span>
             )}
-            {title && <h2>{title}</h2>}
-            {image && <img src={image} className="ol-bg-gray-dark"></img>}
-            {text && <div>{text}</div>}
+            {title && <h2 className="ol-text-4xl">{title}</h2>}
+            {image && (
+              <div className="ol-flex ol-justify-center">
+                <img
+                  src={image}
+                  className="ol-object-contain w-full h-auto"
+                ></img>
+              </div>
+            )}
+            {text && <div className="ol-text-lg">{text}</div>}
             {navigation}
           </div>
         </div>

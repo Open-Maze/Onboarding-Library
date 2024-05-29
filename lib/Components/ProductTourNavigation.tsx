@@ -1,35 +1,43 @@
-import Button from './Button';
-import TextButton from './TextButton';
+import ButtonPrimary from './ButtonPrimary';
+import OutlinedButton from './OutlinedButton';
 
 interface ProductTourNavigationProps {
   currentStep: number;
   totalSteps: number;
-  previouButtonFunc: () => void;
-  nextButtonFunc: () => void;
+  previouButtonHandler: () => void;
+  nextButtonHandler: () => void;
+  closeOnboardingHandler: () => void;
 }
 
 const ProductTourNavigation = ({
   currentStep,
   totalSteps,
-  previouButtonFunc,
-  nextButtonFunc,
+  previouButtonHandler,
+  nextButtonHandler,
+  closeOnboardingHandler,
 }: ProductTourNavigationProps) => (
   <>
-    <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
-      <div className="ol-text-gray-dark ol-pr-4 ol-text-nowrap">
+    <div className="ol-flex ol-flex-row ol-items-center ol-justify-between relative">
+      <span
+        onClick={closeOnboardingHandler}
+        className="material-symbols-outlined hover:ol-cursor-pointer ol-h-5 ol-w-5 ol-text-gray-dark hover:ol-text-secondary ol-text-center ol-content-center ol-absolute ol-top-2.5 ol-right-2.5"
+      >
+        close_small
+      </span>
+      <div className="ol-pr-4 ol-text-nowrap ol-text-gray-dark">
         {`${currentStep} of ${totalSteps}`}
       </div>
-      <div className="ol-flex ol-flex-row ol-gap-x-2.5">
+      <div className="ol-flex ol-flex-row  ol-gap-x-2.5">
         {currentStep > 1 && (
-          <TextButton
-            text={'Previous'}
-            onClickFunc={previouButtonFunc}
-          ></TextButton>
+          <OutlinedButton
+            text={'previous'}
+            onClickHandler={previouButtonHandler}
+          ></OutlinedButton>
         )}
-        <Button
-          text={currentStep >= totalSteps ? 'Finish' : 'Next'}
-          onClickFunc={nextButtonFunc}
-        ></Button>
+        <ButtonPrimary
+          text={currentStep >= totalSteps ? 'finish' : 'next'}
+          onClickHandler={nextButtonHandler}
+        ></ButtonPrimary>
       </div>
     </div>
   </>

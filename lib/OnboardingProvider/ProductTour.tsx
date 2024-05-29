@@ -25,6 +25,13 @@ export default function ProductTour({
   const [warning, setWarning] = useState(false);
   const [isOnboardingFinished, setIsOnboardingFinished] = useState(false);
 
+  function finishOnboarding() {
+    if (!dev && localStorage) {
+      localStorage.setItem(productTourId, 'true');
+    }
+    setIsOnboardingFinished(true);
+  }
+
   useEffect(() => {
     const getLocalStorage = localStorage.getItem(productTourId);
     if (getLocalStorage === null) {
@@ -32,13 +39,6 @@ export default function ProductTour({
     }
     setIsOnboardingFinished(JSON.parse(getLocalStorage));
   }, []);
-
-  useEffect(() => {
-    if (index === children.length - 1 && !dev) {
-      localStorage.setItem(productTourId, 'true');
-      setIsOnboardingFinished(true);
-    }
-  }, [index, children.length, dev, productTourId]);
 
   useEffect(() => {
     if (!warning && dev) {
@@ -49,23 +49,36 @@ export default function ProductTour({
     }
   }, [warning, dev]);
 
-  const nextButtonOnClick = useCallback(() => {
-    setIndex((prevState) => prevState + 1);
+  const nextButtonOnClick = useCallback((totalSteps: number) => {
+    setIndex((prevState) => {
+      const newIndex = prevState + 1;
+      if (newIndex >= totalSteps) {
+        finishOnboarding();
+      }
+      return newIndex;
+    });
   }, []);
 
   const previousButtonOnClick = useCallback(() => {
     setIndex((prevState) => prevState - 1);
   }, []);
 
+  const closeOnboarding = useCallback((totalStepAmount: number) => {
+    finishOnboarding();
+    setIndex(totalStepAmount);
+  }, []);
+
   const renderChildren = useMemo(() => {
     return Children.map(children, (child, index) => {
+      const childrenLength = children.length;
       return cloneElement(child, {
         navigation: (
           <ProductTourNavigation
             currentStep={index + 1}
-            totalSteps={children.length}
-            nextButtonFunc={() => nextButtonOnClick()}
-            previouButtonFunc={() => previousButtonOnClick()}
+            totalSteps={childrenLength}
+            nextButtonHandler={() => nextButtonOnClick(childrenLength)}
+            previouButtonHandler={() => previousButtonOnClick()}
+            closeOnboardingHandler={() => closeOnboarding(childrenLength)}
           />
         ),
       });
