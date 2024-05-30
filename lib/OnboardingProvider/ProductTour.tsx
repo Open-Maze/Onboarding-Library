@@ -69,12 +69,15 @@ export default function ProductTour({
   }, []);
 
   const renderChildren = useMemo(() => {
-    return Children.map(children, (child, index) => {
+    return Children.map(children, (child, childIndex) => {
       const childrenLength = children.length;
+      const isVisible = childIndex === index;
+
       return cloneElement(child, {
+        visible: isVisible,
         navigation: (
           <ProductTourNavigation
-            currentStep={index + 1}
+            currentStep={childIndex + 1}
             totalSteps={childrenLength}
             nextButtonHandler={() => nextButtonOnClick(childrenLength)}
             previouButtonHandler={() => previousButtonOnClick()}
@@ -83,7 +86,7 @@ export default function ProductTour({
         ),
       });
     });
-  }, []);
+  }, [index]);
 
-  return !isOnboardingFinished && <div>{renderChildren[index]}</div>;
+  return !isOnboardingFinished && <div>{renderChildren}</div>;
 }
