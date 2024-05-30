@@ -40,16 +40,17 @@ export default function Popover({
 
   const zIndexTargetRef = () => {
     const target = targetRef.current;
-    if (target && visible) {
+
+    if (!target) return;
+
+    if (visible) {
       target.classList.add('ol-z-100');
       if (window.getComputedStyle(target).position === 'static') {
         target.classList.add('ol-relative');
       }
-    } else if (target && !visible) {
+    } else {
       target.classList.remove('ol-z-100');
-      if (target.classList.contains('ol-relative')) {
-        target.classList.remove('ol-relative');
-      }
+      target.classList.remove('ol-relative');
     }
   };
 
