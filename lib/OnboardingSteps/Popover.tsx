@@ -75,6 +75,10 @@ interface PopoverOptions {
    */
   style?: React.CSSProperties;
 
+  /**
+   * A boolean value that determines whether the popover is visible or hidden.
+   * @type {boolean}
+   */
   visible?: React.CSSProperties;
 
   /**
@@ -97,6 +101,7 @@ interface PopoverOptions {
  * @param {string} text - The text content of the popover.
  * @param {React.ReactNode} children - The child elements of the popover.
  * @param {Object} style - The CSS styles applied to the popover provided by the product tour element.
+ * @param {boolean} visible - A boolean value that determines whether the popover is visible or hidden.
  * @param {React.ReactElement} navigation - A React element for navigation controls within the popover provided by the product tour element.
  *
  * @returns {React.ReactElement} The rendered Popover component.
