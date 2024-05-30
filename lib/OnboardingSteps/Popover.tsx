@@ -39,12 +39,18 @@ export default function Popover({
   const popoverRef = useRef<HTMLDivElement>(null);
 
   const zIndexTargetRef = () => {
-    if (targetRef.current && visible) {
-      targetRef.current.classList.add('ol-z-100');
-    } else if (targetRef.current && !visible) {
-      targetRef.current.classList.remove('ol-z-100');
+    const target = targetRef.current;
+    if (target && visible) {
+      target.classList.add('ol-z-100');
+      if (window.getComputedStyle(target).position === 'static') {
+        target.classList.add('ol-relative');
+      }
+    } else if (target && !visible) {
+      target.classList.remove('ol-z-100');
+      if (target.classList.contains('ol-relative')) {
+        target.classList.remove('ol-relative');
+      }
     }
-    console.log(targetRef.current?.classList + ' ' + visible);
   };
 
   const arrowPlacement = () => {
