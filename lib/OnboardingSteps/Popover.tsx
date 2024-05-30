@@ -75,6 +75,8 @@ interface PopoverOptions {
    */
   style?: React.CSSProperties;
 
+  visible?: React.CSSProperties;
+
   /**
    * A React element for navigation controls within the popover provided by the product tour component
    * @type {React.ReactElement}
@@ -109,7 +111,7 @@ export default function Popover({
   image,
   text,
   children,
-  style,
+  visible,
   navigation,
 }: PopoverOptions) {
   const [styleTop, setStyleTop] = useState<number>();
@@ -218,9 +220,10 @@ export default function Popover({
   return (
     <>
       <div
+        aria-hidden={visible ? 'false' : 'true'}
         ref={popoverRef}
         style={{
-          ...style,
+          visibility: visible ? 'visible' : 'hidden',
           top: `${styleTop}px`,
           left: `${styleLeft}px`,
         }}
