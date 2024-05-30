@@ -36,7 +36,16 @@ const targetRefOne = useRef<HTMLDivElement>(null);
 
 <>
   <div ref={targetRefOne}>Target</div>
-  <Popover targetRef={targetRefOne} targetSpacing={8} placement={'top'} />
+  <Popover 
+    targetRef={targetRefOne}
+    targetSpacing={8}
+    placement={'top'} 
+    icon="chat"
+    iconStyle="outlined"
+    title="Chatbox"
+    image="https://picsum.photos/id/237/1920/1080"
+    text="Explaining text stuff. Look cute dog"
+  />
 </>;
 ```
 <!-- prettier-ignore-end -->
