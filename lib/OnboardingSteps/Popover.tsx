@@ -76,6 +76,11 @@ interface PopoverOptions {
    */
   style?: React.CSSProperties;
 
+  /**
+   * A boolean value that determines whether the popover is part of a product tour.
+   * @type {boolean}
+   * @default false
+   */
   productTour?: false;
 
   /**
