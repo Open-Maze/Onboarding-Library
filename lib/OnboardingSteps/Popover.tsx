@@ -45,8 +45,10 @@ export default function Popover({
 
     if (visible) {
       target.classList.add('ol-z-100');
-      if (window.getComputedStyle(target).position === 'static') {
+      console.log(target.style.position);
+      if (target.style.position === 'static' || target.style.position === '') {
         target.classList.add('ol-relative');
+        console.log(target.style.position);
       }
     } else {
       target.classList.remove('ol-z-100');
@@ -134,7 +136,6 @@ export default function Popover({
   }, []);
 
   useEffect(() => {
-    zIndexTargetRef();
     arrowPlacement();
     popoverPosition();
   }, []);
