@@ -4,6 +4,7 @@ import {
   PopoverStoryBookProviderAllParams,
   PopoverStoryBookProviderBottom,
   PopoverStoryBookProviderLeft,
+  PopoverStoryBookProviderNonPositionedElement,
   PopoverStoryBookProviderRight,
   PopoverStoryBookProviderTop,
 } from './PopoverStorybookProvider.tsx';
@@ -71,6 +72,18 @@ export const AllignmentRight: Story = {
   render: () => (
     <>
       <PopoverStoryBookProviderRight />
+    </>
+  ),
+};
+
+export const NonPositionedElement: Story = {
+  parameters: {
+    layout: 'fullscreen',
+  },
+
+  render: () => (
+    <>
+      <PopoverStoryBookProviderNonPositionedElement />
     </>
   ),
 };

@@ -8,8 +8,7 @@ export default {
   theme: {
     extend: {
       zIndex: {
-        100: '100',
-        99: '99',
+        41: '41',
       },
       colors: {
         gray: {

@@ -8,6 +8,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import DarkOverlay from '../Components/DarkOverlay';
 import ProductTourNavigation from '../Components/ProductTourNavigation';
 
 /**
@@ -91,6 +92,7 @@ export default function ProductTour({
       const isVisible = childIndex === index;
 
       return cloneElement(child, {
+        productTour: true,
         visible: isVisible,
         navigation: (
           <ProductTourNavigation
@@ -105,5 +107,12 @@ export default function ProductTour({
     });
   }, [index]);
 
-  return !isOnboardingFinished && <div>{renderChildren}</div>;
+  return (
+    !isOnboardingFinished && (
+      <div>
+        <DarkOverlay />
+        {renderChildren}
+      </div>
+    )
+  );
 }
