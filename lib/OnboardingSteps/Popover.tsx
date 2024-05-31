@@ -45,10 +45,8 @@ export default function Popover({
 
     if (visible) {
       target.classList.add('ol-z-41');
-      console.log(target.style.position);
       if (target.style.position === 'static' || target.style.position === '') {
         target.classList.add('ol-relative');
-        console.log(target.style.position);
       }
     } else {
       target.classList.remove('ol-z-41');
