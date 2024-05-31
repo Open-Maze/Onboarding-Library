@@ -44,14 +44,14 @@ export default function Popover({
     if (!target) return;
 
     if (visible) {
-      target.classList.add('ol-z-100');
+      target.classList.add('ol-z-41');
       console.log(target.style.position);
       if (target.style.position === 'static' || target.style.position === '') {
         target.classList.add('ol-relative');
         console.log(target.style.position);
       }
     } else {
-      target.classList.remove('ol-z-100');
+      target.classList.remove('ol-z-41');
       target.classList.remove('ol-relative');
     }
   };
@@ -167,7 +167,7 @@ export default function Popover({
           top: `${styleTop}px`,
           left: `${styleLeft}px`,
         }}
-        className={`ol-max-w-[340px] ol-absolute ol-z-100 ol-drop-shadow-md ol-flex ${popoverHidden && 'ol-hidden'} ${popoverClasses}`}
+        className={`ol-max-w-[340px] ol-absolute ol-z-41 ol-drop-shadow-md ol-flex ${popoverHidden && 'ol-hidden'} ${popoverClasses}`}
       >
         <div className={`${arrowClasses}`}>
           <svg
@@ -181,7 +181,7 @@ export default function Popover({
             <path d="M15.9707 0L32.9413 16.9706L15.9707 33.9411L1.82857 19.799C0.266471 18.2369 0.266471 15.7042 1.82857 14.1421L15.9707 0Z" />
           </svg>
         </div>
-        <div className="ol-bg-background ol-relative ol-p-5 ol-rounded-3xl ol-z-100">
+        <div className="ol-bg-background ol-relative ol-p-5 ol-rounded-3xl ol-z-41">
           <div className="ol-flex ol-gap-y-2.5 ol-flex-col">
             {children}
             {icon && (
