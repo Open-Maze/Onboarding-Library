@@ -1,8 +1,9 @@
 'use client';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import DarkOverlay from '../Components/DarkOverlay';
 
 interface PopoverOptions {
-  targetRef: React.RefObject<HTMLElement | null>;
+  targetRef: React.RefObject<HTMLElement>;
   targetSpacing: number;
   placement: 'top' | 'bottom' | 'left' | 'right';
   iconStyle?: 'outlined' | 'rounded' | 'sharp';
@@ -11,7 +12,8 @@ interface PopoverOptions {
   image?: string;
   text?: string;
   children?: ReactElement;
-  visible?: React.CSSProperties;
+  productTour?: false;
+  visible?: boolean;
   navigation?: ReactElement;
 }
 
@@ -25,7 +27,8 @@ export default function Popover({
   image,
   text,
   children,
-  visible,
+  productTour,
+  visible = true,
   navigation,
 }: PopoverOptions) {
   const [styleTop, setStyleTop] = useState<number>();
@@ -34,6 +37,22 @@ export default function Popover({
   const [popoverClasses, setPopoverClasses] = useState('');
   const [arrowClasses, setArrowClasses] = useState('');
   const popoverRef = useRef<HTMLDivElement>(null);
+
+  const zIndexTargetRef = () => {
+    const target = targetRef.current;
+
+    if (!target) return;
+
+    if (visible) {
+      target.classList.add('ol-z-41');
+      if (target.style.position === 'static' || target.style.position === '') {
+        target.classList.add('ol-relative');
+      }
+    } else {
+      target.classList.remove('ol-z-41');
+      target.classList.remove('ol-relative');
+    }
+  };
 
   const arrowPlacement = () => {
     let popoverClasses = '';
@@ -131,17 +150,22 @@ export default function Popover({
     }
   }, []);
 
+  useEffect(() => {
+    zIndexTargetRef();
+  }, [visible]);
+
   return (
     <>
+      {!productTour && <DarkOverlay />}
       <div
-        aria-hidden={visible ? 'false' : 'true'}
+        aria-hidden={visible || !productTour ? 'false' : 'true'}
         ref={popoverRef}
         style={{
-          visibility: visible ? 'visible' : 'hidden',
+          visibility: visible || !productTour ? 'visible' : 'hidden',
           top: `${styleTop}px`,
           left: `${styleLeft}px`,
         }}
-        className={`ol-max-w-[340px] ol-absolute ol-z-100 ol-drop-shadow-md ol-flex ${popoverHidden && 'ol-hidden'} ${popoverClasses}`}
+        className={`ol-max-w-[340px] ol-absolute ol-z-41 ol-drop-shadow-md ol-flex ${popoverHidden && 'ol-hidden'} ${popoverClasses}`}
       >
         <div className={`${arrowClasses}`}>
           <svg
@@ -155,7 +179,7 @@ export default function Popover({
             <path d="M15.9707 0L32.9413 16.9706L15.9707 33.9411L1.82857 19.799C0.266471 18.2369 0.266471 15.7042 1.82857 14.1421L15.9707 0Z" />
           </svg>
         </div>
-        <div className="ol-bg-background ol-relative ol-p-5 ol-rounded-3xl ol-z-100">
+        <div className="ol-bg-background ol-relative ol-p-5 ol-rounded-3xl ol-z-41">
           <div className="ol-flex ol-gap-y-2.5 ol-flex-col">
             {children}
             {icon && (

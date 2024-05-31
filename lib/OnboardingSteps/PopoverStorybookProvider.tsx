@@ -120,3 +120,27 @@ export function PopoverStoryBookProviderRight() {
     </>
   );
 }
+
+export function PopoverStoryBookProviderNonPositionedElement() {
+  const targetRef = useRef(null);
+  return (
+    <>
+      <div
+        ref={targetRef}
+        id="tabs"
+        className="ol-flex ol-w-10 ol-h-10 ol-bg-red-500"
+      >
+        tabs
+      </div>
+      <Popover
+        placement="right"
+        text="Lorem ipsum dolor sit amet"
+        targetSpacing={0}
+        iconStyle="outlined"
+        icon="chat"
+        title="title"
+        targetRef={targetRef}
+      ></Popover>
+    </>
+  );
+}
