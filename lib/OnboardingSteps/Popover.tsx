@@ -2,21 +2,118 @@
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import DarkOverlay from '../Components/DarkOverlay';
 
+/**
+ * Interface for configuring the options of a popover component.
+ */
 interface PopoverOptions {
+  /**
+   * A reference to the HTML element that the popover is attached to.
+   * Used to position the popover relative to the target element.
+   * @type {React.RefObject<HTMLElement>}
+   */
   targetRef: React.RefObject<HTMLElement>;
+
+  /**
+   * The spacing (in pixels) between the target element and the popover.
+   * Controls how far the popover is from the target element.
+   * @type {number}
+   */
   targetSpacing: number;
+
+  /**
+   * Specifies the position of the popover relative to the target element.
+   * The popover can be placed on the top, bottom, left, or right of the target element.
+   * @type {'top' | 'bottom' | 'left' | 'right'}
+   */
   placement: 'top' | 'bottom' | 'left' | 'right';
+
+  /**
+   * The style of the icon displayed in the popover based on material symbols. Optional unless icon is defined.
+   * Can be 'outlined', 'rounded', or 'sharp'.
+   * @type {'outlined' | 'rounded' | 'sharp'}
+   */
   iconStyle?: 'outlined' | 'rounded' | 'sharp';
+
+  /**
+   * The name of the icon to be displayed in the popover based on material symbols. Optional unless iconStyle is defined.
+   * Allows for an icon to be shown alongside the popover content.
+   * @type {string}
+   */
   icon?: string;
+
+  /**
+   * The title text displayed at the top of the popover. Optional.
+   * Used to give a brief heading or description.
+   * @type {string}
+   */
   title?: string;
+
+  /**
+   * The URL of an image to be displayed in the popover. Optional.
+   * Can be used to include visual content in the popover.
+   * @type {string}
+   */
   image?: string;
+
+  /**
+   * The main text content of the popover. Optional.
+   * Used for displaying detailed information or instructions.
+   * @type {string}
+   */
   text?: string;
+
+  /**
+   * React elements to be rendered inside the popover. Optional.
+   * Allows for complex content, including other components, to be included in the popover.
+   * @type {React.ReactElement}
+   */
   children?: ReactElement;
+
+  /**
+   * Custom CSS properties provided by the product tour component.
+   * Used to override styling of the popover.
+   * @type {React.CSSProperties}
+   */
+  style?: React.CSSProperties;
+
+  /**
+   * A boolean value that determines whether the popover is part of a product tour.
+   * @type {boolean}
+   * @default false
+   */
   productTour?: false;
+
+  /**
+   * A boolean value that determines whether the popover is visible or hidden.
+   * @type {boolean}
+   */
   visible?: boolean;
+
+  /**
+   * A React element for navigation controls within the popover provided by the product tour component
+   * @type {React.ReactElement}
+   */
   navigation?: ReactElement;
 }
 
+/**
+ * Popover component that displays a popover with various options.
+ *
+ * @param {React.RefObject} targetRef - A reference to the target element around which the popover is displayed.
+ * @param {number} targetSpacing - The space between the target and the popover.
+ * @param {string} placement - The placement of the popover relative to the target ('bottom', 'top', 'left', 'right').
+ * @param {string} iconStyle - The style of the icon displayed in the popover based on material symbols ('outlined' | 'rounded' | 'sharp').
+ * @param {React.ReactNode} icon - The icon displayed in the popover based on all available icons in material symbols.
+ * @param {string} title - The title of the popover.
+ * @param {string} image - The image displayed in the popover.
+ * @param {string} text - The text content of the popover.
+ * @param {React.ReactNode} children - The child elements of the popover.
+ * @param {Object} style - The CSS styles applied to the popover provided by the product tour element.
+ * @param {boolean} visible - A boolean value that determines whether the popover is visible or hidden.
+ * @param {React.ReactElement} navigation - A React element for navigation controls within the popover provided by the product tour element.
+ *
+ * @returns {React.ReactElement} The rendered Popover component.
+ */
 export default function Popover({
   targetRef,
   targetSpacing,

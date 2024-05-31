@@ -11,12 +11,29 @@ import {
 import DarkOverlay from '../Components/DarkOverlay';
 import ProductTourNavigation from '../Components/ProductTourNavigation';
 
+/**
+ * Interface for the ProductTour component.
+ *
+ * @typedef {Object} InterfaceProductTour
+ * @property {Array<ReactElement>} children - The child elements of the product tour.
+ * @property {string} productTourId - The unique identifier for the product tour.
+ * @property {boolean} [dev=false] - A flag indicating whether the product tour is in development mode.
+ */
 interface InterfaceProductTour {
   children: Array<ReactElement>;
   productTourId: string;
   dev?: boolean;
 }
 
+/**
+ * ProductTour component that displays a product tour with various steps.
+ *
+ * @param {Array<ReactElement>} children - The child elements of the product tour.
+ * @param {string} productTourId - The unique identifier for the product tour.
+ * @param {boolean} [dev=false] - A flag indicating whether the product tour is in development mode.
+ *
+ * @returns {React.ReactElement} The rendered ProductTour component.
+ */
 export default function ProductTour({
   children,
   productTourId,

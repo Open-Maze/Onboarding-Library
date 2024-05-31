@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Popover from './Popover.tsx';
-import PopoverStoryBookProviderTop, {
+import {
+  PopoverStoryBookProviderAllParams,
   PopoverStoryBookProviderBottom,
   PopoverStoryBookProviderLeft,
   PopoverStoryBookProviderNonPositionedElement,
   PopoverStoryBookProviderRight,
+  PopoverStoryBookProviderTop,
 } from './PopoverStorybookProvider.tsx';
 
 const meta: Meta<typeof Popover> = {
@@ -13,6 +15,18 @@ const meta: Meta<typeof Popover> = {
 
 export default meta;
 type Story = StoryObj<typeof Popover>;
+
+export const Default: Story = {
+  parameters: {
+    layout: 'fullscreen',
+  },
+
+  render: () => (
+    <>
+      <PopoverStoryBookProviderAllParams />
+    </>
+  ),
+};
 
 export const AlignmentTop: Story = {
   parameters: {

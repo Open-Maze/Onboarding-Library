@@ -14,7 +14,7 @@ Install this library with npm
 npm i onboarding-library-openmaze
 ```
 
-Import library styling
+Import library styling near where you import your other css files
 
 ```jsx
 import 'onboarding-library-openmaze/dist/style.css';
@@ -24,7 +24,7 @@ import 'onboarding-library-openmaze/dist/style.css';
 
 ### Popover
 
-The Popover component is a component designed to display additional information or options in a small overlay that's positioned relative to another element.
+The Popover component is a component designed to display additional information or options in a small overlay that's positioned relative to another element. It can be used on its own or as a step in a product tour
 
 #### Usage
 
@@ -36,7 +36,16 @@ const targetRefOne = useRef<HTMLDivElement>(null);
 
 <>
   <div ref={targetRefOne}>Target</div>
-  <Popover targetRef={targetRefOne} targetSpacing={8} placement={'top'} />
+  <Popover 
+    targetRef={targetRefOne}
+    targetSpacing={8}
+    placement={'top'} 
+    icon="chat"
+    iconStyle="outlined"
+    title="Chatbox"
+    image="https://picsum.photos/id/237/1920/1080"
+    text="Explaining text stuff. Look cute dog"
+  />
 </>;
 ```
 <!-- prettier-ignore-end -->
@@ -56,51 +65,23 @@ const targetRefOne = useRef<HTMLDivElement>(null);
 
 The product tour component is used in order to wrap other elements of this library. It provides them with the context and logic to navigate to other onboarding elements making it able to chain them and provide a user with a product tour that highlights and explains the most important features of an application.
 
+#### Usage
+
 ```jsx
 import { ProductTour, Popover } from 'onboarding-library-openmaze';
 
 <>
-  <ProductTour>
+  <ProductTour dev={true} productTourId={'qapp-chat-pt'}>
     <Popover />
-    # Other onboarding elements
+    {/* Other onboarding elements */}
   <ProductTour />
 </>
 ```
 
-<!--
-## Npm deployment TO-DO
-
-To deploy this project to the npm repository run
-
-```bash
-  npm run deploy
-```
-
-## Run Locally TO-DO
-
-Clone the project
-
-```bash
-  git clone https://link-to-project
-```
-
-Go to the project directory
-
-```bash
-  cd my-project
-```
-
-Install dependencies
-
-```bash
-  npm install
-```
-
-Start the server
-
-```bash
-  npm run start
-``` -->
+| Parameter       | Type      | Description                                                                                            |
+| :-------------- | :-------- | :----------------------------------------------------------------------------------------------------- |
+| `dev`           | `boolean` | **Required** If set to true the product tour wont be stored in local storage when its finished.        |
+| `productTourId` | `string`  | **Required** This is the variable the finished state of the tour will be stored under in localstorage. |
 
 ## Authors
 
