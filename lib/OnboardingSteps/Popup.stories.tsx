@@ -34,7 +34,6 @@ export const InsideProductTour: Story = {
       <Popup
         title="Title 2"
         text="Supporting line text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam commodo pellentesque vehicula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;"
-        image="https://picsum.photos/id/237/1920/1080"
       />
     </ProductTour>
   ),
