@@ -171,7 +171,7 @@ export default function Popover({
           top: `${styleTop}px`,
           left: `${styleLeft}px`,
         }}
-        className={`ol-max-w-[340px] ol-absolute ol-z-41 ol-drop-shadow-md ol-flex ${popoverHidden || (popoverClosed && 'ol-hidden')} ${popoverClasses}`}
+        className={`ol-max-w-[340px] ol-absolute ol-z-41 ol-drop-shadow-md ol-flex ${popoverHidden || popoverClosed ? 'ol-hidden' : ''} ${popoverClasses}`}
       >
         <div className={`${arrowClasses}`}>
           <svg
