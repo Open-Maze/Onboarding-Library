@@ -1,5 +1,6 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import ButtonClose from '../Components/ButtonClose';
 import DarkOverlay from '../Components/DarkOverlay';
 import { PopoverOptions } from '../types';
 
@@ -38,6 +39,7 @@ export default function Popover({
   const [styleTop, setStyleTop] = useState<number>();
   const [styleLeft, setStyleLeft] = useState<number>();
   const [popoverHidden, setPopoverHidden] = useState(true);
+  const [popoverClosed, setPopoverClosed] = useState(false);
   const [popoverClasses, setPopoverClasses] = useState('');
   const [arrowClasses, setArrowClasses] = useState('');
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -160,7 +162,7 @@ export default function Popover({
 
   return (
     <>
-      {!productTour && <DarkOverlay />}
+      {!productTour && !popoverClosed && <DarkOverlay />}
       <div
         aria-hidden={visible || !productTour ? 'false' : 'true'}
         ref={popoverRef}
@@ -169,7 +171,7 @@ export default function Popover({
           top: `${styleTop}px`,
           left: `${styleLeft}px`,
         }}
-        className={`ol-max-w-[340px] ol-absolute ol-z-41 ol-drop-shadow-md ol-flex ${popoverHidden && 'ol-hidden'} ${popoverClasses}`}
+        className={`ol-max-w-[340px] ol-absolute ol-z-41 ol-drop-shadow-md ol-flex ${popoverHidden || (popoverClosed && 'ol-hidden')} ${popoverClasses}`}
       >
         <div className={`${arrowClasses}`}>
           <svg
@@ -184,6 +186,14 @@ export default function Popover({
           </svg>
         </div>
         <div className="ol-bg-background ol-relative ol-p-5 ol-rounded-3xl ol-z-41">
+          {!productTour && (
+            <ButtonClose
+              onClickHandler={() => {
+                visible = false;
+                setPopoverClosed(true);
+              }}
+            />
+          )}
           <div className="ol-flex ol-gap-y-2.5 ol-flex-col">
             {children}
             {icon && (
