@@ -99,7 +99,7 @@ export default function ProductTour({
             currentStep={childIndex + 1}
             totalSteps={childrenLength}
             nextButtonHandler={() => nextButtonOnClick(childrenLength)}
-            previouButtonHandler={() => previousButtonOnClick()}
+            previousButtonHandler={() => previousButtonOnClick()}
             closeOnboardingHandler={() => closeOnboarding(childrenLength)}
           />
         ),
