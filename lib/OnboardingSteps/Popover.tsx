@@ -87,6 +87,7 @@ export default function Popover({
   };
 
   const popoverPosition = useCallback(() => {
+    // Ensure popoverRef and targetRef are valid before calculating position
     if (!popoverRef.current) {
       console.error(`Popover ref not found`);
       return;
@@ -96,13 +97,16 @@ export default function Popover({
       return;
     }
 
+    // Get the bounding rectangles of the popover and target elements
     const popoverRect = popoverRef.current.getBoundingClientRect();
     const targetRect = targetRef.current.getBoundingClientRect();
 
+    // Store the initial top and left values of the target element
     const rectValues = { top: targetRect.top, left: targetRect.left };
     let top = 0;
     let left = 0;
 
+    // Calculate the popover position based on the placement prop with adjustments for user specified spacing and window scroll
     switch (placement) {
       case 'bottom':
         top =
@@ -134,17 +138,21 @@ export default function Popover({
         left = targetRect.left + targetRect.width + targetSpacing;
         break;
     }
+    // Set the calculated top and left styles for the popover
     setStyleTop(top);
     setStyleLeft(left);
+    // Ensure the popover is visible after setting the position to avoid flickering
     setPopoverHidden(false);
   }, []);
 
   useEffect(() => {
+    // Call the arrowPlacement and popoverPosition functions when the component is rendered
     arrowPlacement();
     popoverPosition();
   }, []);
 
   useEffect(() => {
+    // Observe changes to the document body, popover element and target element to recalculate position on resize
     if (document.body && popoverRef.current) {
       const observer = new ResizeObserver(() => {
         popoverPosition();
