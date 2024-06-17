@@ -8,14 +8,32 @@ import {
   useMemo,
   useState,
 } from 'react';
+import DarkOverlay from '../Components/DarkOverlay';
 import ProductTourNavigation from '../Components/ProductTourNavigation';
 
+/**
+ * Interface for the ProductTour component.
+ *
+ * @typedef {Object} InterfaceProductTour
+ * @property {Array<ReactElement>} children - The child elements of the product tour.
+ * @property {string} productTourId - The unique identifier for the product tour.
+ * @property {boolean} [dev=false] - A flag indicating whether the product tour is in development mode.
+ */
 interface InterfaceProductTour {
   children: Array<ReactElement>;
   productTourId: string;
   dev?: boolean;
 }
 
+/**
+ * ProductTour component that displays a product tour with various steps.
+ *
+ * @param {Array<ReactElement>} children - The child elements of the product tour.
+ * @param {string} productTourId - The unique identifier for the product tour.
+ * @param {boolean} [dev=false] - A flag indicating whether the product tour is in development mode.
+ *
+ * @returns {React.ReactElement} The rendered ProductTour component.
+ */
 export default function ProductTour({
   children,
   productTourId,
@@ -26,7 +44,7 @@ export default function ProductTour({
   const [isOnboardingFinished, setIsOnboardingFinished] = useState(false);
 
   function finishOnboarding() {
-    if (!dev) {
+    if (!dev && localStorage) {
       localStorage.setItem(productTourId, 'true');
     }
     setIsOnboardingFinished(true);
@@ -69,12 +87,16 @@ export default function ProductTour({
   }, []);
 
   const renderChildren = useMemo(() => {
-    return Children.map(children, (child, index) => {
+    return Children.map(children, (child, childIndex) => {
       const childrenLength = children.length;
+      const isVisible = childIndex === index;
+
       return cloneElement(child, {
+        productTour: true,
+        visible: isVisible,
         navigation: (
           <ProductTourNavigation
-            currentStep={index + 1}
+            currentStep={childIndex + 1}
             totalSteps={childrenLength}
             nextButtonHandler={() => nextButtonOnClick(childrenLength)}
             previouButtonHandler={() => previousButtonOnClick()}
@@ -83,7 +105,14 @@ export default function ProductTour({
         ),
       });
     });
-  }, []);
+  }, [index]);
 
-  return !isOnboardingFinished && <div>{renderChildren[index]}</div>;
+  return (
+    !isOnboardingFinished && (
+      <div>
+        <DarkOverlay />
+        {renderChildren}
+      </div>
+    )
+  );
 }

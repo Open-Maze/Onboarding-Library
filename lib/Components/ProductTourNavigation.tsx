@@ -1,5 +1,5 @@
-import Button from './Button';
-import TextButton from './TextButton';
+import ButtonPrimary from './ButtonPrimary';
+import OutlinedButton from './OutlinedButton';
 
 interface ProductTourNavigationProps {
   currentStep: number;
@@ -17,10 +17,10 @@ const ProductTourNavigation = ({
   closeOnboardingHandler,
 }: ProductTourNavigationProps) => (
   <>
-    <div className="ol-flex ol-flex-row ol-items-center ol-justify-between relative">
+    <div className="ol-flex ol-flex-row ol-items-center ol-justify-between">
       <span
         onClick={closeOnboardingHandler}
-        className="material-symbols-outlined hover:ol-cursor-pointer ol-h-5 ol-w-5 ol-text-gray-dark hover:ol-text-secondary ol-text-center ol-content-center ol-absolute ol-top-[10px] ol-right-[10px]"
+        className="material-symbols-outlined hover:ol-cursor-pointer ol-h-5 ol-w-5 ol-text-gray-dark hover:ol-text-secondary ol-text-center ol-content-center ol-absolute ol-top-2.5 ol-right-2.5"
       >
         close_small
       </span>
@@ -29,15 +29,15 @@ const ProductTourNavigation = ({
       </div>
       <div className="ol-flex ol-flex-row  ol-gap-x-2.5">
         {currentStep > 1 && (
-          <TextButton
+          <OutlinedButton
             text={'previous'}
             onClickHandler={previouButtonHandler}
-          ></TextButton>
+          ></OutlinedButton>
         )}
-        <Button
+        <ButtonPrimary
           text={currentStep >= totalSteps ? 'finish' : 'next'}
           onClickHandler={nextButtonHandler}
-        ></Button>
+        ></ButtonPrimary>
       </div>
     </div>
   </>

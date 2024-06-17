@@ -2,7 +2,34 @@ import { useRef } from 'react';
 import ProductTourNavigation from '../Components/ProductTourNavigation.tsx';
 import Popover from './Popover.tsx';
 
-export default function PopoverStoryBookProviderTop() {
+export function PopoverStoryBookProviderAllParams() {
+  const targetRef = useRef(null);
+  return (
+    <>
+      <div className="ol-flex ol-justify-center ol-p-10 ol-w-auto">
+        <div
+          ref={targetRef}
+          id="target"
+          className="ol-flex ol-p-4 ol-bg-background ol-rounded-xl"
+        >
+          Target
+        </div>
+      </div>
+      <Popover
+        placement="bottom"
+        text="Lorem ipsum dolor sit amet"
+        targetSpacing={8}
+        iconStyle="outlined"
+        icon="chat"
+        title="Title"
+        targetRef={targetRef}
+        image="https://picsum.photos/id/237/1920/1080"
+      ></Popover>
+    </>
+  );
+}
+
+export function PopoverStoryBookProviderTop() {
   const targetRef = useRef(null);
   return (
     <>
@@ -107,6 +134,30 @@ export function PopoverStoryBookProviderRight() {
         >
           tabs
         </div>
+      </div>
+      <Popover
+        placement="right"
+        text="Lorem ipsum dolor sit amet"
+        targetSpacing={0}
+        iconStyle="outlined"
+        icon="chat"
+        title="title"
+        targetRef={targetRef}
+      ></Popover>
+    </>
+  );
+}
+
+export function PopoverStoryBookProviderNonPositionedElement() {
+  const targetRef = useRef(null);
+  return (
+    <>
+      <div
+        ref={targetRef}
+        id="tabs"
+        className="ol-flex ol-w-10 ol-h-10 ol-bg-red-500"
+      >
+        tabs
       </div>
       <Popover
         placement="right"
