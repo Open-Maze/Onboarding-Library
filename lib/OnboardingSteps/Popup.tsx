@@ -18,13 +18,13 @@ export default function Popup({
   return (
     <>
       {!productTour && !popupClosed && <DarkOverlay />}
-      <div className="ol-h-screen ol-w-screen ol-flex ol-items-center ol-justify-center">
+      <div className="ol-flex ol-items-center ol-justify-center ol-absolute ol-top-0 ol-left-0 ol-w-full ol-h-screen ol-content-center">
         <div
           aria-hidden={visible || !productTour ? 'false' : 'true'}
           style={{
             visibility: visible || !productTour ? 'visible' : 'hidden',
           }}
-          className={` ${popupClosed && 'ol-hidden'} ol-flex ol-items-center ol-justify-center ol-absolute ol-z-41 `}
+          className={` ${popupClosed && 'ol-hidden'} ol-flex ol-items-center ol-justify-center ol-absolute ol-z-41 ol-p-4`}
         >
           <div className="ol-bg-background ol-p-5 ol-rounded-3xl ol-max-w-[664px] ol-flex ol-flex-col ol-gap-y-4 ">
             {!productTour && (
