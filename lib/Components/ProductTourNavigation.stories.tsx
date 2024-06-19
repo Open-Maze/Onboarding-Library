@@ -17,7 +17,7 @@ export const Primary: Story = {
       <ProductTourNavigation
         currentStep={99}
         totalSteps={99}
-        previouButtonHandler={function (): void {
+        previousButtonHandler={function (): void {
           throw new Error('Function not implemented.');
         }}
         nextButtonHandler={function (): void {
