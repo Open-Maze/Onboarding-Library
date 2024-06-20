@@ -1,100 +1,8 @@
 'use client';
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import ButtonClose from '../Components/ButtonClose';
 import DarkOverlay from '../Components/DarkOverlay';
-
-/**
- * Interface for configuring the options of a popover component.
- */
-interface PopoverOptions {
-  /**
-   * A reference to the HTML element that the popover is attached to.
-   * Used to position the popover relative to the target element.
-   * @type {React.RefObject<HTMLElement>}
-   */
-  targetRef: React.RefObject<HTMLElement>;
-
-  /**
-   * The spacing (in pixels) between the target element and the popover.
-   * Controls how far the popover is from the target element.
-   * @type {number}
-   */
-  targetSpacing: number;
-
-  /**
-   * Specifies the position of the popover relative to the target element.
-   * The popover can be placed on the top, bottom, left, or right of the target element.
-   * @type {'top' | 'bottom' | 'left' | 'right'}
-   */
-  placement: 'top' | 'bottom' | 'left' | 'right';
-
-  /**
-   * The style of the icon displayed in the popover based on material symbols. Optional unless icon is defined.
-   * Can be 'outlined', 'rounded', or 'sharp'.
-   * @type {'outlined' | 'rounded' | 'sharp'}
-   */
-  iconStyle?: 'outlined' | 'rounded' | 'sharp';
-
-  /**
-   * The name of the icon to be displayed in the popover based on material symbols. Optional unless iconStyle is defined.
-   * Allows for an icon to be shown alongside the popover content.
-   * @type {string}
-   */
-  icon?: string;
-
-  /**
-   * The title text displayed at the top of the popover. Optional.
-   * Used to give a brief heading or description.
-   * @type {string}
-   */
-  title?: string;
-
-  /**
-   * The URL of an image to be displayed in the popover. Optional.
-   * Can be used to include visual content in the popover.
-   * @type {string}
-   */
-  image?: string;
-
-  /**
-   * The main text content of the popover. Optional.
-   * Used for displaying detailed information or instructions.
-   * @type {string}
-   */
-  text?: string;
-
-  /**
-   * React elements to be rendered inside the popover. Optional.
-   * Allows for complex content, including other components, to be included in the popover.
-   * @type {React.ReactElement}
-   */
-  children?: ReactElement;
-
-  /**
-   * Custom CSS properties provided by the product tour component.
-   * Used to override styling of the popover.
-   * @type {React.CSSProperties}
-   */
-  style?: React.CSSProperties;
-
-  /**
-   * A boolean value that determines whether the popover is part of a product tour.
-   * @type {boolean}
-   * @default false
-   */
-  productTour?: false;
-
-  /**
-   * A boolean value that determines whether the popover is visible or hidden.
-   * @type {boolean}
-   */
-  visible?: boolean;
-
-  /**
-   * A React element for navigation controls within the popover provided by the product tour component
-   * @type {React.ReactElement}
-   */
-  navigation?: ReactElement;
-}
+import { PopoverOptions } from '../types';
 
 /**
  * Popover component that displays a popover with various options.
@@ -131,6 +39,7 @@ export default function Popover({
   const [styleTop, setStyleTop] = useState<number>();
   const [styleLeft, setStyleLeft] = useState<number>();
   const [popoverHidden, setPopoverHidden] = useState(true);
+  const [popoverClosed, setPopoverClosed] = useState(false);
   const [popoverClasses, setPopoverClasses] = useState('');
   const [arrowClasses, setArrowClasses] = useState('');
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -180,6 +89,7 @@ export default function Popover({
   };
 
   const popoverPosition = useCallback(() => {
+    // Ensure popoverRef and targetRef are valid before calculating position
     if (!popoverRef.current) {
       console.error(`Popover ref not found`);
       return;
@@ -189,13 +99,16 @@ export default function Popover({
       return;
     }
 
+    // Get the bounding rectangles of the popover and target elements
     const popoverRect = popoverRef.current.getBoundingClientRect();
     const targetRect = targetRef.current.getBoundingClientRect();
 
+    // Store the initial top and left values of the target element
     const rectValues = { top: targetRect.top, left: targetRect.left };
     let top = 0;
     let left = 0;
 
+    // Calculate the popover position based on the placement prop with adjustments for user specified spacing and window scroll
     switch (placement) {
       case 'bottom':
         top =
@@ -227,17 +140,21 @@ export default function Popover({
         left = targetRect.left + targetRect.width + targetSpacing;
         break;
     }
+    // Set the calculated top and left styles for the popover
     setStyleTop(top);
     setStyleLeft(left);
+    // Ensure the popover is visible after setting the position to avoid flickering
     setPopoverHidden(false);
   }, []);
 
   useEffect(() => {
+    // Call the arrowPlacement and popoverPosition functions when the component is rendered
     arrowPlacement();
     popoverPosition();
   }, []);
 
   useEffect(() => {
+    // Observe changes to the document body, popover element and target element to recalculate position on resize
     if (document.body && popoverRef.current) {
       const observer = new ResizeObserver(() => {
         popoverPosition();
@@ -255,7 +172,7 @@ export default function Popover({
 
   return (
     <>
-      {!productTour && <DarkOverlay />}
+      {!productTour && !popoverClosed && <DarkOverlay />}
       <div
         aria-hidden={visible || !productTour ? 'false' : 'true'}
         ref={popoverRef}
@@ -264,7 +181,7 @@ export default function Popover({
           top: `${styleTop}px`,
           left: `${styleLeft}px`,
         }}
-        className={`ol-max-w-[340px] ol-absolute ol-z-41 ol-drop-shadow-md ol-flex ${popoverHidden && 'ol-hidden'} ${popoverClasses}`}
+        className={`ol-max-w-[340px] ol-absolute ol-z-41 ol-drop-shadow-md ol-flex ${popoverHidden || popoverClosed ? 'ol-hidden' : ''} ${popoverClasses}`}
       >
         <div className={`${arrowClasses}`}>
           <svg
@@ -279,6 +196,14 @@ export default function Popover({
           </svg>
         </div>
         <div className="ol-bg-background ol-relative ol-p-5 ol-rounded-3xl ol-z-41">
+          {!productTour && (
+            <ButtonClose
+              onClickHandler={() => {
+                visible = false;
+                setPopoverClosed(true);
+              }}
+            />
+          )}
           <div className="ol-flex ol-gap-y-2.5 ol-flex-col">
             {children}
             {icon && (
@@ -297,7 +222,7 @@ export default function Popover({
                 ></img>
               </div>
             )}
-            {text && <div className="ol-text-lg">{text}</div>}
+            {text && <p className="ol-text-lg">{text}</p>}
             {navigation}
           </div>
         </div>

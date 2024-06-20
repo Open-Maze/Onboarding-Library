@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import ProductTour from './ProductTour.tsx';
 import ProductTourStoryBookProviderPrimary, {
+  ProductTourStoryBookProviderDifferentSteps,
   ProductTourStoryBookProviderPageWithScroll,
 } from './ProductTourStorybookProvider.tsx';
 
@@ -29,6 +30,17 @@ export const WithScroll: Story = {
   render: () => (
     <>
       <ProductTourStoryBookProviderPageWithScroll />
+    </>
+  ),
+};
+
+export const DifferentStepTypes: Story = {
+  parameters: {
+    layout: 'fullscreen',
+  },
+  render: () => (
+    <>
+      <ProductTourStoryBookProviderDifferentSteps />
     </>
   ),
 };

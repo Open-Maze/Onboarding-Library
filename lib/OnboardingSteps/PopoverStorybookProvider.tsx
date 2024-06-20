@@ -55,7 +55,7 @@ export function PopoverStoryBookProviderTop() {
           <ProductTourNavigation
             currentStep={2}
             totalSteps={3}
-            previouButtonHandler={function (): void {
+            previousButtonHandler={function (): void {
               throw new Error('Function not implemented.');
             }}
             nextButtonHandler={function (): void {

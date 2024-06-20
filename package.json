@@ -1,7 +1,7 @@
 {
-  "name": "@open-maze/onboarding-library-openmaze",
+  "name": "onboarding-library-openmaze",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Onboarding library for OpenMaze",
   "type": "module",
   "exports": {

@@ -29,6 +29,7 @@ export default function ProductTour({
   const [warning, setWarning] = useState(false);
   const [isOnboardingFinished, setIsOnboardingFinished] = useState(false);
 
+  // Function to finish the product tour and store the state in local storage
   function finishOnboarding() {
     if (!dev && localStorage) {
       localStorage.setItem(productTourId, 'true');
@@ -36,6 +37,7 @@ export default function ProductTour({
     setIsOnboardingFinished(true);
   }
 
+  // UseEffect to check if the product tour has already been finished previously
   useEffect(() => {
     const getLocalStorage = localStorage.getItem(productTourId);
     if (getLocalStorage === null) {
@@ -44,6 +46,7 @@ export default function ProductTour({
     setIsOnboardingFinished(JSON.parse(getLocalStorage));
   }, []);
 
+  // UseEffect to warn the user that the product tour is in dev mode
   useEffect(() => {
     if (!warning && dev) {
       localStorage.setItem(productTourId, 'false');
@@ -53,6 +56,7 @@ export default function ProductTour({
     }
   }, [warning, dev]);
 
+  // UseCallback functions for the next button providing logic for accessing next step or finishing the product tour
   const nextButtonOnClick = useCallback((totalSteps: number) => {
     setIndex((prevState) => {
       const newIndex = prevState + 1;
