@@ -1,14 +1,7 @@
+import { ProductTourNavigationProps } from '../types';
 import ButtonClose from './ButtonClose';
 import ButtonPrimary from './ButtonPrimary';
 import OutlinedButton from './OutlinedButton';
-
-interface ProductTourNavigationProps {
-  currentStep: number;
-  totalSteps: number;
-  previousButtonHandler: () => void;
-  nextButtonHandler: () => void;
-  closeOnboardingHandler: () => void;
-}
 
 const ProductTourNavigation = ({
   currentStep,

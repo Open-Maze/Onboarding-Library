@@ -125,3 +125,65 @@ export interface PopupOptions extends ProductTourChild {
    */
   children?: ReactElement;
 }
+
+/**
+ * `ProductTourNavigationProps` interface for Product Tour Navigation component properties.
+ */
+export interface ProductTourNavigationProps {
+  /**
+   * The current step the user is on in the product tour.
+   * @type {number}
+   */
+  currentStep: number;
+
+  /**
+   * The total number of steps in the product tour.
+   * @type {number}
+   */
+  totalSteps: number;
+
+  /**
+   * Handler function to be called when the "Previous" button is clicked.
+   * This function should handle the logic to navigate to the previous step in the product tour.
+   * @type {() => void}
+   */
+  previousButtonHandler: () => void;
+
+  /**
+   * Handler function to be called when the "Next" button is clicked.
+   * This function should handle the logic to navigate to the next step in the product tour.
+   * @type {() => void}
+   */
+  nextButtonHandler: () => void;
+
+  /**
+   * Handler function to be called when the onboarding process is closed.
+   * This function should handle the logic to close the onboarding process.
+   * @type {() => void}
+   */
+  closeOnboardingHandler: () => void;
+}
+
+/**
+ * Interface for the ProductTour component properties.
+ */
+export interface InterfaceProductTour {
+  /**
+   * An array of React elements to be rendered inside the ProductTour component.
+   * Allows for complex content, including other components, to be included in the ProductTour.
+   * @type {Array<React.ReactElement>}
+   */
+  children: Array<ReactElement>;
+
+  /**
+   * A unique identifier for the ProductTour component.
+   * @type {string}
+   */
+  productTourId: string;
+
+  /**
+   * A boolean value that determines whether the ProductTour component is in development mode.
+   * @type {boolean}
+   */
+  dev?: boolean;
+}
