@@ -1,18 +1,11 @@
+import { ProductTourNavigationProps } from '../types';
 import ButtonPrimary from './ButtonPrimary';
 import OutlinedButton from './OutlinedButton';
-
-interface ProductTourNavigationProps {
-  currentStep: number;
-  totalSteps: number;
-  previouButtonHandler: () => void;
-  nextButtonHandler: () => void;
-  closeOnboardingHandler: () => void;
-}
 
 const ProductTourNavigation = ({
   currentStep,
   totalSteps,
-  previouButtonHandler,
+  previousButtonHandler,
   nextButtonHandler,
   closeOnboardingHandler,
 }: ProductTourNavigationProps) => (
@@ -31,7 +24,7 @@ const ProductTourNavigation = ({
         {currentStep > 1 && (
           <OutlinedButton
             text={'previous'}
-            onClickHandler={previouButtonHandler}
+            onClickHandler={previousButtonHandler}
           ></OutlinedButton>
         )}
         <ButtonPrimary

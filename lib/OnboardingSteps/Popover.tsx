@@ -135,6 +135,7 @@ export default function Popover({
   const [arrowClasses, setArrowClasses] = useState('');
   const popoverRef = useRef<HTMLDivElement>(null);
 
+  //  zIndexTargetRef` function is used to add or remove classes to the target element based on the visibility of the popover.
   const zIndexTargetRef = () => {
     const target = targetRef.current;
 
@@ -151,6 +152,7 @@ export default function Popover({
     }
   };
 
+  // `arrowPlacement` function is used to set the classes for the popover and arrow based on the placement prop.
   const arrowPlacement = () => {
     let popoverClasses = '';
     let arrowClasses = '';

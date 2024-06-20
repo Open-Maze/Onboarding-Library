@@ -1,7 +1,6 @@
 'use client';
 import {
   Children,
-  ReactElement,
   cloneElement,
   useCallback,
   useEffect,
@@ -10,20 +9,7 @@ import {
 } from 'react';
 import DarkOverlay from '../Components/DarkOverlay';
 import ProductTourNavigation from '../Components/ProductTourNavigation';
-
-/**
- * Interface for the ProductTour component.
- *
- * @typedef {Object} InterfaceProductTour
- * @property {Array<ReactElement>} children - The child elements of the product tour.
- * @property {string} productTourId - The unique identifier for the product tour.
- * @property {boolean} [dev=false] - A flag indicating whether the product tour is in development mode.
- */
-interface InterfaceProductTour {
-  children: Array<ReactElement>;
-  productTourId: string;
-  dev?: boolean;
-}
+import { InterfaceProductTour } from '../types';
 
 /**
  * ProductTour component that displays a product tour with various steps.
@@ -86,11 +72,14 @@ export default function ProductTour({
     setIndex(totalStepAmount);
   }, []);
 
+  // Using useMemo to optimize performance by only re-rendering children when the index changes
   const renderChildren = useMemo(() => {
+    // Mapping over the children to add additional props
     return Children.map(children, (child, childIndex) => {
       const childrenLength = children.length;
       const isVisible = childIndex === index;
 
+      // Cloning the child element and adding additional props
       return cloneElement(child, {
         productTour: true,
         visible: isVisible,
@@ -99,7 +88,7 @@ export default function ProductTour({
             currentStep={childIndex + 1}
             totalSteps={childrenLength}
             nextButtonHandler={() => nextButtonOnClick(childrenLength)}
-            previouButtonHandler={() => previousButtonOnClick()}
+            previousButtonHandler={() => previousButtonOnClick()}
             closeOnboardingHandler={() => closeOnboarding(childrenLength)}
           />
         ),

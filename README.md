@@ -7,6 +7,18 @@
 [![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev)
 
+## Table of Contents
+
+1. [Installation](#installation)
+2. [API Reference](#api-reference)
+   - [Popover](#popover)
+   - [Popup](#popup)
+   - [ProductTour](#producttour)
+3. [Technical Details](#technical-details)
+   - [Z-index Layers](#z-index-layers)
+4. [Authors](#authors)
+5. [Contributors](#contributors)
+
 ## Installation
 
 Install this library with npm
@@ -35,19 +47,19 @@ import { Popover } from 'onboarding-library-openmaze';
 import { useRef } from 'react';
 const targetRefOne = useRef<HTMLDivElement>(null);
 
-<>
-  <div ref={targetRefOne}>Target</div>
-  <Popover 
-    targetRef={targetRefOne}
-    targetSpacing={8}
-    placement={'top'} 
-    icon="chat"
-    iconStyle="outlined"
-    title="Chatbox"
-    image="https://picsum.photos/id/237/1920/1080"
-    text="Explaining text stuff. Look cute dog"
-  />
-</>;
+<div ref={targetRefOne}>Target</div>
+<Popover 
+  targetRef={targetRefOne}
+  targetSpacing={8}
+  placement={'top'} 
+  icon="chat"
+  iconStyle="outlined"
+  title="Chatbox"
+  image="https://picsum.photos/id/237/1920/1080"
+  text="Explaining text stuff. Look cute dog"
+>
+  <div>My content</div>
+</Popover>
 ```
 <!-- prettier-ignore-end -->
 
@@ -62,6 +74,28 @@ const targetRefOne = useRef<HTMLDivElement>(null);
 | `image`         | `string`                                 | Accepts a string as a refference to an image and places that image inside the popover                                                                                                                 |
 | `text`          | `string`                                 | Accepts a string and places it as the main text inside the popover component.                                                                                                                         |
 
+### Popup
+
+| Parameter | Type     | Description                                                                                                                                                               |
+| :-------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `title`   | `string` | Accepts a string and places it inside of an h2 tag inside the popup. It is recommended to always have a title unless you're providing your own elements within the popup. |
+| `image`   | `string` | Accepts a string as a refference to an image and places that image inside the popup                                                                                       |
+| `text`    | `string` | Accepts a string and places it as the main text inside the popup component.                                                                                               |
+
+#### Usage
+
+```jsx
+import { Popup } from 'onboarding-library-openmaze';
+
+<Popup
+  title="Title 1"
+  text="Supporting line text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam commodo pellentesque vehicula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;"
+  image="https://picsum.photos/id/237/1920/1080"
+>
+  <div>My content</div>
+</Popup>;
+```
+
 ### ProductTour
 
 The product tour component is used in order to wrap other elements of this library. It provides them with the context and logic to navigate to other onboarding elements making it able to chain them and provide a user with a product tour that highlights and explains the most important features of an application.
@@ -74,6 +108,7 @@ import { ProductTour, Popover } from 'onboarding-library-openmaze';
 <>
   <ProductTour dev={true} productTourId={'qapp-chat-pt'}>
     <Popover />
+    <Popup />
     {/* Other onboarding elements */}
   <ProductTour />
 </>
