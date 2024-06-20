@@ -163,3 +163,27 @@ export interface ProductTourNavigationProps {
    */
   closeOnboardingHandler: () => void;
 }
+
+/**
+ * Interface for the ProductTour component properties.
+ */
+export interface InterfaceProductTour {
+  /**
+   * An array of React elements to be rendered inside the ProductTour component.
+   * Allows for complex content, including other components, to be included in the ProductTour.
+   * @type {Array<React.ReactElement>}
+   */
+  children: Array<ReactElement>;
+
+  /**
+   * A unique identifier for the ProductTour component.
+   * @type {string}
+   */
+  productTourId: string;
+
+  /**
+   * A boolean value that determines whether the ProductTour component is in development mode.
+   * @type {boolean}
+   */
+  dev?: boolean;
+}

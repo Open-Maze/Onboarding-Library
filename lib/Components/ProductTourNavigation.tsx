@@ -1,4 +1,5 @@
 import { ProductTourNavigationProps } from '../types';
+import ButtonClose from './ButtonClose';
 import ButtonPrimary from './ButtonPrimary';
 import OutlinedButton from './OutlinedButton';
 
