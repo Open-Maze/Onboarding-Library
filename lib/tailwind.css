@@ -4,3 +4,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --ol-color-gray: #e6e6e6;
+  --ol-color-gray-dark: #797979;
+  --ol-color-primary: #8c1cec;
+  --ol-color-primary-lighter: #dcbaf9;
+  --ol-color-primary-darker: #841be0;
+  --ol-color-secondary: #39cfe8;
+  --ol-color-background: #f4f4f4;
+}

@@ -1,4 +1,3 @@
-import OnboardingLibrary from './lib/TailwindPlugin.ts';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -12,20 +11,24 @@ export default {
       zIndex: {
         41: '41',
       },
+      colors: {
+        gray: {
+          DEFAULT: 'var(--ol-color-gray)',
+          dark: 'var(--ol-color-gray-dark)',
+        },
+        primary: {
+          DEFAULT: 'var(--ol-color-primary)',
+          lighter: 'var(--ol-color-primary-lighter)',
+          darker: 'var(--ol-color-primary-darker)',
+        },
+        secondary: 'var(--ol-color-secondary)',
+        background: 'var(--ol-color-background)',
+      },
       fontFamily: {
         sans: ['Poppins'],
         heading: ['Manrope'],
       },
     },
   },
-  plugins: [
-    OnboardingLibrary({
-      colors: {
-        primary: '#fcba03',
-        secondary: '#00ff00',
-        background: '#3a5da0',
-        'gray-dark': '#333333',
-      },
-    }),
-  ],
+  plugins: [],
 };
