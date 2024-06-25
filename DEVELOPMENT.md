@@ -15,6 +15,14 @@ Version currently deployed on NPM: ![NPM Version](https://img.shields.io/npm/v/o
 - [![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white)](https://prettier.io/)
 - [![Husky](https://img.shields.io/badge/Husky-4B32C3?style=for-the-badge&logo=github&logoColor=white)](https://typicode.github.io/husky/#/)
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Development](#Development)
+- [Testing the Library Inside a Target Project](#testing-the-library-inside-a-target-project)
+- [Commit Conventions](#commit-conventions)
+- [Deployment](#deployment)
+
 ## Installation
 
 1. Clone the repository to your local machine using:
@@ -29,7 +37,7 @@ git clone https://github.com/Open-Maze/Onboarding-Library.git
 npm install
 ```
 
-## Usage
+## Development
 
 We use Storybook to view and develop components because this is a library which does not contain a front-end in which components can be viewed. In order to run storybook use the following command:
 
