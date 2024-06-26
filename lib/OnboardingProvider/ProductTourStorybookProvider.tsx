@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import Popover from '../OnboardingSteps/Popover';
+import Popup from '../OnboardingSteps/Popup';
 import ProductTour from './ProductTour';
 
 export default function ProductTourStoryBookProviderPrimary() {
@@ -122,6 +123,66 @@ export function ProductTourStoryBookProviderPageWithScroll() {
           placement={'left'}
           title="Test Title a b c"
           text="Lorem ipsum 4 LEFT"
+        />
+      </ProductTour>
+    </>
+  );
+}
+
+export function ProductTourStoryBookProviderDifferentSteps() {
+  const targetRefOne = useRef(null);
+  const targetRefTwo = useRef(null);
+  const targetRefThree = useRef(null);
+  const targetRefFour = useRef(null);
+
+  return (
+    <>
+      <div className="ol-flex ol-flex-col ol-justify-around ol-items-center ol-h-96 ">
+        <div
+          ref={targetRefOne}
+          className="ol-flex ol-w-10 ol-h-10 ol-bg-red-500"
+        >
+          Tab1
+        </div>
+        <div
+          ref={targetRefTwo}
+          className="ol-flex ol-w-10 ol-h-10 ol-bg-blue-500"
+        >
+          tab2
+        </div>
+        <div
+          ref={targetRefThree}
+          className="ol-flex ol-w-10 ol-h-10 ol-bg-green-500"
+        >
+          tab3
+        </div>
+        <div
+          ref={targetRefFour}
+          className="ol-flex ol-w-10 ol-h-10 ol-bg-yellow-500"
+        >
+          tab4
+        </div>
+      </div>
+
+      <ProductTour dev={true} productTourId={'StoryBookProductTour2'}>
+        <Popover
+          targetRef={targetRefOne}
+          targetSpacing={0}
+          placement={'bottom'}
+          title="Test Title a b c"
+          text="Lorem ipsum 1 BOTTOM"
+        />
+        <Popup
+          title="Title 1"
+          text="Supporting line text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam commodo pellentesque vehicula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;"
+          image="https://picsum.photos/id/237/1920/1080"
+        />
+        <Popover
+          targetRef={targetRefFour}
+          targetSpacing={0}
+          placement={'top'}
+          title="Test Title a b c"
+          text="Lorem ipsum 2 RIGHT"
         />
       </ProductTour>
     </>
