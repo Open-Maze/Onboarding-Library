@@ -1,26 +1,5 @@
 import plugin from 'tailwindcss/plugin';
-
-interface PluginOptions {
-  colors?: {
-    primary?: string;
-    primaryLighter?: string;
-    primaryDarker?: string;
-    secondary?: string;
-    gray?: string;
-    grayDark?: string;
-    background?: string;
-  };
-}
-
-// :root {
-//   --ol-color-gray: #e6e6e6;
-//   --ol-color-gray-dark: #797979;
-//   --ol-color-primary: #8c1cec;
-//   --ol-color-primary-lighter: #dcbaf9;
-//   --ol-color-primary-darker: #841be0;
-//   --ol-color-secondary: #39cfe8;
-//   --ol-color-background: #f4f4f4;
-// }
+import { PluginOptions } from './types';
 
 const OnboardingLibrary = plugin.withOptions<PluginOptions>(
   // The first function is called when the plugin is initialized
