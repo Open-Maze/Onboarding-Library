@@ -1,42 +1,40 @@
 import plugin from 'tailwindcss/plugin';
 import { PluginOptions } from './types';
 
-const OnboardingLibrary = plugin.withOptions<PluginOptions>(
-  // The first function is called when the plugin is initialized
-  (options = {}) => {
-    // Return a function that Tailwind CSS will call to register the plugin
-    return ({ addComponents }) => {
-      const finalOptions = {
-        ...options,
-        colors: {
-          ...options.colors,
-        },
-      };
+// Define default colors to simplify the management of default values
+const defaultColors = {
+  primary: '#8c1cec',
+  primaryLighter: '#dcbaf9',
+  primaryDarker: '#841be0',
+  secondary: '#39cfe8',
+  gray: '#e6e6e6',
+  grayDark: '#797979',
+  background: '#f4f4f4',
+};
 
-      const {
-        primary,
-        primaryLighter,
-        primaryDarker,
-        secondary,
-        gray,
-        grayDark,
-        background,
-      } = finalOptions.colors || {};
-
-      // Add CSS variables to the root element
-      addComponents({
-        ':root': {
-          '--ol-color-primary': primary || '#8c1cec',
-          '--ol-color-primary-lighter': primaryLighter || '#dcbaf9',
-          '--ol-color-primary-darker': primaryDarker || '#841be0',
-          '--ol-color-secondary': secondary || '#39cfe8',
-          '--ol-color-gray': gray || '#e6e6e6',
-          '--ol-color-gray-dark': grayDark || '#797979',
-          '--ol-color-background': background || '#f4f4f4',
-        },
-      });
+const OnboardingLibrary = plugin.withOptions<PluginOptions>((options = {}) => {
+  return ({ addComponents }) => {
+    // Merge default colors with provided options
+    const finalOptions = {
+      colors: { ...defaultColors, ...options.colors },
     };
-  }
-);
+
+    // Destructure with defaults directly from finalOptions
+    const { colors } = finalOptions;
+
+    // Add CSS variables to the root element using the simplified object
+    addComponents({
+      ':root': {
+        '--ol-color-primary': colors.primary,
+        '--ol-color-primary-lighter': colors.primaryLighter,
+        '--ol-color-primary-darker': colors.primaryDarker,
+        '--ol-color-secondary': colors.secondary,
+        '--ol-color-gray': colors.gray,
+        '--ol-color-gray-dark': colors.grayDark,
+        '--ol-color-background': colors.background,
+      },
+    });
+  };
+});
 
 export default OnboardingLibrary;
