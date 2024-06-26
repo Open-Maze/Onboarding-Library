@@ -6,7 +6,6 @@ const OnboardingLibrary = plugin.withOptions<PluginOptions>(
   (options = {}) => {
     // Return a function that Tailwind CSS will call to register the plugin
     return ({ addComponents }) => {
-      // Merge user-provided options with the default options
       const finalOptions = {
         ...options,
         colors: {
@@ -14,7 +13,6 @@ const OnboardingLibrary = plugin.withOptions<PluginOptions>(
         },
       };
 
-      // Ensure that colors are always defined by providing default values
       const {
         primary,
         primaryLighter,

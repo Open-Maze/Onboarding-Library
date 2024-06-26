@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+// New configurable variables should be implemented in the tailwind plugin for library users to be able to customize them. 
+// They should also be added to the variables.css file in the storybook folder so that they will also be applied during development
 export default {
   content: [
     // Reference the library only
