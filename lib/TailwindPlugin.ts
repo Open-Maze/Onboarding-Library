@@ -1,58 +1,63 @@
 import plugin from 'tailwindcss/plugin';
 
-interface TailwindPluginConfig {
-  colors: {
+interface PluginOptions {
+  colors?: {
     primary?: string;
+    primaryLighter?: string;
+    primaryDarker?: string;
     secondary?: string;
     gray?: string;
-    'gray-dark'?: string;
+    grayDark?: string;
     background?: string;
   };
 }
 
-interface CSSUpdateInterface {
-  variableName: string;
-  variableType: string;
-  newValue: string;
-}
+// :root {
+//   --ol-color-gray: #e6e6e6;
+//   --ol-color-gray-dark: #797979;
+//   --ol-color-primary: #8c1cec;
+//   --ol-color-primary-lighter: #dcbaf9;
+//   --ol-color-primary-darker: #841be0;
+//   --ol-color-secondary: #39cfe8;
+//   --ol-color-background: #f4f4f4;
+// }
 
-function updateCSSVariables({
-  variableName,
-  variableType,
-  newValue,
-}: CSSUpdateInterface) {
-  const root = document.documentElement;
-  const fullVariableName = `--ol-${variableType}-${variableName}`;
+const OnboardingLibrary = plugin.withOptions<PluginOptions>(
+  // The first function is called when the plugin is initialized
+  (options = {}) => {
+    // Return a function that Tailwind CSS will call to register the plugin
+    return ({ addComponents }) => {
+      // Merge user-provided options with the default options
+      const finalOptions = {
+        ...options,
+        colors: {
+          ...options.colors,
+        },
+      };
 
-  root.style.setProperty(fullVariableName, newValue);
-}
+      // Ensure that colors are always defined by providing default values
+      const {
+        primary,
+        primaryLighter,
+        primaryDarker,
+        secondary,
+        gray,
+        grayDark,
+        background,
+      } = finalOptions.colors || {};
 
-function loopThroughColors(colors: TailwindPluginConfig['colors']) {
-  const colorKeys: (keyof TailwindPluginConfig['colors'])[] = [
-    'primary',
-    'secondary',
-    'gray',
-    'gray-dark',
-    'background',
-  ];
-
-  colorKeys.forEach((color) => {
-    if (colors && colors[color]) {
-      updateCSSVariables({
-        variableName: color,
-        variableType: 'color',
-        newValue: colors[color] as string, // Type assertion
+      // Add CSS variables to the root element
+      addComponents({
+        ':root': {
+          '--ol-color-primary': primary || '#8c1cec',
+          '--ol-color-primary-lighter': primaryLighter || '#dcbaf9',
+          '--ol-color-primary-darker': primaryDarker || '#841be0',
+          '--ol-color-secondary': secondary || '#39cfe8',
+          '--ol-color-gray': gray || '#e6e6e6',
+          '--ol-color-gray-dark': grayDark || '#797979',
+          '--ol-color-background': background || '#f4f4f4',
+        },
       });
-    }
-  });
-}
-
-const OnboardingLibrary = plugin.withOptions<TailwindPluginConfig>(
-  (options) => {
-    return () => {
-      if (options.colors) {
-        loopThroughColors(options.colors);
-      }
     };
   }
 );
