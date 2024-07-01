@@ -4,8 +4,6 @@ import { PluginOptions } from './types';
 // Define default colors to simplify the management of default values
 const defaultColors = {
   primary: '#8c1cec',
-  primaryLighter: '#dcbaf9',
-  primaryDarker: '#841be0',
   secondary: '#39cfe8',
   gray: '#e6e6e6',
   grayDark: '#797979',
@@ -26,8 +24,6 @@ const OnboardingLibrary = plugin.withOptions<PluginOptions>((options = {}) => {
     addComponents({
       ':root': {
         '--ol-color-primary': colors.primary,
-        '--ol-color-primary-lighter': colors.primaryLighter,
-        '--ol-color-primary-darker': colors.primaryDarker,
         '--ol-color-secondary': colors.secondary,
         '--ol-color-gray': colors.gray,
         '--ol-color-gray-dark': colors.grayDark,

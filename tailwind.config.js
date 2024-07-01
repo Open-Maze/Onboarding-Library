@@ -20,8 +20,6 @@ export default {
         },
         primary: {
           DEFAULT: 'var(--ol-color-primary)',
-          lighter: 'var(--ol-color-primary-lighter)',
-          darker: 'var(--ol-color-primary-darker)',
         },
         secondary: 'var(--ol-color-secondary)',
         background: 'var(--ol-color-background)',
