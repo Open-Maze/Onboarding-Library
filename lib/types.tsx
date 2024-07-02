@@ -187,3 +187,15 @@ export interface InterfaceProductTour {
    */
   dev?: boolean;
 }
+
+export interface PluginOptions {
+  colors?: {
+    primary?: string;
+    primaryLighter?: string;
+    primaryDarker?: string;
+    secondary?: string;
+    gray?: string;
+    grayDark?: string;
+    background?: string;
+  };
+}

@@ -1,0 +1,9 @@
+/* This file defines CSS variables for storybook that in normal use will be defined by the tailwind plugin located in 'lib/TailwindPlugin.ts' */
+
+:root {
+  --ol-color-gray: #e6e6e6;
+  --ol-color-gray-dark: #797979;
+  --ol-color-primary-darker: #841be0;
+  --ol-color-secondary: #39cfe8;
+  --ol-color-background: #f4f4f4;
+}

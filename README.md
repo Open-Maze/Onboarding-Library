@@ -14,6 +14,7 @@
    - [Popover](#popover)
    - [Popup](#popup)
    - [ProductTour](#producttour)
+   - [Tailwind plugin](#tailwind-plugin)
 3. [Technical Details](#technical-details)
    - [Z-index Layers](#z-index-layers)
 4. [Authors](#authors)
@@ -42,7 +43,7 @@ The Popover component is a component designed to display additional information 
 #### Usage
 
 <!-- prettier-ignore-start -->
-```jsx
+```tsx
 import { Popover } from 'onboarding-library-openmaze';
 import { useRef } from 'react';
 const targetRefOne = useRef<HTMLDivElement>(null);
@@ -76,15 +77,11 @@ const targetRefOne = useRef<HTMLDivElement>(null);
 
 ### Popup
 
-| Parameter | Type     | Description                                                                                                                                                               |
-| :-------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `title`   | `string` | Accepts a string and places it inside of an h2 tag inside the popup. It is recommended to always have a title unless you're providing your own elements within the popup. |
-| `image`   | `string` | Accepts a string as a refference to an image and places that image inside the popup                                                                                       |
-| `text`    | `string` | Accepts a string and places it as the main text inside the popup component.                                                                                               |
+The pop is a component designed to convey more general information to you user. It coan be used on its own or as a step in a product tour. An example use case for this component could be for greeting a user when they first open you application and explaining the general usage your application provides.
 
 #### Usage
 
-```jsx
+```tsx
 import { Popup } from 'onboarding-library-openmaze';
 
 <Popup
@@ -96,13 +93,19 @@ import { Popup } from 'onboarding-library-openmaze';
 </Popup>;
 ```
 
+| Parameter | Type     | Description                                                                                                                                                               |
+| :-------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `title`   | `string` | Accepts a string and places it inside of an h2 tag inside the popup. It is recommended to always have a title unless you're providing your own elements within the popup. |
+| `image`   | `string` | Accepts a string as a refference to an image and places that image inside the popup                                                                                       |
+| `text`    | `string` | Accepts a string and places it as the main text inside the popup component.                                                                                               |
+
 ### ProductTour
 
-The product tour component is used in order to wrap other elements of this library. It provides them with the context and logic to navigate to other onboarding elements making it able to chain them and provide a user with a product tour that highlights and explains the most important features of an application.
+The product tour component is used in order to wrap other elements of this library. It provides them with the context and logic to navigate to other onboarding elements making it able to chain them and provide a user with a product tour that highlights and explains the most important features of an application. Dont overwhelm users by creating long and exhaustive product tours. Try and keep it to a maximum of 5 steps per product tour.
 
 #### Usage
 
-```jsx
+```tsx
 import { ProductTour, Popover } from 'onboarding-library-openmaze';
 
 <>
@@ -118,6 +121,41 @@ import { ProductTour, Popover } from 'onboarding-library-openmaze';
 | :-------------- | :-------- | :----------------------------------------------------------------------------------------------------- |
 | `dev`           | `boolean` | **Required** If set to true the product tour wont be stored in local storage when its finished.        |
 | `productTourId` | `string`  | **Required** This is the variable the finished state of the tour will be stored under in localstorage. |
+
+### Tailwind plugin
+
+This library utilizes a tailwind plugin in order to allow users to apply certain styling changes to the library in order to make it fit with the styling of the project it will be implemented in.
+
+### Usage
+
+```tsx
+import { OnboardingLibrary } from 'onboarding-library-openmaze';
+
+module.exports = {
+  // ...
+  plugins: [
+    OnboardingLibrary({
+      colors: {
+        primary: '#d32c10',
+        background: '#8b7349',
+        primaryLighter: '#dcbaf9',
+        primaryDarker: '#841be0',
+        secondary: '#39cfe8',
+        gray: '#e6e6e6',
+        grayDark: '#797979',
+      },
+    }),
+  ],
+};
+```
+
+| Parameter    | Type     | Description                                                   | default                                                                               |
+| :----------- | :------- | :------------------------------------------------------------ | :------------------------------------------------------------------------------------ |
+| `primary`    | `string` | Main color used for elements like buttons.                    | <div style="padding: 2px 4px; background-color: #8c1cec; color: white;">#8c1cec</div> |
+| `secondary`  | `string` | Secondary color used for detailing like during a hover event. | <div style="padding: 2px 4px; background-color: #39cfe8; color: black;">#39cfe8</div> |
+| `gray`       | `string` | Gray color used for non primary elements like a close button  | <div style="padding: 2px 4px; background-color: #e6e6e6; color: black;">#e6e6e6</div> |
+| `grayDark`   | `string` | Darker variant of the gray color                              | <div style="padding: 2px 4px; background-color: #797979; color: white;">#797979</div> |
+| `background` | `string` | Color used as the background of every component               | <div style="padding: 2px 4px; background-color: #f4f4f4; color: black;">#f4f4f4</div> |
 
 ## Technical details
 

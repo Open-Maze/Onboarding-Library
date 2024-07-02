@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+// New configurable variables should be implemented in the tailwind plugin for library users to be able to customize them.
+// They should also be added to the variables.css file in the storybook folder so that they will also be applied during development
 export default {
   content: [
     // Reference the library only
@@ -12,16 +15,14 @@ export default {
       },
       colors: {
         gray: {
-          DEFAULT: '#E6E6E6',
-          dark: '#797979',
+          DEFAULT: 'var(--ol-color-gray)',
+          dark: 'var(--ol-color-gray-dark)',
         },
         primary: {
-          DEFAULT: '#8c1cec',
-          lighter: '#dcbaf9',
-          darker: '#841be0',
+          DEFAULT: 'var(--ol-color-primary)',
         },
-        secondary: '#39cfe8',
-        background: '#F4F4F4',
+        secondary: 'var(--ol-color-secondary)',
+        background: 'var(--ol-color-background)',
       },
       fontFamily: {
         sans: ['Poppins'],
@@ -29,5 +30,4 @@ export default {
       },
     },
   },
-  plugins: [],
 };
