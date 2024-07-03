@@ -35,7 +35,7 @@ export default function Popup({
           }}
           className={` ${popupClosed && 'ol-hidden'} ol-flex ol-items-center ol-justify-center ol-absolute ol-z-41 ol-p-4`}
         >
-          <div className="ol-bg-background ol-p-5 ol-rounded-3xl ol-max-w-[664px] ol-flex ol-flex-col ol-gap-y-4 ">
+          <div className="ol-bg-background ol-relative ol-p-5 ol-rounded-3xl ol-max-w-[664px] ol-flex ol-flex-col ol-gap-y-4 ">
             {/* If not part of a product tour, display a close button */}
             {!productTour && (
               <ButtonClose onClickHandler={() => setPopupClosed(true)} />
